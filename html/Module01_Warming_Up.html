@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Module 01: Warming up</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/dna/
+-->
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02a_Sequence_QC.html">Sequence QC</a>
+    </li>
+    <li>
+      <a href="Module02b_Trimming.html">Trimming</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03a_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module03b_Alignment.html">Alignment</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module04_Alignment_QC_and_Quantification.html">Alignment QC and Quantification</a>
+    </li>
+    <li>
+      <a href="Module05_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">DE Introduction</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DE Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">DE Normalization and Modeling</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">DE Testing</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Module 01: Warming up</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="warming-up" class="section level1">
+<h1>Warming Up</h1>
+<p>In this module, we will:</p>
+<ul>
+<li>cover basic materials needed</li>
+<li>familiarize ourselves with remote computing</li>
+<li>prepare for later modules</li>
+</ul>
+<div id="building-blocks" class="section level2">
+<h2>Building Blocks</h2>
+<p><br> <br> <br> <img src="images/building-blocks.png" width="800" /> <br> <br> <br></p>
+</div>
+<div id="example-files-exercise" class="section level2">
+<h2>Example Files Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>Download the zipped archive from the slack channel</li>
+<li>Locate, move (if desired), and unzip it</li>
+<li>Remember how to access these files</li>
+</ol>
+<p><br> <br> <br> <br> <br> <br></p>
+</div>
+<div id="local-vs-remote-exercise" class="section level2">
+<h2>Local vs Remote Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>Become familiar with the appearance of the local shell</li>
+<li>Briefly explore your local files (optional)</li>
+<li>Log in to the aws instance with <code>ssh &lt;username&gt;@bfx-workshop01.med.umich.edu</code></li>
+<li>Become familiar with appearance of the remote shell</li>
+<li>Use <code>ls</code> to view references</li>
+<li>Use <code>ls</code> to view input fastq files</li>
+<li>Use <code>mkdir</code> to create a folder for our analysis</li>
+</ol>
+<p><br> <br> <br></p>
+<pre><code># Familiarize with local shell appearance
+# Briefly explore your local files
+ls -l
+# Log in to the aws instance via ssh
+ssh &lt;username&gt;@bfx-workshop01.med.umich.edu
+# Familiarize yourself with differences between local and remote shell
+# View our references
+ls ~/RSD_Shell/refs
+# View our input fastq files
+ls ~/RSD_Shell/reads
+# Create a folder for our analysis
+mkdir ~/RSD_Shell/analysis</code></pre>
+<p><br> <br> <br></p>
+<details>
+<summary>
+Click here for demonstration comparing local Windows command prompt vs remote (AWS)
+</summary>
+<p><img src="images/local_v_remote.gif" width="800" /></p>
+</details>
+<p><br> <br> <br></p>
+<details>
+<summary>
+Click here for more info about retrieving sequences from SRA
+</summary>
+<p>The Sequence Read Archive (SRA) is an immense source of publicly-available high-throughput sequencing data, hosted by the NIH’s National Center for Biotechnology Information (NCBI). It also contains data from the European Bioinformatics Institute (EMBL-EBI), and the DNA Data Bank of Japan (DDBJ).</p>
+<p>These data can be useful for validating experimental results, and they can also allow for the savvy researcher to leverage this data to shed light on their own research questions.</p>
+<p>In these exercises, we’re using data from SRA to provide a good example of an RNASeq dataset, and also to demonstrate the process of validating experimental results of a published article, starting from the raw sequencing data.</p>
+<p>Below we provide some instruction and suggested starting points for each of the steps you’d take to retrieve sequence data from SRA for yourself. Generally, the steps are:</p>
+<ul>
+<li>Install and configure the SRA Toolkit software</li>
+<li>Find your dataset(s) of interest</li>
+<li>Download your sequences using SRA Toolkit</li>
+</ul>
+<div id="installingconfiguring-sra-toolkit" class="section level3">
+<h3>Installing/Configuring SRA Toolkit</h3>
+<p>We recommend using High Performance Compute (HPC) resources if you want to perform an analysis on your own. At the University of Michigan, Advanced Research Computing (ARC) provides these resources, one you may hear of often is known as “The Great Lakes Cluster”. There, they provide a software module <code>sratoolkit</code> that you can use. This way, the software is already installed for you! Then it is very easy to load this module to give access to the software.</p>
+<pre><code>#You must load the Bioinformatics module, then sratoolkit
+module load Bioinformatics
+module load sratoolkit</code></pre>
+<p>After the software is available, another important step is to configure it. There is a <a href="https://github.com/ncbi/sra-tools/wiki/03.-Quick-Toolkit-Configuration">helpful page here about configuration</a>. The most important detail will probably be to ensure that you set the cache location to somewhere with plentiful storage space.</p>
+<blockquote>
+<p>Note: On Great Lakes, the cache will likely be automatically be set to your home directory. This can be a problem, since user home directories have less than 100GB available. Setting this to the <a href="https://arc.umich.edu/scratch-storage/">scratch space</a> might be a good option.</p>
+</blockquote>
+</div>
+<div id="finding-datasets-of-interest" class="section level3">
+<h3>Finding dataset(s) of interest:</h3>
+<p>NCBI has some <a href="https://www.ncbi.nlm.nih.gov/sra/docs/srasearch/#basic-search-in-sra">useful help pages here</a></p>
+<p>If you already have e.g. your relevant project accession ID, and want to get associated run accession IDs, you may also find it useful to use the <a href="https://www.ncbi.nlm.nih.gov/Traces/study/">SRA Run Selector tool</a>.</p>
+<p>When you have your list of run accessions, e.g. <code>SRR7777895</code>, then you will be ready to download your sequences using the SRA Toolkit</p>
+</div>
+<div id="downloading-your-sequences-using-sra-toolkit" class="section level3">
+<h3>Downloading your sequences using SRA Toolkit</h3>
+<p>Once again there are helpful documentation pages for this part of the SRA Toolkit, which you can find <a href="https://github.com/ncbi/sra-tools/wiki/08.-prefetch-and-fasterq-dump">here</a>. The SRA Toolkit documentation recommends using two steps to download fastq files: <code>prefetch</code> which downloads relevant data, followed by <code>fasterq-dump</code> which creates the fastq formatted files from the prefetched data.</p>
+<p>Note: <code>fasterq-dump</code> is an updated and streamlined version of an older software, <code>fastq-dump</code>. You may encounter older blog posts which reference <code>fastq-dump</code>, or you may hear from colleagues about using it. Either is fine to use, and both of them are part of SRA Toolkit, but it seems <code>fasterq-dump</code> is recommended going forward.</p>
+<p>Note: It is also possible to directly use <code>fastq-dump</code> without first using <code>prefetch</code>. However, it will be slow and prone to failure with any network issues.</p>
+</details>
+<p><br> <br> <br> <img src="images/building-blocks-checkmark.png" width="800" /> <br> <br> <br> <br> <br></p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTW9kdWxlIDAxOiBXYXJtaW5nIHVwIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgojIFdhcm1pbmcgVXAKCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBjb3ZlciBiYXNpYyBtYXRlcmlhbHMgbmVlZGVkCiogZmFtaWxpYXJpemUgb3Vyc2VsdmVzIHdpdGggcmVtb3RlIGNvbXB1dGluZwoqIHByZXBhcmUgZm9yIGxhdGVyIG1vZHVsZXMKCiMjIEJ1aWxkaW5nIEJsb2NrcwoKPGJyPgo8YnI+Cjxicj4KPGltZyBzcmM9ImltYWdlcy9idWlsZGluZy1ibG9ja3MucG5nIiB3aWR0aD0iODAwIiAvPgo8YnI+Cjxicj4KPGJyPgoKCiMjIEV4YW1wbGUgRmlsZXMgRXhlcmNpc2U6CgoxLiBEb3dubG9hZCB0aGUgemlwcGVkIGFyY2hpdmUgZnJvbSB0aGUgc2xhY2sgY2hhbm5lbAoyLiBMb2NhdGUsIG1vdmUgKGlmIGRlc2lyZWQpLCBhbmQgdW56aXAgaXQKMy4gUmVtZW1iZXIgaG93IHRvIGFjY2VzcyB0aGVzZSBmaWxlcwoKPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KCiMjIExvY2FsIHZzIFJlbW90ZSBFeGVyY2lzZToKCjEuIEJlY29tZSBmYW1pbGlhciB3aXRoIHRoZSBhcHBlYXJhbmNlIG9mIHRoZSBsb2NhbCBzaGVsbAoyLiBCcmllZmx5IGV4cGxvcmUgeW91ciBsb2NhbCBmaWxlcyAob3B0aW9uYWwpCjMuIExvZyBpbiB0byB0aGUgYXdzIGluc3RhbmNlIHdpdGggYHNzaCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHVgCjQuIEJlY29tZSBmYW1pbGlhciB3aXRoIGFwcGVhcmFuY2Ugb2YgdGhlIHJlbW90ZSBzaGVsbAo1LiBVc2UgYGxzYCB0byB2aWV3IHJlZmVyZW5jZXMKNi4gVXNlIGBsc2AgdG8gdmlldyBpbnB1dCBmYXN0cSBmaWxlcwo3LiBVc2UgYG1rZGlyYCB0byBjcmVhdGUgYSBmb2xkZXIgZm9yIG91ciBhbmFseXNpcwoKPGJyPgo8YnI+Cjxicj4KCmBgYAojIEZhbWlsaWFyaXplIHdpdGggbG9jYWwgc2hlbGwgYXBwZWFyYW5jZQojIEJyaWVmbHkgZXhwbG9yZSB5b3VyIGxvY2FsIGZpbGVzCmxzIC1sCiMgTG9nIGluIHRvIHRoZSBhd3MgaW5zdGFuY2UgdmlhIHNzaApzc2ggPHVzZXJuYW1lPkBiZngtd29ya3Nob3AwMS5tZWQudW1pY2guZWR1CiMgRmFtaWxpYXJpemUgeW91cnNlbGYgd2l0aCBkaWZmZXJlbmNlcyBiZXR3ZWVuIGxvY2FsIGFuZCByZW1vdGUgc2hlbGwKIyBWaWV3IG91ciByZWZlcmVuY2VzCmxzIH4vUlNEX1NoZWxsL3JlZnMKIyBWaWV3IG91ciBpbnB1dCBmYXN0cSBmaWxlcwpscyB+L1JTRF9TaGVsbC9yZWFkcwojIENyZWF0ZSBhIGZvbGRlciBmb3Igb3VyIGFuYWx5c2lzCm1rZGlyIH4vUlNEX1NoZWxsL2FuYWx5c2lzCmBgYAoKCjxicj4KPGJyPgo8YnI+Cgo8ZGV0YWlscz4KPHN1bW1hcnk+Q2xpY2sgaGVyZSBmb3IgZGVtb25zdHJhdGlvbiBjb21wYXJpbmcgbG9jYWwgV2luZG93cyBjb21tYW5kIHByb21wdCB2cyByZW1vdGUgKEFXUyk8L3N1bW1hcnk+Cgo8aW1nIHNyYz0iaW1hZ2VzL2xvY2FsX3ZfcmVtb3RlLmdpZiIgd2lkdGg9IjgwMCIgLz4KCjwvZGV0YWlscz4KCjxicj4KPGJyPgo8YnI+Cgo8ZGV0YWlscz4KPHN1bW1hcnk+Q2xpY2sgaGVyZSBmb3IgbW9yZSBpbmZvIGFib3V0IHJldHJpZXZpbmcgc2VxdWVuY2VzIGZyb20gU1JBPC9zdW1tYXJ5PgoKVGhlIFNlcXVlbmNlIFJlYWQgQXJjaGl2ZSAoU1JBKSBpcyBhbiBpbW1lbnNlIHNvdXJjZSBvZiBwdWJsaWNseS1hdmFpbGFibGUgaGlnaC10aHJvdWdocHV0IHNlcXVlbmNpbmcgZGF0YSwgaG9zdGVkIGJ5IHRoZSBOSUgncyBOYXRpb25hbCBDZW50ZXIgZm9yIEJpb3RlY2hub2xvZ3kgSW5mb3JtYXRpb24gKE5DQkkpLiBJdCBhbHNvIGNvbnRhaW5zIGRhdGEgZnJvbSB0aGUgRXVyb3BlYW4gQmlvaW5mb3JtYXRpY3MgSW5zdGl0dXRlIChFTUJMLUVCSSksIGFuZCB0aGUgRE5BIERhdGEgQmFuayBvZiBKYXBhbiAoRERCSikuCgpUaGVzZSBkYXRhIGNhbiBiZSB1c2VmdWwgZm9yIHZhbGlkYXRpbmcgZXhwZXJpbWVudGFsIHJlc3VsdHMsIGFuZCB0aGV5IGNhbiBhbHNvIGFsbG93IGZvciB0aGUgc2F2dnkgcmVzZWFyY2hlciB0byBsZXZlcmFnZSB0aGlzIGRhdGEgdG8gc2hlZCBsaWdodCBvbiB0aGVpciBvd24gcmVzZWFyY2ggcXVlc3Rpb25zLgoKSW4gdGhlc2UgZXhlcmNpc2VzLCB3ZSdyZSB1c2luZyBkYXRhIGZyb20gU1JBIHRvIHByb3ZpZGUgYSBnb29kIGV4YW1wbGUgb2YgYW4gUk5BU2VxIGRhdGFzZXQsIGFuZCBhbHNvIHRvIGRlbW9uc3RyYXRlIHRoZSBwcm9jZXNzIG9mIHZhbGlkYXRpbmcgZXhwZXJpbWVudGFsIHJlc3VsdHMgb2YgYSBwdWJsaXNoZWQgYXJ0aWNsZSwgc3RhcnRpbmcgZnJvbSB0aGUgcmF3IHNlcXVlbmNpbmcgZGF0YS4KCkJlbG93IHdlIHByb3ZpZGUgc29tZSBpbnN0cnVjdGlvbiBhbmQgc3VnZ2VzdGVkIHN0YXJ0aW5nIHBvaW50cyBmb3IgZWFjaCBvZiB0aGUgc3RlcHMgeW91J2QgdGFrZSB0byByZXRyaWV2ZSBzZXF1ZW5jZSBkYXRhIGZyb20gU1JBIGZvciB5b3Vyc2VsZi4gR2VuZXJhbGx5LCB0aGUgc3RlcHMgYXJlOgoKLSBJbnN0YWxsIGFuZCBjb25maWd1cmUgdGhlIFNSQSBUb29sa2l0IHNvZnR3YXJlCi0gRmluZCB5b3VyIGRhdGFzZXQocykgb2YgaW50ZXJlc3QKLSBEb3dubG9hZCB5b3VyIHNlcXVlbmNlcyB1c2luZyBTUkEgVG9vbGtpdAoKCiMjIyBJbnN0YWxsaW5nL0NvbmZpZ3VyaW5nIFNSQSBUb29sa2l0CgpXZSByZWNvbW1lbmQgdXNpbmcgSGlnaCBQZXJmb3JtYW5jZSBDb21wdXRlIChIUEMpIHJlc291cmNlcyBpZiB5b3Ugd2FudCB0byBwZXJmb3JtIGFuIGFuYWx5c2lzIG9uIHlvdXIgb3duLiBBdCB0aGUgVW5pdmVyc2l0eSBvZiBNaWNoaWdhbiwgQWR2YW5jZWQgUmVzZWFyY2ggQ29tcHV0aW5nIChBUkMpIHByb3ZpZGVzIHRoZXNlIHJlc291cmNlcywgb25lIHlvdSBtYXkgaGVhciBvZiBvZnRlbiBpcyBrbm93biBhcyAiVGhlIEdyZWF0IExha2VzIENsdXN0ZXIiLiBUaGVyZSwgdGhleSBwcm92aWRlIGEgc29mdHdhcmUgbW9kdWxlIGBzcmF0b29sa2l0YCB0aGF0IHlvdSBjYW4gdXNlLiBUaGlzIHdheSwgdGhlIHNvZnR3YXJlIGlzIGFscmVhZHkgaW5zdGFsbGVkIGZvciB5b3UhIFRoZW4gaXQgaXMgdmVyeSBlYXN5IHRvIGxvYWQgdGhpcyBtb2R1bGUgdG8gZ2l2ZSBhY2Nlc3MgdG8gdGhlIHNvZnR3YXJlLgoKICAgICNZb3UgbXVzdCBsb2FkIHRoZSBCaW9pbmZvcm1hdGljcyBtb2R1bGUsIHRoZW4gc3JhdG9vbGtpdAogICAgbW9kdWxlIGxvYWQgQmlvaW5mb3JtYXRpY3MKICAgIG1vZHVsZSBsb2FkIHNyYXRvb2xraXQKCkFmdGVyIHRoZSBzb2Z0d2FyZSBpcyBhdmFpbGFibGUsIGFub3RoZXIgaW1wb3J0YW50IHN0ZXAgaXMgdG8gY29uZmlndXJlIGl0LiBUaGVyZSBpcyBhIFtoZWxwZnVsIHBhZ2UgaGVyZSBhYm91dCBjb25maWd1cmF0aW9uXShodHRwczovL2dpdGh1Yi5jb20vbmNiaS9zcmEtdG9vbHMvd2lraS8wMy4tUXVpY2stVG9vbGtpdC1Db25maWd1cmF0aW9uKS4gVGhlIG1vc3QgaW1wb3J0YW50IGRldGFpbCB3aWxsIHByb2JhYmx5IGJlIHRvIGVuc3VyZSB0aGF0IHlvdSBzZXQgdGhlIGNhY2hlIGxvY2F0aW9uIHRvIHNvbWV3aGVyZSB3aXRoIHBsZW50aWZ1bCBzdG9yYWdlIHNwYWNlLgoKPiBOb3RlOiBPbiBHcmVhdCBMYWtlcywgdGhlIGNhY2hlIHdpbGwgbGlrZWx5IGJlIGF1dG9tYXRpY2FsbHkgYmUgc2V0IHRvIHlvdXIgaG9tZSBkaXJlY3RvcnkuIFRoaXMgY2FuIGJlIGEgcHJvYmxlbSwgc2luY2UgdXNlciBob21lIGRpcmVjdG9yaWVzIGhhdmUgbGVzcyB0aGFuIDEwMEdCIGF2YWlsYWJsZS4gU2V0dGluZyB0aGlzIHRvIHRoZSBbc2NyYXRjaCBzcGFjZV0oaHR0cHM6Ly9hcmMudW1pY2guZWR1L3NjcmF0Y2gtc3RvcmFnZS8pIG1pZ2h0IGJlIGEgZ29vZCBvcHRpb24uCgojIyMgRmluZGluZyBkYXRhc2V0KHMpIG9mIGludGVyZXN0OgoKTkNCSSBoYXMgc29tZSBbdXNlZnVsIGhlbHAgcGFnZXMgaGVyZV0oaHR0cHM6Ly93d3cubmNiaS5ubG0ubmloLmdvdi9zcmEvZG9jcy9zcmFzZWFyY2gvI2Jhc2ljLXNlYXJjaC1pbi1zcmEpCgpJZiB5b3UgYWxyZWFkeSBoYXZlIGUuZy4geW91ciByZWxldmFudCBwcm9qZWN0IGFjY2Vzc2lvbiBJRCwgYW5kIHdhbnQgdG8gZ2V0IGFzc29jaWF0ZWQgcnVuIGFjY2Vzc2lvbiBJRHMsIHlvdSBtYXkgYWxzbyBmaW5kIGl0IHVzZWZ1bCB0byB1c2UgdGhlIFtTUkEgUnVuIFNlbGVjdG9yIHRvb2xdKGh0dHBzOi8vd3d3Lm5jYmkubmxtLm5paC5nb3YvVHJhY2VzL3N0dWR5LykuCgpXaGVuIHlvdSBoYXZlIHlvdXIgbGlzdCBvZiBydW4gYWNjZXNzaW9ucywgZS5nLiBgU1JSNzc3Nzg5NWAsIHRoZW4geW91IHdpbGwgYmUgcmVhZHkgdG8gZG93bmxvYWQgeW91ciBzZXF1ZW5jZXMgdXNpbmcgdGhlIFNSQSBUb29sa2l0CgojIyMgRG93bmxvYWRpbmcgeW91ciBzZXF1ZW5jZXMgdXNpbmcgU1JBIFRvb2xraXQKCk9uY2UgYWdhaW4gdGhlcmUgYXJlIGhlbHBmdWwgZG9jdW1lbnRhdGlvbiBwYWdlcyBmb3IgdGhpcyBwYXJ0IG9mIHRoZSBTUkEgVG9vbGtpdCwgd2hpY2ggeW91IGNhbiBmaW5kIFtoZXJlXShodHRwczovL2dpdGh1Yi5jb20vbmNiaS9zcmEtdG9vbHMvd2lraS8wOC4tcHJlZmV0Y2gtYW5kLWZhc3RlcnEtZHVtcCkuIFRoZSBTUkEgVG9vbGtpdCBkb2N1bWVudGF0aW9uIHJlY29tbWVuZHMgdXNpbmcgdHdvIHN0ZXBzIHRvIGRvd25sb2FkIGZhc3RxIGZpbGVzOiBgcHJlZmV0Y2hgIHdoaWNoIGRvd25sb2FkcyByZWxldmFudCBkYXRhLCBmb2xsb3dlZCBieSBgZmFzdGVycS1kdW1wYCB3aGljaCBjcmVhdGVzIHRoZSBmYXN0cSBmb3JtYXR0ZWQgZmlsZXMgZnJvbSB0aGUgcHJlZmV0Y2hlZCBkYXRhLgoKTm90ZTogYGZhc3RlcnEtZHVtcGAgaXMgYW4gdXBkYXRlZCBhbmQgc3RyZWFtbGluZWQgdmVyc2lvbiBvZiBhbiBvbGRlciBzb2Z0d2FyZSwgYGZhc3RxLWR1bXBgLiBZb3UgbWF5IGVuY291bnRlciBvbGRlciBibG9nIHBvc3RzIHdoaWNoIHJlZmVyZW5jZSBgZmFzdHEtZHVtcGAsIG9yIHlvdSBtYXkgaGVhciBmcm9tIGNvbGxlYWd1ZXMgYWJvdXQgdXNpbmcgaXQuIEVpdGhlciBpcyBmaW5lIHRvIHVzZSwgYW5kIGJvdGggb2YgdGhlbSBhcmUgcGFydCBvZiBTUkEgVG9vbGtpdCwgYnV0IGl0IHNlZW1zIGBmYXN0ZXJxLWR1bXBgIGlzIHJlY29tbWVuZGVkIGdvaW5nIGZvcndhcmQuCgpOb3RlOiBJdCBpcyBhbHNvIHBvc3NpYmxlIHRvIGRpcmVjdGx5IHVzZSBgZmFzdHEtZHVtcGAgd2l0aG91dCBmaXJzdCB1c2luZyBgcHJlZmV0Y2hgLiBIb3dldmVyLCBpdCB3aWxsIGJlIHNsb3cgYW5kIHByb25lIHRvIGZhaWx1cmUgd2l0aCBhbnkgbmV0d29yayBpc3N1ZXMuCgo8L2RldGFpbHM+Cgo8YnI+Cjxicj4KPGJyPgo8aW1nIHNyYz0iaW1hZ2VzL2J1aWxkaW5nLWJsb2Nrcy1jaGVja21hcmsucG5nIiB3aWR0aD0iODAwIiAvPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4K</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module01_Warming_Up.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+---
+title: "Breakout Exercise 1 - Expression Heatmap"
+author: "UM Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+        html_document:
+            includes:
+                in_header: header.html
+            theme: paper
+            toc: true
+            toc_depth: 4
+            toc_float: true
+            number_sections: false
+            fig_caption: true
+            markdown: GFM
+            code_download: true
+---
+
+<style type="text/css">
+body, td {
+   font-size: 18px;
+}
+code.r{
+  font-size: 12px;
+}
+pre {
+  font-size: 12px
+}
+</style>
+
+```{r, include = FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("09a-")
+```
+
+```{r Modules, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+library(DESeq2)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(matrixStats)
+library(ggrepel)
+library(pheatmap)
+library(RColorBrewer)
+# load("rdata/RunningData.RData")
+```
+
+Estimated time: **15 Minutes**
+
+# Motivation
+
+Plotting the expression values across all samples for the top variable genes in an experiment can help to visualize how samples cluster together by their expression profiles. When combined with phenotypic data, it can help show how samples with different treatments behave relative to one another.
+
+# Exercise
+
+Create a heatmap of the top 50 most variable genes using the `pheatmap()` function using the rlog normalized data in the `rld` object.
+
+# Instructions
+
+- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
+- The group members should discuss the exercise and work together to find a solution.
+- If there is time after a solution is found, allow all members to complete the exercise.
+
+# Example
+
+To get an idea of what we expect to see at the end, let's look at a toy example from the `pheatmap()` help examples. There's no need to run this code, we just want to illustrate the form of the result.
+
+```{r test_heatmap}
+# Copied from the pheatmap documentation
+
+# Create matrix with random normally distributed values
+test = matrix(rnorm(200), 20, 10)
+
+# Impose some structure so the heatmap appears interesting
+test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
+test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
+test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
+
+# Name the rows and columns
+colnames(test) = paste("Test", 1:10, sep = "")
+rownames(test) = paste("Gene", 1:20, sep = "")
+
+# Draw the heatmap
+pheatmap(test)
+```
+
+# Steps
+
+1. Look at the documentation for the `pheatmap()` function and determine what the most important parameter is. Hint: It's usually the first or first few parameters. This is telling us what we'll have to get for the next step.
+
+<details>
+<summary>Answer</summary>
+```{r pheatmap_help, eval = FALSE}
+?pheatmap
+```
+
+For this exercise, we'll only need to use the `mat` parameter, giving the numeric matrix to be plotted.
+</details>
+<br>
+
+2. Extract the rlog normalized expression values for the experiment. Hint: We created an `rld` object earlier. The `assay()` function pulls out the values.
+
+<details>
+<summary>Answer</summary>
+```{r extract_rld_expression}
+exp_mat = assay(rld)
+head(exp_mat)
+```
+</details>
+<br>
+
+3. Calculate the variance for each gene in the expression matrix we just extracted. Hint: Look at the help for `matrixStats::rowVars()` and decide if that's a reasonable function to use.
+
+<details>
+<summary>Answer</summary>
+```{r calc_row_vars}
+gene_vars = rowVars(exp_mat)
+head(gene_vars)
+```
+</details>
+<br>
+
+4. Get the numerical indices for the top 50 most variable genes. Hint: Run the `order()` function on a toy example, like `order(c(-1.25, 1.3, 5.6, 2.1))`, and think about what is being returned. Note, it's not the values in the original vector. Then look at the help for `order()` and figure out how how to reverse what is returned.
+
+<details>
+<summary>Answer</summary>
+```{r order_vars}
+order(c(-1.25, 1.3, 5.6, 2.1))
+order(c(-1.25, 1.3, 5.6, 2.1), decreasing = TRUE)
+
+ordered_idx = order(gene_vars, decreasing = TRUE)
+top_50_idx = ordered_idx[1:50]
+```
+</details>
+<br>
+
+5. Subset the expression matrix from step 2 using this index vector. Hint: Remember square-bracket notation, and that we want to subset the rows, while returning all the columns. Make sure the result has the number of rows you expect, that is, 50.
+
+<details>
+<summary>Answer</summary>
+```{r extract_top_exp}
+top_var_exp_mat = exp_mat[top_50_idx, ]
+dim(top_var_exp_mat)
+```
+</details>
+<br>
+
+6. Create a heatmap using this subsetted expression matrix using the `pheatmap()` function.
+
+<details>
+<summary>Answer</summary>
+```{r create_heatmap}
+pheatmap(top_var_exp_mat)
+```
+</details>
+<br>
+
+# Saving the result
+
+If time permits, discuss with your group how you might save this heatmap. Hint: Look at the parameters for the function in `?pheatmap`. Alternatively, consider how we saved the PCA in the previous module.
+
+```{r WriteOut.RData, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+#Hidden code block to write out data for knitting
+# save.image(file = "rdata/RunningData.RData")
+```
