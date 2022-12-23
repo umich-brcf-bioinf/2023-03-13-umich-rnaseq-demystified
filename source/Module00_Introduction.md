@@ -53,8 +53,8 @@ pre {
 |:-:|:-:|:-:|:-:|
 | **Chris** | **Marci** | **Raymond** | **Travis** |
 | | | |
-| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | ![](images/Module00_headshots/headshot_diaorch.jpg) | ![](images/Module00_headshots/headshot_rtagett.jpg) |
-|  **Dana** |**Grace** | **Rucheng** | **Becky** |
+| ![](images/Module00_headshots/headshot_damki.jpg) |
+|  **Dana** |
 <br/>
 
 # Code of Conduct
@@ -139,7 +139,7 @@ breakout room.
 
 ![Posting messages to Slack](images/Module00_slack.png)
 
-  - Slack messages will be posted to the **2022-11-rnaseq-demystified** channel.  
+  - Slack messages will be posted to the **2023-03-rnaseq-demystified** channel.  
     Click on the channel in the left pane (1) to select this channel.
   - You can type in the **message field** (2); click **send** (3) to
     post your message to everyone.

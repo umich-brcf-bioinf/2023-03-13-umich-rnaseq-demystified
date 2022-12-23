@@ -11,7 +11,7 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2022-11-16" />
+<meta name="date" content="2022-12-23" />
 
 <title>Module 10: DE Testing</title>
 
@@ -458,7 +458,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Module 10: DE Testing</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2022-11-16</h4>
+<h4 class="date">2022-12-23</h4>
 
 </div>
 
@@ -573,22 +573,14 @@ head(results_minus_vs_plus)</code></pre>
 <pre><code>log2 fold change (MLE): condition minus vs plus 
 Wald test p-value: condition minus vs plus 
 DataFrame with 6 rows and 6 columns
-                      baseMean log2FoldChange     lfcSE      stat    pvalue
-                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830
-ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301
-ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476
-ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147
-ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476
-ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468
-                        padj
-                   &lt;numeric&gt;
-ENSMUSG00000000001  0.868573
-ENSMUSG00000000028  0.902900
-ENSMUSG00000000031  0.995391
-ENSMUSG00000000037  0.950613
-ENSMUSG00000000049  0.998043
-ENSMUSG00000000056  0.982479</code></pre>
+                      baseMean log2FoldChange     lfcSE      stat    pvalue      padj
+                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830  0.868573
+ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301  0.902900
+ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476  0.995391
+ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147  0.950613
+ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476  0.998043
+ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468  0.982479</code></pre>
 <p>In the results table, the row names are gene identifiers (in theis
 case ENSEMBL IDs because that’s what the GTF we used in the call to
 RSEM+STAR used), and the columns have the following definitions:</p>
@@ -645,22 +637,14 @@ head(alt_results_minus_vs_plus)</code></pre>
 <pre><code>log2 fold change (MLE): condition minus vs plus 
 Wald test p-value: condition minus vs plus 
 DataFrame with 6 rows and 6 columns
-                      baseMean log2FoldChange     lfcSE      stat    pvalue
-                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830
-ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301
-ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476
-ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147
-ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476
-ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468
-                        padj
-                   &lt;numeric&gt;
-ENSMUSG00000000001  0.868573
-ENSMUSG00000000028  0.902900
-ENSMUSG00000000031  0.995391
-ENSMUSG00000000037  0.950613
-ENSMUSG00000000049  0.998043
-ENSMUSG00000000056  0.982479</code></pre>
+                      baseMean log2FoldChange     lfcSE      stat    pvalue      padj
+                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830  0.868573
+ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301  0.902900
+ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476  0.995391
+ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147  0.950613
+ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476  0.998043
+ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468  0.982479</code></pre>
 <p>This way of calling <code>results()</code> is especially helpful when
 the levels of the column of interest contain more than two levels
 because you can specify exactly which levels to test with little

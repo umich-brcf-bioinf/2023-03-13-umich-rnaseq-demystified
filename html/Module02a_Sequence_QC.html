@@ -14,7 +14,7 @@
 
 <title>Module 02a: Sequence QC</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -195,8 +195,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -204,16 +204,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -487,26 +480,37 @@ pre {
 </div>
 <div id="differential-expression-workflow" class="section level1">
 <h1>Differential Expression Workflow</h1>
-<p>An overview of the steps of entire differential expression experiment and analysis workflow is shown below. In this lesson, we will go over the highlighted part of the workflow.</p>
-<p><img src="images/wayfinder/slides/Slide2.png" /> <br> <br> <br> <br></p>
+<p>An overview of the steps of entire differential expression experiment
+and analysis workflow is shown below. In this lesson, we will go over
+the highlighted part of the workflow.</p>
+<p><img src="images/wayfinder/slides/Slide2.png" /> <br> <br>
+<br> <br></p>
 </div>
 <div id="rna-seq-data" class="section level1">
 <h1>RNA-seq Data</h1>
-<p>Analysis of RNA-seq requires the use of many types of data. The three most common that we will encounter are:</p>
+<p>Analysis of RNA-seq requires the use of many types of data. The three
+most common that we will encounter are:</p>
 <ul>
 <li>Sequence data</li>
 <li>Genome feature data</li>
 <li>Alignment data</li>
 </ul>
-<p>We will introduce each data type and their formats in more detail as they enter the workflow, but for now some general notes about the formats we will encounter:</p>
+<p>We will introduce each data type and their formats in more detail as
+they enter the workflow, but for now some general notes about the
+formats we will encounter:</p>
 <ul>
 <li>File formats represent the data in a structured manner.</li>
-<li>Some file formats are not human-readable; they are binary, and we will see what that means when we discuss alignments.</li>
-<li>Many file formats are human readable, but very large. <strong>These files should not be viewed in Word or Excel.</strong></li>
+<li>Some file formats are not human-readable; they are binary, and we
+will see what that means when we discuss alignments.</li>
+<li>Many file formats are human readable, but very large. <strong>These
+files should not be viewed in Word or Excel.</strong></li>
 </ul>
 <div id="fastq-files" class="section level2">
 <h2>FASTQ Files</h2>
-<p>Raw sequenced reads are stored in <a href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> format. This is a plain text, human readable file format that stores information about each read. For a single read there are four lines:</p>
+<p>Raw sequenced reads are stored in <a
+href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> format. This
+is a plain text, human readable file format that stores information
+about each read. For a single read there are four lines:</p>
 <pre><code>@A00437:266:HVFMYDSXX:1:1101:1181:1000 1:N:0:AGCCTATC+TGCGTAAC
 TTTATTGTTGATGGTTATTTTTTGTTTATGGTTATTTTGTGTTTATGGTTATTTTTTGTTTATGGTTATTTTTTA
 +
@@ -525,7 +529,8 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</cod
 <tbody>
 <tr class="odd">
 <td align="center">1</td>
-<td>Begins with <code>@</code> and has information about the read. From AGC will contain flowcell and barcode information.</td>
+<td>Begins with <code>@</code> and has information about the read. From
+AGC will contain flowcell and barcode information.</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
@@ -533,24 +538,37 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</cod
 </tr>
 <tr class="odd">
 <td align="center">3</td>
-<td>Always begins with <code>+</code> and may contain the same information as line 1.</td>
+<td>Always begins with <code>+</code> and may contain the same
+information as line 1.</td>
 </tr>
 <tr class="even">
 <td align="center">4</td>
-<td>A string of characters representing the quality scores. Always the same number of characters as line 2.</td>
+<td>A string of characters representing the quality scores. Always the
+same number of characters as line 2.</td>
 </tr>
 </tbody>
 </table>
 <div id="base-quality-scores" class="section level3">
 <h3>Base Quality Scores</h3>
-<p>The fourth line encodes the quality of each nucleotide in the read. The most common encoding is referred to as PHRED-33, and the following maps characters to qualities:</p>
+<p>The fourth line encodes the quality of each nucleotide in the read.
+The most common encoding is referred to as PHRED-33, and the following
+maps characters to qualities:</p>
 <pre><code>Quality encoding: !&quot;#$%&amp;&#39;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHI
                   |         |         |         |         |
    Quality score: 0........10........20........30........40</code></pre>
-<p>The above example is a rather boring read with all bases having <code>F</code>, meaning a score of 37, which is good. Each quality score represents the probability that the corresponding nucleotide call is incorrect. The quality score is logarithmic and is calculated as:</p>
+<p>The above example is a rather boring read with all bases having
+<code>F</code>, meaning a score of 37, which is good. Each quality score
+represents the probability that the corresponding nucleotide call is
+incorrect. The quality score is logarithmic and is calculated as:</p>
 <pre><code>Q = -10 x log10(P), where P is the probability that the base call is erroneous</code></pre>
-<p>Another way to interpret the scores is in terms of the following table:</p>
-<table>
+<p>Another way to interpret the scores is in terms of the following
+table:</p>
+<table style="width:100%;">
+<colgroup>
+<col width="26%" />
+<col width="47%" />
+<col width="25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>PHRED Quality Score</th>
@@ -581,7 +599,12 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</cod
 </tr>
 </tbody>
 </table>
-<p>It would clearly be painstaking to go through all the base quality scores of all the millions of reads obtained from a sequencing run, so we typically don’t evaluate the FASTQ files by sight. Instead, we use tools that take in FASTQ files and summarize the base quality scores (and other characteristics) to determine the overall quality of the reads from the sequencer.</p>
+<p>It would clearly be painstaking to go through all the base quality
+scores of all the millions of reads obtained from a sequencing run, so
+we typically don’t evaluate the FASTQ files by sight. Instead, we use
+tools that take in FASTQ files and summarize the base quality scores
+(and other characteristics) to determine the overall quality of the
+reads from the sequencer.</p>
 </div>
 </div>
 </div>
@@ -591,32 +614,59 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</cod
 <img src="images/fastqc_logo.png" alt="" />
 <p class="caption">FastQC</p>
 </div>
-<p>The first step in many high-throughput sequencing analyses is to examine the quality of the raw reads with <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a>. It analyzes various aspects of each FASTQ file and provides a quick impression of the overall quality metrics which are useful to determine before proceeding with downstream analysis. The following modules are present in an easy to read HTML report.</p>
+<p>The first step in many high-throughput sequencing analyses is to
+examine the quality of the raw reads with <a
+href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a>.
+It analyzes various aspects of each FASTQ file and provides a quick
+impression of the overall quality metrics which are useful to determine
+before proceeding with downstream analysis. The following modules are
+present in an easy to read HTML report.</p>
 <ul>
-<li>Read quality score per base (by interpreting the PHRED33 scores)</li>
-<li>Per tile sequencing quality (related to sequencing clusters on the flowcell)</li>
+<li>Read quality score per base (by interpreting the PHRED33
+scores)</li>
+<li>Per tile sequencing quality (related to sequencing clusters on the
+flowcell)</li>
 <li>Read lengths</li>
 <li>GC content</li>
 <li>Adapter content</li>
 <li>Overrepresented sequences</li>
 </ul>
-<p>Toward the end of this module, we’ll run FastQC. For now, we’ll discuss the output files it produces and view some examples.</p>
+<p>Toward the end of this module, we’ll run FastQC. For now, we’ll
+discuss the output files it produces and view some examples.</p>
 <div id="fastqc-output-files" class="section level2">
 <h2>FastQC output files</h2>
-<p>FastQC outputs an HTML report and a zipped archive of intermediate files. These will appear like this:</p>
+<p>FastQC outputs an HTML report and a zipped archive of intermediate
+files. These will appear like this:</p>
 <pre><code>sample_A_R1.trimmed_fastqc.html
 sample_A_R1.trimmed_fastqc.zip</code></pre>
-<p>For most situations, opening the HTML report and inspecting the results will provide the information necessary to make decisions about your data.</p>
-<p>First we’ll take a look at some of the figures found in a typical FastQC report, then we’ll view an example of an HTML report and try to make interpretations from this. Finally, we’ll run FastQC to produce some of these files from our example dataset.</p>
+<p>For most situations, opening the HTML report and inspecting the
+results will provide the information necessary to make decisions about
+your data.</p>
+<p>First we’ll take a look at some of the figures found in a typical
+FastQC report, then we’ll view an example of an HTML report and try to
+make interpretations from this. Finally, we’ll run FastQC to produce
+some of these files from our example dataset.</p>
 </div>
 <div id="interpreting-fastqc" class="section level2">
 <h2>Interpreting FastQC</h2>
-<p>FastQC reports are organized around the the different modules characterizing different aspects of the reads. The FastQC <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">help page</a> has detailed descriptions for each module.</p>
-<p>The report summary is a PASS, WARN, FAIL overview of the modules. It’s important to not take them too seriously in all cases as there are a number of assumptions that go into the thresholds that may not apply in your particular experiment.</p>
-<p>An important note: For computational reasons, FastQC only evaluates the first 100,000 reads in a FASTQ file. The assumption is that the first 100,000 reads sufficiently represent the full library.</p>
+<p>FastQC reports are organized around the the different modules
+characterizing different aspects of the reads. The FastQC <a
+href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">help
+page</a> has detailed descriptions for each module.</p>
+<p>The report summary is a PASS, WARN, FAIL overview of the modules.
+It’s important to not take them too seriously in all cases as there are
+a number of assumptions that go into the thresholds that may not apply
+in your particular experiment.</p>
+<p>An important note: For computational reasons, FastQC only evaluates
+the first 100,000 reads in a FASTQ file. The assumption is that the
+first 100,000 reads sufficiently represent the full library.</p>
 <div id="per-base-sequence-quality" class="section level3">
 <h3>Per base sequence quality</h3>
-<p>A per base boxplot of the quality scores with helpful coloring for good, fair, and poor qualities. If a sample has quality scores that degrade at the 3’ end of a read (as in the second example below), the sample doesn’t necessarily have to be dropped. Some aligners, e.g. STAR, will automatically trim poor quality read ends.</p>
+<p>A per base boxplot of the quality scores with helpful coloring for
+good, fair, and poor qualities. If a sample has quality scores that
+degrade at the 3’ end of a read (as in the second example below), the
+sample doesn’t necessarily have to be dropped. Some aligners, e.g. STAR,
+will automatically trim poor quality read ends.</p>
 <center>
 <p><img src="images/fastqc_per_base.png" width="800"/></p>
 <p>An example of a good quality run.</p>
@@ -628,8 +678,13 @@ sample_A_R1.trimmed_fastqc.zip</code></pre>
 </div>
 <div id="sequence-duplication" class="section level3">
 <h3>Sequence Duplication</h3>
-<p>High sequence duplication, indicated by a skew to the right of the blue curve in the plots below, can be caused by low complexity libraries, too many cycles of PCR amplification, or too little starting material.</p>
-<p>On the other hand, if the library was prepared with an enrichment step (e.g. ChIP-seq), then sequence duplication might not be unexpected.</p>
+<p>High sequence duplication, indicated by a skew to the right of the
+blue curve in the plots below, can be caused by low complexity
+libraries, too many cycles of PCR amplification, or too little starting
+material.</p>
+<p>On the other hand, if the library was prepared with an enrichment
+step (e.g. ChIP-seq), then sequence duplication might not be
+unexpected.</p>
 <center>
 <p><img src="images/fastqc_duplication.png" width="800" /></p>
 <p>An example of a sample with low sequence duplication levels.</p>
@@ -641,27 +696,47 @@ sample_A_R1.trimmed_fastqc.zip</code></pre>
 </div>
 <div id="overrepresented-sequences" class="section level3">
 <h3>Overrepresented sequences</h3>
-<p>Overrepresented sequences are those making up more than 0.1% of the total (of the 100,000 reads sampled). Finding an overrepresented sequence is an indication of something biologically meaningful (e.g. an enrichment step in the library prep process), or it is an issue stemming from the library preparation process (e.g. adapters, a failure to fully remove polyA tails, or contamination).</p>
+<p>Overrepresented sequences are those making up more than 0.1% of the
+total (of the 100,000 reads sampled). Finding an overrepresented
+sequence is an indication of something biologically meaningful (e.g. an
+enrichment step in the library prep process), or it is an issue stemming
+from the library preparation process (e.g. adapters, a failure to fully
+remove polyA tails, or contamination).</p>
 <center>
 <p><img src="images/fastqc_overrepresented.png" width="800" /></p>
-<p>We see that there is a high number of reads with polyA tails. This could be a result of an inefficient removal of polyA tails.</p>
+<p>We see that there is a high number of reads with polyA tails. This
+could be a result of an inefficient removal of polyA tails.</p>
 </center>
 </div>
 <div id="adapter-content" class="section level3">
 <h3>Adapter Content</h3>
-<p>Adapter sequence typically is not present in standard RNA-seq libraries. However, if the fragment sizes resulting from library prep are smaller than the read length on the sequencer, then it is possible to get “read-through” of the adapter.</p>
-<p>This can be dealt with by adding a step to the workflow that trims the reads of adapter content with a tool such as <a href="https://cutadapt.readthedocs.io/en/stable/">cutadapt</a>. We will see this in a later module.</p>
+<p>Adapter sequence typically is not present in standard RNA-seq
+libraries. However, if the fragment sizes resulting from library prep
+are smaller than the read length on the sequencer, then it is possible
+to get “read-through” of the adapter.</p>
+<p>This can be dealt with by adding a step to the workflow that trims
+the reads of adapter content with a tool such as <a
+href="https://cutadapt.readthedocs.io/en/stable/">cutadapt</a>. We will
+see this in a later module.</p>
 </div>
 </div>
 <div id="examining-a-fastqc-report" class="section level2">
 <h2>Examining a FastQC report</h2>
-<p>From the zipped folder you downloaded earlier, find the FastQC report <code>sample_A_R1.trimmed_fastqc.html</code>.</p>
+<p>From the zipped folder you downloaded earlier, find the FastQC report
+<code>sample_A_R1.trimmed_fastqc.html</code>.</p>
 <p>We’ll view this report and try to interpret some of the figures.</p>
 </div>
 <div id="acting-on-qc---good-or-bad-results" class="section level2">
 <h2>Acting on QC - Good or Bad Results?</h2>
-<p>Good QC on raw reads means that RNA quality, library preparation, and sequencing seem fine to proceed with the next steps of analysis. It <strong>does not</strong> mean that you will find differentially expressed genes downstream.</p>
-<p>The source of bad QC measures are not always easy to determine, and doesn’t necessarily mean the data cannot be used downstream. However, bad QC measures may indicate that hazards lie ahead, and that certain steps upstream of sequencing (sample handling, RNA extraction, library preparation) might need to be altered.</p>
+<p>Good QC on raw reads means that RNA quality, library preparation, and
+sequencing seem fine to proceed with the next steps of analysis. It
+<strong>does not</strong> mean that you will find differentially
+expressed genes downstream.</p>
+<p>The source of bad QC measures are not always easy to determine, and
+doesn’t necessarily mean the data cannot be used downstream. However,
+bad QC measures may indicate that hazards lie ahead, and that certain
+steps upstream of sequencing (sample handling, RNA extraction, library
+preparation) might need to be altered.</p>
 </div>
 <div id="fastqc-exercise" class="section level2">
 <h2>FastQC Exercise</h2>
@@ -685,7 +760,14 @@ fastqc -o out_fastqc/ ../reads/*.fastq.gz
 # View the output of FastQC (the filenames)</code></pre>
 <p><br> <br></p>
 <hr />
-<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+<p>These materials have been adapted and extended from materials created
+by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan
+Bioinformatics Core (HBC)</a>. These are open access materials
+distributed under the terms of the <a
+href="http://creativecommons.org/licenses/by/4.0/">Creative Commons
+Attribution license (CC BY 4.0)</a>, which permits unrestricted use,
+distribution, and reproduction in any medium, provided the original
+author and source are credited.</p>
 </div>
 </div>
 

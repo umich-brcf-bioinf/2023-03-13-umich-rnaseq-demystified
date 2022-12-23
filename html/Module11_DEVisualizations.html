@@ -11,7 +11,7 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2022-11-16" />
+<meta name="date" content="2022-12-23" />
 
 <title>Module 11: DE Visualization and Annotation</title>
 
@@ -459,7 +459,7 @@ div.tocify {
 <h1 class="title toc-ignore">Module 11: DE Visualization and
 Annotation</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2022-11-16</h4>
+<h4 class="date">2022-12-23</h4>
 
 </div>
 
@@ -579,22 +579,14 @@ head(results_minus_vs_plus)</code></pre>
 <pre><code>log2 fold change (MLE): condition minus vs plus 
 Wald test p-value: condition minus vs plus 
 DataFrame with 6 rows and 7 columns
-                      baseMean log2FoldChange     lfcSE      stat    pvalue
-                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830
-ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301
-ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476
-ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147
-ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476
-ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468
-                        padj        call
-                   &lt;numeric&gt; &lt;character&gt;
-ENSMUSG00000000001  0.868573          NS
-ENSMUSG00000000028  0.902900          NS
-ENSMUSG00000000031  0.995391          NS
-ENSMUSG00000000037  0.950613          NS
-ENSMUSG00000000049  0.998043          NS
-ENSMUSG00000000056  0.982479          NS</code></pre>
+                      baseMean log2FoldChange     lfcSE      stat    pvalue      padj        call
+                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;character&gt;
+ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830  0.868573          NS
+ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301  0.902900          NS
+ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476  0.995391          NS
+ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147  0.950613          NS
+ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476  0.998043          NS
+ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468  0.982479          NS</code></pre>
 <p>Next, determine the “Up” and “Down” indices:</p>
 <pre class="r"><code>up_idx = results_minus_vs_plus$padj &lt; fdr &amp; results_minus_vs_plus$log2FoldChange &gt; log2(fc)
 down_idx = results_minus_vs_plus$padj &lt; fdr &amp; results_minus_vs_plus$log2FoldChange &lt; -log2(fc)</code></pre>
@@ -606,22 +598,14 @@ head(results_minus_vs_plus)</code></pre>
 <pre><code>log2 fold change (MLE): condition minus vs plus 
 Wald test p-value: condition minus vs plus 
 DataFrame with 6 rows and 7 columns
-                      baseMean log2FoldChange     lfcSE      stat    pvalue
-                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830
-ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301
-ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476
-ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147
-ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476
-ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468
-                        padj        call
-                   &lt;numeric&gt; &lt;character&gt;
-ENSMUSG00000000001  0.868573          NS
-ENSMUSG00000000028  0.902900          NS
-ENSMUSG00000000031  0.995391          NS
-ENSMUSG00000000037  0.950613          NS
-ENSMUSG00000000049  0.998043          NS
-ENSMUSG00000000056  0.982479          NS</code></pre>
+                      baseMean log2FoldChange     lfcSE      stat    pvalue      padj        call
+                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;character&gt;
+ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830  0.868573          NS
+ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301  0.902900          NS
+ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476  0.995391          NS
+ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147  0.950613          NS
+ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476  0.998043          NS
+ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468  0.982479          NS</code></pre>
 <p>Finally, looking ahead to when we plot these values as colors in a
 volcano plot, let’s make this <code>call</code> column a factor and
 specify the level ordering:</p>
@@ -630,22 +614,14 @@ head(results_minus_vs_plus)</code></pre>
 <pre><code>log2 fold change (MLE): condition minus vs plus 
 Wald test p-value: condition minus vs plus 
 DataFrame with 6 rows and 7 columns
-                      baseMean log2FoldChange     lfcSE      stat    pvalue
-                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830
-ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301
-ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476
-ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147
-ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476
-ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468
-                        padj     call
-                   &lt;numeric&gt; &lt;factor&gt;
-ENSMUSG00000000001  0.868573       NS
-ENSMUSG00000000028  0.902900       NS
-ENSMUSG00000000031  0.995391       NS
-ENSMUSG00000000037  0.950613       NS
-ENSMUSG00000000049  0.998043       NS
-ENSMUSG00000000056  0.982479       NS</code></pre>
+                      baseMean log2FoldChange     lfcSE      stat    pvalue      padj     call
+                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;factor&gt;
+ENSMUSG00000000001  1489.83039       0.297760  0.210310  1.415815  0.156830  0.868573       NS
+ENSMUSG00000000028  1748.93544       0.226421  0.176795  1.280695  0.200301  0.902900       NS
+ENSMUSG00000000031  2151.87715       0.457635  0.764579  0.598545  0.549476  0.995391       NS
+ENSMUSG00000000037    24.91672       0.579130  0.561259  1.031840  0.302147  0.950613       NS
+ENSMUSG00000000049     7.78377      -0.899483  1.553063 -0.579167  0.562476  0.998043       NS
+ENSMUSG00000000056 19653.54030      -0.174048  0.203529 -0.855151  0.392468  0.982479       NS</code></pre>
 <blockquote>
 <h1 id="tip" class="unlisted unnumbered">Tip</h1>
 <p>It is often helpful to include code like this in differential
@@ -858,16 +834,14 @@ documentation for <code>dplyr::left_join()</code> and merge the
     left_join(id_mapping, by = c(&#39;id&#39; = &#39;ensembl_gene_id&#39;))
 head(results_minus_vs_plus_annotated)</code></pre>
 <pre><code># A tibble: 6 × 9
-  id                 baseM…¹ log2F…² lfcSE  stat   pvalue     padj call  exter…³
-  &lt;chr&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;chr&gt;  
-1 ENSMUSG00000032715  1178.    3.64  0.450  8.10 5.71e-16 7.08e-12 Up    Trib3  
-2 ENSMUSG00000101645    77.3 -10.1   1.33  -7.58 3.42e-14 2.12e-10 Down  Gm28635
-3 ENSMUSG00000027313   243.    2.67  0.410  6.50 7.96e-11 2.47e- 7 Up    Chac1  
-4 ENSMUSG00000027889  3250.    0.946 0.145  6.52 7.00e-11 2.47e- 7 Up    Ampd2  
-5 ENSMUSG00000054136    92.6   3.39  0.526  6.44 1.19e-10 2.95e- 7 Up    Adm2   
-6 ENSMUSG00000020142   625.    1.72  0.287  5.99 2.07e- 9 4.28e- 6 Up    Slc1a4 
-# … with abbreviated variable names ¹​baseMean, ²​log2FoldChange,
-#   ³​external_gene_name</code></pre>
+  id                 baseMean log2FoldChange lfcSE  stat   pvalue     padj call  external_gene_name
+  &lt;chr&gt;                 &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;chr&gt;             
+1 ENSMUSG00000032715   1178.           3.64  0.450  8.10 5.71e-16 7.08e-12 Up    Trib3             
+2 ENSMUSG00000101645     77.3        -10.1   1.33  -7.58 3.42e-14 2.12e-10 Down  Gm28635           
+3 ENSMUSG00000027313    243.           2.67  0.410  6.50 7.96e-11 2.47e- 7 Up    Chac1             
+4 ENSMUSG00000027889   3250.           0.946 0.145  6.52 7.00e-11 2.47e- 7 Up    Ampd2             
+5 ENSMUSG00000054136     92.6          3.39  0.526  6.44 1.19e-10 2.95e- 7 Up    Adm2              
+6 ENSMUSG00000020142    625.           1.72  0.287  5.99 2.07e- 9 4.28e- 6 Up    Slc1a4            </code></pre>
 <p>We can use some of the <code>tidyverse</code> functions we’ve
 encountered previously to rename the <code>external_gene_name</code>
 column to <code>symbol</code> and to move it into the second column
@@ -880,20 +854,19 @@ in a moment.</p>
     dplyr::select(id, symbol, everything())
 results_minus_vs_plus_annotated</code></pre>
 <pre><code># A tibble: 16,249 × 9
-   id                 symbol baseM…¹ log2F…² lfcSE  stat   pvalue     padj call 
-   &lt;chr&gt;              &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;
- 1 ENSMUSG00000032715 Trib3   1178.    3.64  0.450  8.10 5.71e-16 7.08e-12 Up   
- 2 ENSMUSG00000101645 Gm286…    77.3 -10.1   1.33  -7.58 3.42e-14 2.12e-10 Down 
- 3 ENSMUSG00000027313 Chac1    243.    2.67  0.410  6.50 7.96e-11 2.47e- 7 Up   
- 4 ENSMUSG00000027889 Ampd2   3250.    0.946 0.145  6.52 7.00e-11 2.47e- 7 Up   
- 5 ENSMUSG00000054136 Adm2      92.6   3.39  0.526  6.44 1.19e-10 2.95e- 7 Up   
- 6 ENSMUSG00000020142 Slc1a4   625.    1.72  0.287  5.99 2.07e- 9 4.28e- 6 Up   
- 7 ENSMUSG00000040280 Ndufa…    85.9   3.62  0.628  5.75 8.68e- 9 1.54e- 5 Up   
- 8 ENSMUSG00000023951 Vegfa    350.    2.44  0.432  5.64 1.67e- 8 2.59e- 5 Up   
- 9 ENSMUSG00000115420 Rmrp      16.0 -21.9   3.91  -5.60 2.11e- 8 2.90e- 5 Down 
-10 ENSMUSG00000027737 Slc7a…   119.    2.32  0.429  5.41 6.47e- 8 8.02e- 5 Up   
-# … with 16,239 more rows, and abbreviated variable names ¹​baseMean,
-#   ²​log2FoldChange</code></pre>
+   id                 symbol   baseMean log2FoldChange lfcSE  stat   pvalue     padj call 
+   &lt;chr&gt;              &lt;chr&gt;       &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;
+ 1 ENSMUSG00000032715 Trib3      1178.           3.64  0.450  8.10 5.71e-16 7.08e-12 Up   
+ 2 ENSMUSG00000101645 Gm28635      77.3        -10.1   1.33  -7.58 3.42e-14 2.12e-10 Down 
+ 3 ENSMUSG00000027313 Chac1       243.           2.67  0.410  6.50 7.96e-11 2.47e- 7 Up   
+ 4 ENSMUSG00000027889 Ampd2      3250.           0.946 0.145  6.52 7.00e-11 2.47e- 7 Up   
+ 5 ENSMUSG00000054136 Adm2         92.6          3.39  0.526  6.44 1.19e-10 2.95e- 7 Up   
+ 6 ENSMUSG00000020142 Slc1a4      625.           1.72  0.287  5.99 2.07e- 9 4.28e- 6 Up   
+ 7 ENSMUSG00000040280 Ndufa4l2     85.9          3.62  0.628  5.75 8.68e- 9 1.54e- 5 Up   
+ 8 ENSMUSG00000023951 Vegfa       350.           2.44  0.432  5.64 1.67e- 8 2.59e- 5 Up   
+ 9 ENSMUSG00000115420 Rmrp         16.0        -21.9   3.91  -5.60 2.11e- 8 2.90e- 5 Down 
+10 ENSMUSG00000027737 Slc7a11     119.           2.32  0.429  5.41 6.47e- 8 8.02e- 5 Up   
+# … with 16,239 more rows</code></pre>
 <p>And now we have our differential expression results annotated with
 gene symbols, which can help in the interpretation of the results, and
 can be used in downstream analysis such as functional analysis.</p>
@@ -1033,69 +1006,50 @@ class="uri">http://dputhier.github.io/jgb71e-polytech-bioinfo-app/practical/rna-
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.2.1 (2022-06-23)
+<pre><code>R version 4.2.2 (2022-10-31)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur ... 10.16
+Running under: macOS Ventura 13.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] forcats_0.5.2               stringr_1.4.1              
- [3] purrr_0.3.5                 readr_2.1.3                
- [5] tibble_3.1.8                tidyverse_1.3.2            
- [7] biomaRt_2.52.0              data.table_1.14.4          
- [9] RColorBrewer_1.1-3          pheatmap_1.0.12            
-[11] ggrepel_0.9.2               dplyr_1.0.10               
-[13] tidyr_1.2.1                 ggplot2_3.4.0              
-[15] DESeq2_1.36.0               SummarizedExperiment_1.26.1
-[17] Biobase_2.56.0              MatrixGenerics_1.8.1       
-[19] matrixStats_0.62.0          GenomicRanges_1.48.0       
-[21] GenomeInfoDb_1.32.4         IRanges_2.30.1             
-[23] S4Vectors_0.34.0            BiocGenerics_0.42.0        
-[25] knitr_1.40                  rmarkdown_2.17             
+ [1] biomaRt_2.52.0              data.table_1.14.4           RColorBrewer_1.1-3         
+ [4] pheatmap_1.0.12             ggrepel_0.9.1               dplyr_1.0.10               
+ [7] tidyr_1.2.1                 ggplot2_3.4.0               DESeq2_1.36.0              
+[10] SummarizedExperiment_1.26.1 Biobase_2.56.0              MatrixGenerics_1.8.1       
+[13] matrixStats_0.62.0          GenomicRanges_1.48.0        GenomeInfoDb_1.32.4        
+[16] IRanges_2.30.1              S4Vectors_0.34.0            BiocGenerics_0.42.0        
+[19] knitr_1.40                  rmarkdown_2.17             
 
 loaded via a namespace (and not attached):
- [1] googledrive_2.0.0      colorspace_2.0-3       ellipsis_0.3.2        
- [4] XVector_0.36.0         fs_1.5.2               farver_2.1.1          
- [7] bit64_4.0.5            AnnotationDbi_1.58.0   fansi_1.0.3           
-[10] lubridate_1.9.0        xml2_1.3.3             codetools_0.2-18      
-[13] splines_4.2.1          cachem_1.0.6           geneplotter_1.74.0    
-[16] jsonlite_1.8.3         broom_1.0.1            annotate_1.74.0       
-[19] dbplyr_2.2.1           png_0.1-7              compiler_4.2.1        
-[22] httr_1.4.4             backports_1.4.1        assertthat_0.2.1      
-[25] Matrix_1.5-1           fastmap_1.1.0          gargle_1.2.1          
-[28] cli_3.4.1              htmltools_0.5.3        prettyunits_1.1.1     
-[31] tools_4.2.1            gtable_0.3.1           glue_1.6.2            
-[34] GenomeInfoDbData_1.2.8 rappdirs_0.3.3         Rcpp_1.0.9            
-[37] cellranger_1.1.0       jquerylib_0.1.4        vctrs_0.5.0           
-[40] Biostrings_2.64.1      xfun_0.34              rvest_1.0.3           
-[43] timechange_0.1.1       lifecycle_1.0.3        XML_3.99-0.12         
-[46] googlesheets4_1.0.1    zlibbioc_1.42.0        scales_1.2.1          
-[49] hms_1.1.2              parallel_4.2.1         yaml_2.3.6            
-[52] curl_4.3.3             memoise_2.0.1          sass_0.4.2            
-[55] stringi_1.7.8          RSQLite_2.2.18         highr_0.9             
-[58] genefilter_1.78.0      filelock_1.0.2         BiocParallel_1.30.4   
-[61] rlang_1.0.6            pkgconfig_2.0.3        bitops_1.0-7          
-[64] evaluate_0.18          lattice_0.20-45        labeling_0.4.2        
-[67] bit_4.0.4              tidyselect_1.2.0       magrittr_2.0.3        
-[70] R6_2.5.1               generics_0.1.3         DelayedArray_0.22.0   
-[73] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
-[76] withr_2.5.0            survival_3.4-0         KEGGREST_1.36.3       
-[79] RCurl_1.98-1.9         modelr_0.1.9           crayon_1.5.2          
-[82] utf8_1.2.2             BiocFileCache_2.4.0    tzdb_0.3.0            
-[85] progress_1.2.2         readxl_1.4.1           locfit_1.5-9.6        
-[88] grid_4.2.1             blob_1.2.3             reprex_2.0.2          
-[91] digest_0.6.30          xtable_1.8-4           munsell_0.5.0         
-[94] bslib_0.4.1           </code></pre>
+ [1] bitops_1.0-7           bit64_4.0.5            filelock_1.0.2         progress_1.2.2        
+ [5] httr_1.4.4             tools_4.2.2            bslib_0.4.1            utf8_1.2.2            
+ [9] R6_2.5.1               DBI_1.1.3              colorspace_2.0-3       withr_2.5.0           
+[13] prettyunits_1.1.1      tidyselect_1.2.0       curl_4.3.3             bit_4.0.4             
+[17] compiler_4.2.2         cli_3.4.1              xml2_1.3.3             DelayedArray_0.22.0   
+[21] labeling_0.4.2         sass_0.4.2             scales_1.2.1           genefilter_1.78.0     
+[25] rappdirs_0.3.3         stringr_1.4.1          digest_0.6.30          XVector_0.36.0        
+[29] pkgconfig_2.0.3        htmltools_0.5.3        dbplyr_2.2.1           fastmap_1.1.0         
+[33] highr_0.9              rlang_1.0.6            rstudioapi_0.14        RSQLite_2.2.18        
+[37] jquerylib_0.1.4        generics_0.1.3         farver_2.1.1           jsonlite_1.8.3        
+[41] BiocParallel_1.30.4    RCurl_1.98-1.9         magrittr_2.0.3         GenomeInfoDbData_1.2.8
+[45] Matrix_1.5-1           Rcpp_1.0.9             munsell_0.5.0          fansi_1.0.3           
+[49] lifecycle_1.0.3        stringi_1.7.8          yaml_2.3.6             zlibbioc_1.16.0       
+[53] BiocFileCache_2.4.0    grid_4.2.2             blob_1.2.3             parallel_4.2.2        
+[57] crayon_1.5.2           lattice_0.20-45        Biostrings_2.64.1      splines_4.2.2         
+[61] annotate_1.48.0        hms_1.1.2              KEGGREST_1.36.3        locfit_1.5-9.6        
+[65] pillar_1.8.1           geneplotter_1.74.0     codetools_0.2-18       XML_3.99-0.12         
+[69] glue_1.6.2             evaluate_0.17          png_0.1-7              vctrs_0.5.0           
+[73] gtable_0.3.1           purrr_0.3.5            assertthat_0.2.1       cachem_1.0.6          
+[77] xfun_0.34              xtable_1.8-4           survival_3.4-0         tibble_3.1.8          
+[81] AnnotationDbi_1.58.0   memoise_2.0.1          ellipsis_0.3.2        </code></pre>
 <hr />
 <p>These materials have been adapted and extended from materials listed
 above. These are open access materials distributed under the terms of

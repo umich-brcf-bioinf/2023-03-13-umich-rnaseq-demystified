@@ -18,8 +18,6 @@
 # install.packages("dplyr")
 # }
 
-#setwd("~/git/2022-08-08-umich-rnaseq-demystified")
-
 library(rmarkdown)
 
 render('source/workshop_setup/preworkshop_checklist.md', output_dir='html/workshop_setup/')

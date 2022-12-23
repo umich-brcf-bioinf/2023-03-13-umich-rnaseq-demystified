@@ -11,7 +11,7 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2022-11-16" />
+<meta name="date" content="2022-12-23" />
 
 <title>Module 11X: Bonus Content</title>
 
@@ -458,7 +458,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Module 11X: Bonus Content</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2022-11-16</h4>
+<h4 class="date">2022-12-23</h4>
 
 </div>
 
@@ -659,69 +659,55 @@ class="uri">https://training.galaxyproject.org/training-material/topics/transcri
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.2.1 (2022-06-23)
+<pre><code>R version 4.2.2 (2022-10-31)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur ... 10.16
+Running under: macOS Ventura 13.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] forcats_0.5.2               stringr_1.4.1              
- [3] purrr_0.3.5                 readr_2.1.3                
- [5] tibble_3.1.8                tidyverse_1.3.2            
- [7] biomaRt_2.52.0              data.table_1.14.4          
- [9] RColorBrewer_1.1-3          pheatmap_1.0.12            
-[11] ggrepel_0.9.2               dplyr_1.0.10               
-[13] tidyr_1.2.1                 ggplot2_3.4.0              
-[15] DESeq2_1.36.0               SummarizedExperiment_1.26.1
-[17] Biobase_2.56.0              MatrixGenerics_1.8.1       
-[19] matrixStats_0.62.0          GenomicRanges_1.48.0       
-[21] GenomeInfoDb_1.32.4         IRanges_2.30.1             
-[23] S4Vectors_0.34.0            BiocGenerics_0.42.0        
+ [1] forcats_0.5.2               stringr_1.4.1               purrr_0.3.5                
+ [4] readr_2.1.3                 tibble_3.1.8                tidyverse_1.3.2            
+ [7] biomaRt_2.52.0              data.table_1.14.4           RColorBrewer_1.1-3         
+[10] pheatmap_1.0.12             ggrepel_0.9.1               dplyr_1.0.10               
+[13] tidyr_1.2.1                 ggplot2_3.4.0               DESeq2_1.36.0              
+[16] SummarizedExperiment_1.26.1 Biobase_2.56.0              MatrixGenerics_1.8.1       
+[19] matrixStats_0.62.0          GenomicRanges_1.48.0        GenomeInfoDb_1.32.4        
+[22] IRanges_2.30.1              S4Vectors_0.34.0            BiocGenerics_0.42.0        
 [25] knitr_1.40                  rmarkdown_2.17             
 
 loaded via a namespace (and not attached):
- [1] googledrive_2.0.0      colorspace_2.0-3       ellipsis_0.3.2        
- [4] XVector_0.36.0         fs_1.5.2               farver_2.1.1          
- [7] bit64_4.0.5            AnnotationDbi_1.58.0   fansi_1.0.3           
-[10] lubridate_1.9.0        xml2_1.3.3             codetools_0.2-18      
-[13] splines_4.2.1          cachem_1.0.6           geneplotter_1.74.0    
-[16] jsonlite_1.8.3         broom_1.0.1            annotate_1.74.0       
-[19] dbplyr_2.2.1           png_0.1-7              compiler_4.2.1        
-[22] httr_1.4.4             backports_1.4.1        assertthat_0.2.1      
-[25] Matrix_1.5-1           fastmap_1.1.0          gargle_1.2.1          
-[28] cli_3.4.1              htmltools_0.5.3        prettyunits_1.1.1     
-[31] tools_4.2.1            gtable_0.3.1           glue_1.6.2            
-[34] GenomeInfoDbData_1.2.8 rappdirs_0.3.3         Rcpp_1.0.9            
-[37] cellranger_1.1.0       jquerylib_0.1.4        vctrs_0.5.0           
-[40] Biostrings_2.64.1      xfun_0.34              rvest_1.0.3           
-[43] timechange_0.1.1       lifecycle_1.0.3        XML_3.99-0.12         
-[46] googlesheets4_1.0.1    zlibbioc_1.42.0        scales_1.2.1          
-[49] hms_1.1.2              parallel_4.2.1         yaml_2.3.6            
-[52] curl_4.3.3             memoise_2.0.1          sass_0.4.2            
-[55] stringi_1.7.8          RSQLite_2.2.18         highr_0.9             
-[58] genefilter_1.78.0      filelock_1.0.2         BiocParallel_1.30.4   
-[61] rlang_1.0.6            pkgconfig_2.0.3        bitops_1.0-7          
-[64] evaluate_0.18          lattice_0.20-45        labeling_0.4.2        
-[67] bit_4.0.4              tidyselect_1.2.0       magrittr_2.0.3        
-[70] R6_2.5.1               generics_0.1.3         DelayedArray_0.22.0   
-[73] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
-[76] withr_2.5.0            survival_3.4-0         KEGGREST_1.36.3       
-[79] RCurl_1.98-1.9         modelr_0.1.9           crayon_1.5.2          
-[82] utf8_1.2.2             BiocFileCache_2.4.0    tzdb_0.3.0            
-[85] progress_1.2.2         readxl_1.4.1           locfit_1.5-9.6        
-[88] grid_4.2.1             blob_1.2.3             reprex_2.0.2          
-[91] digest_0.6.30          xtable_1.8-4           munsell_0.5.0         
-[94] bslib_0.4.1           </code></pre>
+ [1] googledrive_2.0.0      colorspace_2.0-3       ellipsis_0.3.2         XVector_0.36.0        
+ [5] fs_1.5.2               rstudioapi_0.14        farver_2.1.1           bit64_4.0.5           
+ [9] AnnotationDbi_1.58.0   fansi_1.0.3            lubridate_1.8.0        xml2_1.3.3            
+[13] codetools_0.2-18       splines_4.2.2          cachem_1.0.6           geneplotter_1.74.0    
+[17] jsonlite_1.8.3         broom_1.0.1            annotate_1.48.0        dbplyr_2.2.1          
+[21] png_0.1-7              compiler_4.2.2         httr_1.4.4             backports_1.4.1       
+[25] assertthat_0.2.1       Matrix_1.5-1           fastmap_1.1.0          gargle_1.2.1          
+[29] cli_3.4.1              htmltools_0.5.3        prettyunits_1.1.1      tools_4.2.2           
+[33] gtable_0.3.1           glue_1.6.2             GenomeInfoDbData_1.2.8 rappdirs_0.3.3        
+[37] Rcpp_1.0.9             cellranger_1.1.0       jquerylib_0.1.4        vctrs_0.5.0           
+[41] Biostrings_2.64.1      xfun_0.34              rvest_1.0.3            lifecycle_1.0.3       
+[45] XML_3.99-0.12          googlesheets4_1.0.1    zlibbioc_1.16.0        scales_1.2.1          
+[49] hms_1.1.2              parallel_4.2.2         yaml_2.3.6             curl_4.3.3            
+[53] memoise_2.0.1          sass_0.4.2             stringi_1.7.8          RSQLite_2.2.18        
+[57] highr_0.9              genefilter_1.78.0      filelock_1.0.2         BiocParallel_1.30.4   
+[61] rlang_1.0.6            pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.17         
+[65] lattice_0.20-45        labeling_0.4.2         bit_4.0.4              tidyselect_1.2.0      
+[69] magrittr_2.0.3         R6_2.5.1               generics_0.1.3         DelayedArray_0.22.0   
+[73] DBI_1.1.3              pillar_1.8.1           haven_2.5.1            withr_2.5.0           
+[77] survival_3.4-0         KEGGREST_1.36.3        RCurl_1.98-1.9         modelr_0.1.9          
+[81] crayon_1.5.2           utf8_1.2.2             BiocFileCache_2.4.0    tzdb_0.3.0            
+[85] progress_1.2.2         readxl_1.4.1           locfit_1.5-9.6         grid_4.2.2            
+[89] blob_1.2.3             reprex_2.0.2           digest_0.6.30          xtable_1.8-4          
+[93] munsell_0.5.0          bslib_0.4.1           </code></pre>
 <hr />
 <p>These materials have been adapted and extended from materials listed
 above. These are open access materials distributed under the terms of

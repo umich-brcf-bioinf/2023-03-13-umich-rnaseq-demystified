@@ -14,7 +14,7 @@
 
 <title>Breakout 03</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -192,8 +192,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -201,16 +201,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -401,32 +394,46 @@ pre {
 }
 </style>
 <p><br></p>
-<div id="transfer-multiqc-report-with-scp-exercise-breakout" class="section level2">
-<h2>Transfer MultiQC Report With <code>scp</code> Exercise (Breakout)</h2>
+<div id="transfer-multiqc-report-with-scp-exercise-breakout"
+class="section level2">
+<h2>Transfer MultiQC Report With <code>scp</code> Exercise
+(Breakout)</h2>
 <p><br></p>
 <p><strong>15 Minutes</strong></p>
 <p><br></p>
-<p>We just tried two new variations of our MultiQC command, one pointed at the directory of our trimmed FastQC results, and another at the whole project directory. For convenience, we’ve included these reports in the zipped folder you downloaded at the beginning of the class. However, it’s also useful to know how to transfer data to/from a remote instance. We’ll explore how to use <code>scp</code> in this exercise.</p>
+<p>We just tried two new variations of our MultiQC command, one pointed
+at the directory of our trimmed FastQC results, and another at the whole
+project directory. For convenience, we’ve included these reports in the
+zipped folder you downloaded at the beginning of the class. However,
+it’s also useful to know how to transfer data to/from a remote instance.
+We’ll explore how to use <code>scp</code> in this exercise.</p>
 <p><br></p>
 <div id="instructions" class="section level3">
 <h3>Instructions:</h3>
 <p><br></p>
 <ul>
-<li>One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.</li>
-<li>The group members should discuss the exercise and work together to find a solution.</li>
-<li>After a solution is found, allow time for all members to complete the exercise.</li>
+<li>One group member should share their screen in the breakout room. If
+nobody volunteers, a helper may randomly select someone.</li>
+<li>The group members should discuss the exercise and work together to
+find a solution.</li>
+<li>After a solution is found, allow time for all members to complete
+the exercise.</li>
 </ul>
 <p><br></p>
 <ul>
-<li>Make sure that you are viewing your local terminal. The <code>scp</code> command should be run from your own machine.</li>
-<li>Use <code>scp</code> to transfer the trimmed read fastqc report and the comprehensive (all) report from the AWS machine to your personal computer.</li>
+<li>Make sure that you are viewing your local terminal. The
+<code>scp</code> command should be run from your own machine.</li>
+<li>Use <code>scp</code> to transfer the trimmed read fastqc report and
+the comprehensive (all) report from the AWS machine to your personal
+computer.</li>
 <li>Confirm that you’ve received the reports</li>
 </ul>
 <p><br></p>
 <blockquote>
 <p>Hint: The command format is:</p>
 <pre><code>scp source destination</code></pre>
-<p>You will need to provide your ssh login information to complete the transfer</p>
+<p>You will need to provide your ssh login information to complete the
+transfer</p>
 </blockquote>
 <p><br></p>
 </div>

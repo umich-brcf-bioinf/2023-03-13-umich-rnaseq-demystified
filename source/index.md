@@ -31,7 +31,7 @@ body, td {
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Alignment QC and Quantification](Module04_Alignment_QC_and_Quantification.html) |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Additional Details](Module05_Additional_Details.html) |
 |  1:00 | Day 1 concludes |
-#### Day 2 (Chris & Raymond)
+#### Day 2 (Chris & Dana)
 | | |
 | :---  | :---- |
 |  9:00 | Review and questions |
@@ -45,7 +45,7 @@ body, td {
 | 11:15 | **Expression plots:** |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Sample QC](Module09_SampleQCViz.html)
 |  1:00 | Day 2 concludes |
-#### Day 3 (Raymond)
+#### Day 3 (Dana)
 | | |
 | :---  | :---- |
 |  9:00 | Review |

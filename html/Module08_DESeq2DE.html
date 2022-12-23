@@ -11,7 +11,7 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2022-11-16" />
+<meta name="date" content="2022-12-23" />
 
 <title>Module 08: DE Normalization and Modeling</title>
 
@@ -459,7 +459,7 @@ div.tocify {
 <h1 class="title toc-ignore">Module 08: DE Normalization and
 Modeling</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2022-11-16</h4>
+<h4 class="date">2022-12-23</h4>
 
 </div>
 
@@ -596,8 +596,7 @@ dds</code></pre>
 dim: 16249 6 
 metadata(1): version
 assays(4): counts mu H cooks
-rownames(16249): ENSMUSG00000000001 ENSMUSG00000000028 ...
-  ENSMUSG00000118651 ENSMUSG00000118653
+rownames(16249): ENSMUSG00000000001 ENSMUSG00000000028 ... ENSMUSG00000118651 ENSMUSG00000118653
 rowData names(22): baseMean baseVar ... deviance maxCooks
 colnames(6): sample_A sample_B ... sample_E sample_F
 colData names(3): genotype condition sizeFactor</code></pre>
@@ -646,8 +645,7 @@ example.</p>
 <pre><code>final dispersion estimates</code></pre>
 <pre><code>fitting model and testing</code></pre>
 <pre class="r"><code>resultsNames(dds_batch)</code></pre>
-<pre><code>[1] &quot;Intercept&quot;               &quot;batch_Day2_vs_Day1&quot;     
-[3] &quot;batch_Day3_vs_Day1&quot;      &quot;condition_minus_vs_plus&quot;</code></pre>
+<pre><code>[1] &quot;Intercept&quot;               &quot;batch_Day2_vs_Day1&quot;      &quot;batch_Day3_vs_Day1&quot;      &quot;condition_minus_vs_plus&quot;</code></pre>
 If you run through the optional exercises, you can explore the impact of
 adding a covariate by substituting <code>dds_patient</code> for
 <code>dds</code> and re-running those commands since both DESeq2 objects
