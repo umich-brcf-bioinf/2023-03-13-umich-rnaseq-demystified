@@ -82,8 +82,6 @@ The command to generate the normalized count object has a few parts, including `
 rld = rlog(dds, blind = TRUE)
 ```
 
-Note: We might see a message that our data did not fit the default 'parametric' dispersion model so a local regression was substituted. If we had more time, we might look at a dispersion plot with the `plotDispEsts(dds)` function, but as [this bioconductor thread](https://support.bioconductor.org/p/107937/) discusses, other visualizations of our data might be more helpful and/or easier to interpret.
-
 Next, we'll look at the results of the transformation by extracting the values with the `assay()` function.
 
 ```{r CountNormCheck}
@@ -92,46 +90,89 @@ head(assay(rld), 2)
 
 Looking at the rld values, we can see that they are now in log scale. Since we set `blind=TRUE`, the transformation is blind to the sample information we specified in the design formula. The normalized counts are helpful for visualization methods during expression-level quality assessment but **aren't used in the model fitting**.
 
+We'll come back to these normalized data, but first let's write out both the raw and normalized count tables to file.
+
+### Output count tables
+
+To output the raw counts, we will need to use the `counts` function to access the count table from within its larger `DESeqDataSet` object.
+
+```{r OutputCountsRaw, eval = FALSE}
+write.csv(counts(dds, normalized = FALSE), file="outputs/tables/DESeq2_raw_counts.csv")
+```
+
+Then we'll output the rlog count table, using the `assay` function to access the normalized count table from within its larger `DESeqDataSet` object.
+
+```{r OutputCountsRlog, eval = FALSE}
+write.csv(assay(rld), file="outputs/tables/DESeq2_rlog_normalized_counts.csv")
+```
+
+
 # DESeq2 Model Fitting
 
-Next, we'll fit our standard model using the `DESeq` function and take a look at the objects we generate. This command applies the model to our data, using the sample information supplied when generating the `dds` object so it takes some time to run.
+Next, we'll fit our standard model using the `DESeq` function and take a look at the objects we generate. This command applies the model to our data, using the sample information supplied when generating the initial `dds` object so can take some time to run.
 
 ```{r FitModelStandard, message=FALSE}
-dds = DESeq(dds)
-dds
+dds_fitted = DESeq(dds_filtered)
+dds_fitted
 ```
+
+<details>
+    <summary>*Dispersion models and possible warning messages*</summary>
+
+    Depending on the data set you are analyzing, you may see a warning that the default 'parametric' dispersion model so a local regression was substituted. When seeing this warning, we recommend looking at a dispersion plot with the `plotDispEsts(dds)` function, but as [this bioconductor thread](https://support.bioconductor.org/p/107937/) discusses, other visualizations of our data might be more helpful and/or easier to interpret why the data doesn't fit the default parametric model.
+
+</details>
+<br>
+
 
 Notice that there is now more information in the `DESeqDataSet` object than there was prior to our normalization. There is information about the model fit and about the library size normalization. DESeq2 will use this information when we perform the test for differential expression.
 
 The `DESeq()` function is actually doing three things automatically for us. It calculates:
 
-1. The size factors to normalize for library size with `estimateSizeFactors(dds)`,
-2. Dispersion estimates to shrink the dispersions with `estimateDispersions(dds)`, and
-3. The Wald test statistics with `nbinomWaldTest(dds)`.
+1. The size factors to normalize for library size with `estimateSizeFactors(dds_filtered)`,
+2. Dispersion estimates to shrink the dispersions with `estimateDispersions(dds_filtered)`, and
+3. The Wald test statistics with `nbinomWaldTest(dds_filtered)`.
 
 The `resultsNames()` function returns the names of the estimated effects of the model.
 
 ```{r FitModelStandardCheck1, eval=TRUE}
-resultsNames(dds)
+resultsNames(dds_fitted)
 ```
 
 The results include the single comparison representing the two levels of `condition`. If there were more levels in the `condition` column, there would be more results listed here because DESeq2 would implicitly compare all other levels to the reference level.
 
-**Checkpoint**: *If you see the same results when you execute `resultsNames(dds)`, please indicate with the green 'yes' button. Otherwise, please use the red 'x' button to get help before the break*
+
+**Checkpoint**: *If you see the same results when you execute `resultsNames(dds_filtered)`, please indicate with the green 'yes' button. Otherwise, please use the red 'x' button to get help before the break*
+
+## Save fitted model and data in Robj
+
+It can be useful to save key R objects to file as we proceed through our analysis - before we do that, let's look at the documentation for the `save` function to see if it does what we want.
+
+```{r SaveDocumentation}
+?save
+```
+
+As we can see from the documentation the function `save` writes an "external representation" of R objects that can be read back from the file at a later date by using the function `load` or `attach` in most cases. We'll proceed with saving our `dds_fitted` object, creating a subdirectory first.
+
+```{r WriteFitModelObject}
+dir.create("outputs/Robjs")
+save(dds_fitted,
+          file="outputs/Robjs/dds_fitted.Robj")
+```
+
 
 # Optional content
 
 <details>
-<summary>*Click for fitting a model that includes a covariate*</summary>
+<summary>*Click to fit a model that includes a covariate*</summary>
 
 If you executed the commands in the additional content section from Module 07, you can fit a separate DESeq2 model for the batch example.
 
 ```{r FitModelCovariate}
-dds_batch = DESeq(dds_batch)
-resultsNames(dds_batch)
+dds_batch_fitted = DESeq(dds_batch)
+resultsNames(dds_batch_fitted)
 ```
 
-If you run through the optional exercises, you can explore the impact of adding a covariate by substituting `dds_patient` for `dds` and re-running those commands since both DESeq2 objects have their data organized in the same way.
 </details>
 
 <br>
@@ -143,7 +184,8 @@ In this section, we:
 * Learned about count normalizations and uses
 * Generated a normalized count table
 * Fit two DESeq2 models for our data
-* Saw the impact of including a covariate in our model
+* (Optional) - saw the impact of including a covariate in our model
+* Wrote intermediate data to file
 
 ---
 
@@ -161,5 +203,7 @@ Training resources used to develop materials
 # Hidden code block to write out data for knitting
 # save.image(file = "rdata/RunningData.RData")
 ```
+
+---
 
 These materials have been adapted and extended from materials listed above. These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.

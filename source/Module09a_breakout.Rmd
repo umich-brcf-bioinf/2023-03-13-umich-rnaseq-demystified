@@ -1,5 +1,5 @@
 ---
-title: "Breakout Exercise 1 - Expression Heatmap"
+title: "... Exercise 1 - Fancy PCA ..."
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:

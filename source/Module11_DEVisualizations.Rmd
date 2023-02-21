@@ -34,7 +34,7 @@ knitr_fig_path("11-")
 ```
 
 > # Objectives {.unlisted .unnumbered}
-> * Understand advantages of using gene ids when analyzing data.
+> * Understand advantages of using gene ids when analyzing RNA-seq data.
 > * Given a list of ENSEMBL gene ids, add gene symbols and Entrez accessions.
 > * Generate common visualizations for differential expression comparisons
 > * Understand choosing thresholds for calling differentially expressed genes
@@ -62,13 +62,21 @@ Here we will generate summary figures for our results and annotate our DE tables
 
 # Summarizing DE results
 
-Part of differential expression analysis is generating visualizations and summaries to share our results. While the DESeq2 tutorial provides [examples of other visualizations](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#exploring-and-exporting-results), a common visualization to summarize DE comparisons are [volcano plots](http://resources.qiagenbioinformatics.com/manuals/clcgenomicsworkbench/752/index.php?manual=Volcano_plots_inspecting_result_statistical_analysis.html).
+Part of differential expression analysis is generating visualizations and summary tables to share our results. While the DESeq2 vignette provides [examples of other visualizations](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#exploring-and-exporting-results), a common visualization to summarize DE comparisons are [volcano plots](http://resources.qiagenbioinformatics.com/manuals/clcgenomicsworkbench/752/index.php?manual=Volcano_plots_inspecting_result_statistical_analysis.html).
 
 ## Tabular DE summary
 
-To summarize DE genes, we first need thresholds for determining significance. A reasonable threshold for linear fold-change is less than -1.5 or greater than 1.5 (which corresponds to log2 fold-change -0.585 and 0.585, respectively. A standard threshold for the adjusted p-value is less than 0.05.
+To generate a general summary of the DE results, we can use the `summary` function to generate a basic summary by DESeq2.
 
-Let's set these as variables to reuse. This is generally good practice because if these thresholds change upon later consideration, you only have to change them in one location of your script, which will reduce errors from missing some instances in your code.
+```{r DESeq2Summary}
+summary(results_minus_vs_plus)
+```
+
+However, this summary is simply a text output that we are unable to manipulate. Moreover, notice that the thresholds are not quite as we would like them.
+
+To create our own summary, we first need to choose thresholds. A standard threshold for the adjusted p-value is less than 0.05. A reasonable threshold for linear fold-change is less than -1.5 or greater than 1.5 (which corresponds to log2 fold-change -0.585 and 0.585, respectively). Including a fold-change threshold ensures that the DE genes have a reasonable effect size as well as statistical significance.
+
+Let's set these thresholds as variables to reuse. This is generally good practice because if you want to change those thresholds later then you only have to change them in one location of your script, which is faster and can reduce the risk of errors from missing some instances in your code.
 
 ```{r PlotSetup1}
 fc = 1.5
@@ -81,18 +89,11 @@ fdr = 0.05
 >
 > There is a nice [Biostar post that discusses choosing adjusted p-value thresholds](https://www.biostars.org/p/209118/), including cases where a more relaxed threshold might be appropriate and (some heated) discussion of the dangers of adjusting the choosen threshold after running an analysis. Additionally, there is a [Dalmon et al 2012](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-S2-S11) paper about p-value and fold-change thresholds for microarray data that may help provide some context.
 
-To generate a general summary of the DE results, we can use the `summary` function to generate a basic summary by DESeq2.
-
-```{r DESeq2Summary}
-summary(results_minus_vs_plus)
-```
-
-However, this summary is simply a text output that we are unable to manipulate. Moreover, notice that the thresholds are not quite as we would like them.
-
-We can use conditional statements to determine the number of genes that pass our thresholds for each comparison, which we can then use to add information to the results table and plots.
+If we think back to Computational Foundations, conditional statements could allow us to determine the number of genes that pass our thresholds, which would be useful for annotating our results tables and plots.
 
 > # Exercise {.unlisted .unnumbered}
 > How would we identify the number of genes with adjusted p-values < 0.05 and a fold-change above 1.5 (or below -1.5)?
+
 
 <details>
 <summary>Solution</summary>
@@ -102,6 +103,9 @@ Here is one possible answer:
 ```{r StatSigGenes2}
 sum(results_minus_vs_plus$padj < fdr & abs(results_minus_vs_plus$log2FoldChange) >= log2(fc), na.rm = TRUE)
 ```
+
+**Checkpoint**: *If you see the same number of DE ganes with our choosen thresholds, please indicate with a green check. Otherwise use a red x.*
+
 </details>
 <br>
 
@@ -129,7 +133,7 @@ results_minus_vs_plus$call[down_idx] = 'Down'
 head(results_minus_vs_plus)
 ```
 
-Finally, looking ahead to when we plot these values as colors in a volcano plot, let's make this `call` column a factor and specify the level ordering:
+Finally, since plotting functions often require categorical groupings, let's make this `call` column a factor and specify the level ordering:
 
 ```{r FactorCall}
 results_minus_vs_plus$call = factor(results_minus_vs_plus$call, levels = c('Up', 'Down', 'NS'))
@@ -151,30 +155,30 @@ We see quickly how many genes were "Up" in iron replete, how many were "Down" in
 
 ## Visual DE summary
 
-As described by this [Galaxy project tutorial](https://galaxyproject.github.io/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html), a volcano plot is a type of scatterplot that shows statistical significance (adjusted p-value) versus magnitude of change (fold change). In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.
+As described by the [Galaxy project](https://galaxyproject.github.io/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html), a volcano plot is a type of scatterplot that shows statistical significance (adjusted p-value) versus effect size (fold change). In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.
 
 Let's coerce the `DataFrame` which was returned by `DESeq2::results()` into a `tibble` in anticipation of using the `ggplot2` library to plot. We're also going to modify our results table so that the row names become a separate column, and so that it's ordered by adjusted p-value.
 
 ```{r PlotSetup2}
 # Use the rownames argument to create a new column of gene IDs
 # Also arrange by adjusted p-value
-results_minus_vs_plus = as_tibble(results_minus_vs_plus, rownames = 'id') %>% arrange(padj)
+results_forPlot = as_tibble(results_minus_vs_plus, rownames = 'id') %>% arrange(padj)
 ```
 
 Let's start with a very simple volcano plot that plots the `log2FoldChange` on the x-axis, and `-log10(padj)` on the y-axis.
 
 ```{r VolcanoPlot}
 # Initialize the plot, saving as object 'p' and specifying the plot type as 'geom_point'
-p = ggplot(results_minus_vs_plus, aes(x = log2FoldChange, y = -log10(padj))) +
+p = ggplot(results_forPlot, aes(x = log2FoldChange, y = -log10(padj))) +
     geom_point()
 p
 ```
 
-This is a good start, but, as usual it's nice to add better labels to the plot with the `labs()` function:
+This is a good start, but, as usual it's good practice to add better labels to the plot with the `labs()` function:
 
 ```{r VolcanoPlot2}
 # Add plot labels and change the theme
-p = ggplot(results_minus_vs_plus, aes(x = log2FoldChange, y = -log10(padj))) +
+p = ggplot(results_forPlot, aes(x = log2FoldChange, y = -log10(padj))) +
     geom_point() +
     theme_bw() +
     labs(
@@ -186,7 +190,7 @@ p = ggplot(results_minus_vs_plus, aes(x = log2FoldChange, y = -log10(padj))) +
 p
 ```
 
-This is a nice improvement. What if we now added some visual guides to indicate where the significant genes are? We can uset he `geom_vline()` and `geom_hline()` functions to accomplish this:
+What if we now added some visual guides to indicate where the significant genes are? We can use the `geom_vline()` and `geom_hline()` functions to accomplish this:
 
 ```{r VolcanoPlot3}
 # Add threshold lines
@@ -200,30 +204,35 @@ p = p +
 p
 ```
 
-Finally, why not color the points by their significance status? We already created the `call` column that has the correct values. In this case we can get away with adding a last `geom_point()` and specifying the correct aesthetic:
+Finally, why not color the points by their significance status? We already created the `call` column that has the correct values. In this case we can get away with adding `geom_point()` to our existing plot and specifying the correct aesthetic:
 
 ```{r VolcanoPlot4}
 p = p + geom_point(aes(color = call))
 p
 ```
 
-For additional visualizations for our DE results, we included some example code in the Bonus Content module and this [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/06_DGE_visualizing_results.html) includes some nice examples.
+For additional visualizations for our DE results, we included some example code in the [Bonus Content module](https://umich-brcf-bioinf.github.io/2023-03-13-umich-rnaseq-demystified/html/Module11X_BonusContent.html) and this [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/06_DGE_visualizing_results.html) also includes some nice examples.
 
 ### Subsetting significant genes
 
-You may be interested in identifying only the genes that pass your significance thresholds. A useful way to do this is to conditionally subset your results. Again, we already created the `call` column, which makes this relatively simple to do.
+You may be interested in creating a table of only the genes that pass your significance thresholds. A useful way to do this is to conditionally subset your results. Again, we already created the `call` column, which makes this relatively simple to do.
 
 *Note: The tidyverse functions you learned in Software Carpentry could also be alternatively used here.*
 
 ```{r ConditionalSubset}
-res_sig = results_minus_vs_plus[results_minus_vs_plus$call != 'NS', ]
+# tidyr (requires table reformatting)
+res_sig <- as_tibble(results_minus_vs_plus, rownames = "gene_ids") %>% filter(call != 'NS')
+
+# base
+res_sig <- results_minus_vs_plus[results_minus_vs_plus$call != 'NS', ]
+
 head(res_sig)
 dim(res_sig)
 ```
 
 ## Adding genome annotations
 
-Since, gene symbols can change over time or be ambiguous we use, and recommend, using the EMSEMBL reference genome and ENSEMBL IDs for alignments and we've been working with tables and data where all genes are labeled only by their long ENSEMBL ID (you will notice this in the GTF we used in the reference). However, this can make it difficult to quickly look at results for genes of interest.
+Since, gene symbols can change over time or be ambiguous we use, and recommend, using the EMSEMBL reference genome and ENSEMBL IDs for alignments and we've been working with tables and data where all genes are labeled only by their long ENSEMBL ID. However, this can make it difficult to quickly look for genes of interest.
 
 Luckily, Bioconductor provides many tools and resources to facilitate access to [genomic annotation resources](http://bioconductor.org/packages/devel/workflows/vignettes/annotation/inst/doc/Annotation_Resources.html).
 
@@ -236,7 +245,7 @@ library('biomaRt')
 ensembl = useEnsembl(dataset = 'mmusculus_gene_ensembl', biomart='ensembl')
 ```
 
-*Note that this process takes some time and will take up a larger amount of working memory so proceed with caution if you try to run these commands on a laptop with less than 4G of memory*
+**Note** *- this process takes some time and will take up a larger amount of working memory so proceed with caution if you try to run these commands on a laptop with less than 4G of memory*
 
 To identify possible **filters** to restrict our data, we can use the `listFilters` function. To identify the **attributes** we want to retrive, we can use the `listAttributes` function. The best approach is to use [list or search functions](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html#how-to-build-a-biomart-query) to help narrow down the available options.
 
@@ -250,7 +259,7 @@ We can access additional genomic annotations using the [`bioMart` package](https
 ```{r AddAnotation3, warning=FALSE}
 id_mapping = getBM(attributes=c('ensembl_gene_id', 'external_gene_name'),
       filters = 'ensembl_gene_id',
-      values = row.names(assay(dds)),
+      values = row.names(assay(dds_fitted)),
       mart = ensembl)
 # will take some time to run
 
@@ -292,10 +301,9 @@ And now we have our differential expression results annotated with gene symbols,
 
 A key aspect of our analysis is preserving the relevant datasets for both our records and for downstream applications, such as functional enrichments.
 
-
 ## DE results table
 
-Next we'll write out our DE results, now that we've added information to the table to help us interpret the results, and share with collaborators.
+We'll write out our DE results, now that we've added information to the table to help us or our collaborators interpret the results.
 
 ```{r DEResultsOuput, eval = FALSE}
 write.csv(results_minus_vs_plus,
@@ -304,21 +312,21 @@ write.csv(results_minus_vs_plus,
           file="outputs/tables/DE_results_minus_vs_plus.csv")
 ```
 
-## Count tables
 
-The most relevant count tables are the raw, filtered count table that we used as the input for our analysis and the rlog normalized count table that we used for our quality control visualizations.
+## R session data
 
-To output the raw counts, we will need to use the `counts` function to access the count table from within its larger `DESeqDataSet` object.
+In addition to the individual RObj(s) we saved earlier, we can capture a snapshot our entire session using the `save.image` function. This can be loaded in the same manner as an individual Robj.
 
-```{r OutputCountsRaw, eval = FALSE}
-write.csv(counts(dds, normalized = FALSE), file="outputs/tables/DESeq2_raw_counts.csv")
+First, we'll save our session info so we can reference the packages and versions used to generate these data.
+
+```{r}
+session_summary <- sessionInfo()
 ```
 
-Then we'll output the rlog count table, using the `assay` function to access the normalized count table from within its larger `DESeqDataSet` object.
-
-```{r OutputCountsRlog, eval = FALSE}
-write.csv(assay(rld), file="outputs/tables/DESeq2_rlog_normalized_counts.csv")
+```{r }
+save.image(file = "outputs/Robjs/DE_iron.RData")
 ```
+
 
 # Summary
 
@@ -331,9 +339,9 @@ In this section, we:
 * Saved our results to file
 
 
-# Key takeaways
+# Overall takeaways
 
-Overall, we've run through most of the building blocks needed to run a differential expression analysis and hopefully built up a better understanding of how differential expression comparisons work, particularly how experimental design can impact our results.
+We've run through most of the building blocks needed to run a differential expression analysis and hopefully built up a better understanding of how differential expression comparisons work, particularly how experimental design can impact our results.
 
 What to consider moving forward:
 
@@ -350,7 +358,7 @@ What to consider moving forward:
 
 ---
 
-# What can we do with our DE results?
+# But how do we make sense of large numbers of DE genes?
 
 A way to determine possible [broader biological interpretations](https://www.ebi.ac.uk/training-beta/online/courses/functional-genomics-ii-common-technologies-and-data-analysis-methods/biological-interpretation-of-gene-expression-data-2/) from the observed DE results, is functional enrichments. There are many options, such as some included in this [discussion thread](https://www.researchgate.net/post/How_can_I_analyze_a_set_of_DEGs_differentially_expressed_genes_to_obtain_information_from_them). Other common functional enrichments approaches are gene set enrichment analysis, aka [GSEA](http://software.broadinstitute.org/gsea/index.jsp), Database for Annotation, Visualization and Integrated Discovery, aka [DAVID](https://david.ncifcrf.gov/), [Ingenity](https://digitalinsights.qiagen.com/), and [iPathway Guide]
 

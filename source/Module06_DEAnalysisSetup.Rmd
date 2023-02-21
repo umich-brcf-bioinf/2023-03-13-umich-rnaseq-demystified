@@ -1,5 +1,5 @@
 ---
-title: "Module 06: DE Introduction"
+title: "Module 06: Differential Expression (DE) Introduction"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -41,7 +41,7 @@ knitr_fig_path("06-")
 
 # Differential Expression Workflow {.unlisted .unnumbered}
 
-Today we will proceed through key steps in a differential expression analysis, starting from a count table that's similar to what you generated in the first half of the workshop and similar to one of the outputs included in the [data that the Advanced Genomics Core delivers](https://brcf.medicine.umich.edu/cores/advanced-genomics/data-delivery/) for RNA-seq libraries.
+Today we will proceed through key steps in a differential expression analysis, starting from a count table that's similar to what you generated in the first half of the workshop and one of the outputs included in the [data that the Advanced Genomics Core delivers](https://brcf.medicine.umich.edu/cores/advanced-genomics/data-delivery/) for RNA-seq libraries.
 
 <img src="images/wayfinder/wayfinder-DEAnalysisSetup.png" alt="wayfinder" style="width: 1000px;"/>
 
@@ -55,7 +55,7 @@ You should now be looking at a page that will allow you to login to the RStudio 
 
 <img src="images/rstudio_login_screen.png" alt="rstudio default session" style="width: 1000px;"/>
 
-Enter your user credentials and click <kbd>Sign In</kbd>. The credentials were provided via email, but if you forget yours, a helper can retrieve it for you, just ask in Slack. You should now see the RStudio interface:
+Enter your user credentials and click <kbd>Sign In</kbd>. The credentials are the same used earlier in the workshop and were provided via email. However, if you forget yours, a helper can retrieve it for you if you ask in Slack. You should now see the RStudio interface:
 
 <img src="images/rstudio_session_default.png" alt="rstudio default session" style="width:1000px;"/>
 
@@ -86,7 +86,7 @@ The new script **diffex.R** is now in the `scripts` folder. You can see that by 
 
 # Reproducible research
 
-Today we'll be exploring some RNA-seq data that is fairly representative of what we see in the core and start with input files similar to the count table you generated in the previous steps and similar to one of the outputs currently being delivered by the Advanced Sequencing Core.
+Today we'll be exploring some RNA-seq data that is fairly representative of what we see in the core and start with a count table similar to what generated in the previous steps and one of the outputs currently being delivered by the Advanced Sequencing Core.
 
 ## File organization
 
@@ -102,7 +102,7 @@ Such as illustrated in this figure from the Noble review:
 
 <img src="images/Noble2009_dataprojects.png" alt="new project window" style="width: 600px;"/>
 
-To organize our files for our analysis today, we'll create some directories in the `RSD_R` folder which is now our project root and current working directory. We can already see that there a `data/` folder and we just created the `scripts/` folder with the RStudio GUI. Let's create an `outputs/` folder using the `dir.create()` function in R.
+To organize our files for our analysis today, we'll create some more directories in the `RSD_R` folder which is now our project root and current working directory. We can already see that there a `data/` folder and we just created the `scripts/` folder with the RStudio GUI. Let's create an `outputs/` folder using the `dir.create()` function in R.
 
 ```{r create_dirs, eval = FALSE}
 dir.create('outputs')
@@ -127,22 +127,16 @@ dir.create('outputs/tables')
 
 # Tools for Differential Gene Expression analysis
 
-As discussed during the webinar, a common application for bulk RNA-seq is to test for differential expression between conditions or treatments, using statistical approaches that are appropriate for biological data.
+As discussed during the webinar, bulk RNA-seq can be used to test for differential expression between conditions or treatments, using statistical approaches that are appropriate for biological data.
 
 While there are several tools that can be used for differential expression comparisons, we will use [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) in our analysis today.
 
-DESeq2 is one of two tools, along with [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), considered ['best practice'](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91) for differential expression. Both tools apply similar methods that account for the distributions we expect to see for RNA-seq and are fairly stringent in calling differentially expressed genes, lowering the risk of investigating genes that were really false positives (e.g. don't really have different expression between treatment groups and therefore are not relevant to the biological process).
+DESeq2 is one of two tools, along with [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), considered ['best practice'](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91) for differential expression comparisons. Both tools apply similar methods that account for the distributions we expect to see for RNA-seq and are fairly stringent in calling differentially expressed genes, lowering the risk of investigating genes that were really false positives (e.g. don't actually have different expression between treatment groups and therefore are not relevant to the biological process).
 
 Additionally, DESeq2 also has an excellent vignette [(link)](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
 from Love, Anders, and Huber, from which our workflow is partially adapted, and is a good resource when analyzing your own data
 (see also: [Love, Anders, and Huber. _Genome Biology_. 2014.](https://doi.org/10.1186/s13059-014-0550-8)).
 
-
-<details>
-    <summary>*Click for additional resources regarding statistical testing and tool comparison for RNA-seq data*</summary>
-    To learn more about statistical testing and what distributions best model the behavior of RNA-seq data, a good resource is this [EdX lecture by Rafael Irizarry](https://www.youtube.com/watch?v=HK7WKsL3c2w&feature=youtu.be) or this [lecture by Kasper Hansen](https://www.youtube.com/watch?v=C8RNvWu7pAw). Another helpful guide is this [Comparative Study for Differential Expression Analysis by Zhang et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0103207) from 2014.
-</details>
-<br>
 
 ## DESeq2 assumptions and requirements
 
@@ -150,33 +144,20 @@ A key assumption of DESeq2 is that *biological variance is much greater than tec
 
 Since calculating variance is key to the statistical approach used for DESeq2, if we tried to compare two treatment groups with less than **two** replicates, we would get an error (as shown in [this blog post](https://support.bioconductor.org/p/89746/)). Without replicates, there can't be statistical significance (e.g. p-values), but *qualitative* approaches are an option, like looking at the top expressed genes after normalization.
 
-## Replicates in RNA-seq experiments
-
-A frequent question for RNA-seq projects is "How many replicates do I need?".
-
-The general goal of our analyses is to separate the “interesting” biological contributions from the “uninteresting” technical or other contributions that either cannot be or were not controlled in the experimental design. The more sources of variation, such as samples coming from heterogenous tissues or experiments with incomplete knockdowns, the more replicates (>3) are recommended.
-
-![Image of technical, biological, and experimental contributors to gene expression, from HBC training materials](images/de_variation.png){width=75%}
-
-For a more in depth discussion of experimental design considerations, particularly for the number of replicates, please read [A Beginner’s Guide to Analysis of RNA Sequencing Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/) and papers like this one by [Hart et al](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3842884/) that focus on estimating statistical power for RNA-seq experiments.
-
-## Sequencing depth recommendations
-
-A related experimental design consideration is how much sequencing depth should be generated per sample. This figure shared by Illumina in their technical talks is helpful to understand the relative importance of replicates versus sequencing depth.
-
-![Illumina's differential expression recovery across replicate number and sequencing depth](images/de_replicates_img.png){width=75%}
-
-Generally, for human and mouse experiments, the recommendation is 30-40 million reads per sample for polyA library preps to capture both highly expressed (abundant) and lowly expressed (rarer) transcripts, assuming that ~25,000 protein-coding genes would be measured. However, as the image above shows, sequencing depth has less of an impact than number of replicates in detecting differentially expressed genes (DEGs).
+<details>
+    <summary>*Click for additional resources regarding statistical testing and tool comparison for RNA-seq data*</summary>
+    To learn more about statistical testing and what distributions best model the behavior of RNA-seq data, a good resource is this [EdX lecture by Rafael Irizarry](https://www.youtube.com/watch?v=HK7WKsL3c2w&feature=youtu.be) or this [lecture by Kasper Hansen](https://www.youtube.com/watch?v=C8RNvWu7pAw). Another helpful guide is this [Comparative Study for Differential Expression Analysis by Zhang et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0103207) from 2014.
+</details>
+<br>
 
 > ## Exercise: Building a better understanding of differential expression analysis {.unlisted .unnumbered}
 >
-> 1. Post a comment below regarding what key question/misconception regarding designing an RNA-seq experiment we were able to address **OR**
-> 2. Post a question that that was NOT addressed but that you hope we will address in the later modules **OR**
-> 3. Add a thumbs up to your favorite comment(s) to upvote it
+> - Post a question that that was NOT addressed but that you hope we will address in the later modules **OR**
+> - Add a thumbs up to your favorite comment(s) to upvote it
 
 ----
 
-# Getting started with analysis
+# Getting started
 
 ## Load Packages
 
@@ -209,7 +190,7 @@ Since we loaded the libraries into our R session, we can see documentation out u
 
 Another key assumption for DESeq2 is that the analysis will start with [un-normalized counts](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#why-un-normalized-counts).
 
-To begin our analysis, we'll read in the **raw** count data file, `gene_expected_count.txt` which is similar to what would be generated in the alignment steps (and what you would receive from AGC). We'll discuss later a few normalizations that can be helpful for us to understand how much a gene is expressed within or between samples, but normalized data **should not** be used as an input for DESeq2.
+To begin our analysis, we'll read in the **raw** count data file, `gene_expected_count.txt` which is similar to what would be generated in the alignment steps (and what you would receive from AGC). We'll discuss a few normalizations that can be helpful for us to understand how much genes are expressed within or between samples, but raw data **should always** be used as an input for DESeq2.
 
 ```{r DataTable, eval=TRUE, echo=FALSE}
 ## need to include paths relative to site build locations but keep code block hidden
@@ -238,7 +219,7 @@ Now that the file is read into R, note that we've created a data frame that incl
 We can use the `round()` function:
 
 ```{r round count_table}
-count_table = round(count_table)
+counts_rounded = round(count_table)
 ```
 </details>
 <br>
@@ -268,8 +249,8 @@ I personally use one or more of these resources **every day**.
 In this section, we:
 
 * Set up our compute environment
-* Learned about DESeq2
-* Read a raw count table and saved it as a data frame
+* Learned about the DESeq2 package
+* Read in a raw count table and saved it as a data frame
 
 Now that we have our count data processed, we can move on to "unblinding" our data, as the sample names are unique identifiers generated by a sequencing center and not very informative as far as our experimental conditions.
 
