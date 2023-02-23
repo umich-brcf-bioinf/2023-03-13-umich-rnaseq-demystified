@@ -211,7 +211,7 @@ p = p + geom_point(aes(color = call))
 p
 ```
 
-For additional visualizations for our DE results, we included some example code in the [Bonus Content module](https://umich-brcf-bioinf.github.io/2023-03-13-umich-rnaseq-demystified/html/Module11X_BonusContent.html) and this [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/06_DGE_visualizing_results.html) also includes some nice examples.
+For additional visualizations for our DE results, we included some example code in the [Bonus Content module](https://umich-brcf-bioinf.github.io/2023-03-13-umich-rnaseq-demystified/html/R_bonus_content.html) and this [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/06_DGE_visualizing_results.html) also includes some nice examples.
 
 ### Subsetting significant genes
 
@@ -281,7 +281,7 @@ head(results_minus_vs_plus)
 We want to match the `id` column of `results_minus_vs_plus` to the `ensembl_gene_id` column of `id_mapping`, and once that match is found, we want to extract the `external_gene_name` column of `id_mapping` to get the gene symbol. Next, look at the documentation for `dplyr::left_join()` and merge the `id_mapping` table into the `results_minus_vs_plus` table on the columns `ensembl_gene_id` and `external_gene_name`.
 
 ```{r left_join}
-results_minus_vs_plus_annotated = results_minus_vs_plus %>%
+results_minus_vs_plus_annotated = as_tibble(results_minus_vs_plus, rownames = "id") %>%
     left_join(id_mapping, by = c('id' = 'ensembl_gene_id'))
 head(results_minus_vs_plus_annotated)
 ```
