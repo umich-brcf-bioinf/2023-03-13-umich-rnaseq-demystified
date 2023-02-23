@@ -170,7 +170,32 @@ pca_plot +
 </details>
 <br>
 
-**Checkpoint**: *If you generated and saved the `pca_plot` PCA plot, please indicate with the green 'check' button. Otherwise, please use  use the red 'x' button in your zoom reaction panel to have this step repeated.*
+**Checkpoint**: *If you generated and saved the `pca_plot` PCA plot, please indicate with the green 'check' button. Otherwise, please use the red 'x' button in your zoom reaction panel to have this step repeated.*
+
+```{r ExerciseHidden, include=FALSE, eval = FALSE}
+Keep everyone in main room & request questions be posted to slack
+Allow learners who want a guided experience to go to breakout room with a helper 
+Use time checks or count down for independent work time
+Review solution at end of independent time
+DK - update RSD-R section to update exercise to be extensions of PCA plot & mode to reflect new paradigm (see last week)
+
+RSD-R exercise
+Update exercise to be updating PCA plot with different visualization options
+Use written hints similar to Unix section to help learners with process
+Use poll to have learners rank order of priority for plot changes
+Change dot colors
+Include link to color-blind friendly palettes
+Rotate axes
+Labeling points 
+Change marker shape
+Since more novelty in exercise, walk through process of least popular option together with learners (highlighting connection to ggplot)
+Encourage learners to work through top visualization option and continue onto other options if they complete the first option 
+Keep everyone in main room & request questions be posted to slack
+Allow learners who want a guided experience to go to breakout room with a helper 
+Review solution at end of independent time
+
+
+```
 
 > # Breakout Exercise 1 - Imagine a heatmap {.unlisted .unnumbered}
 >
