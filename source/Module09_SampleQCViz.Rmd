@@ -144,9 +144,16 @@ ggsave(
     width = 6, height = 6, units = 'in')
 ```
 
-> # Exercise - Customize the PCA {.unlisted .unnumbered}
+**Checkpoint**: *If you generated and saved the `pca_plot` PCA plot, please indicate with the green 'check' button. Otherwise, please use the red 'x' button in your zoom reaction panel to have this step repeated.*
+
+
+Since the `pca_plot` object is a `ggplot`--you can see this with `class(pca_plot)`--we can use what we learned at the end of the Computational Foundations Workshop to modify this plot as we might see necessary. **What are some modifications we might want to make?**
+
+
+
+> # Independent Exercise - Customize a PCA {.unlisted .unnumbered}
 >
-> Since the `pca_plot` object is a `ggplot`--you can see this with `class(pca_plot)`--we can use what we learned at the end of the Computational Foundations Workshop to modify this plot as we might see necessary. Try doing the following to the `pca_plot`:
+>  Try doing the following to the `pca_plot`:
 >
 > 1. Add a title and subtitle to the plot using the `labs()` function.
 > 2. Change the theme of the plot with `theme_bw()`.
@@ -154,23 +161,15 @@ ggsave(
 >
 > Remember `ggplot2` adds plot components in layers, and you can add additional layers with the `+` sign. So if the plot already exists as an object, as `pca_plot` does in this case, you can add to it like `pca_plot + ...`
 
-<details>
-<summary>Solution</summary>
-
-Here is one possible answer:
-
-```{r customize_pca_exercise}
-pca_plot +
-    labs(
-        title = 'PCA Plot',
-        subtitle = 'Top 500 variable genes',
-        color = 'Condition') +
-    theme_bw()
+```{r CustomizeViaDESeqVignette}
+pcaData <- plotPCA(rld, intgroup=c("condition"), returnData=TRUE)
+percentVar <- round(100 * attr(pcaData, "percentVar"))
+ggplot(pcaData, aes(PC1, PC2, color=condition)) +
+  geom_point(size=3) +
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance")) + 
+  coord_fixed()
 ```
-</details>
-<br>
-
-**Checkpoint**: *If you generated and saved the `pca_plot` PCA plot, please indicate with the green 'check' button. Otherwise, please use the red 'x' button in your zoom reaction panel to have this step repeated.*
 
 ```{r ExerciseHidden, include=FALSE, eval = FALSE}
 Keep everyone in main room & request questions be posted to slack
@@ -196,6 +195,22 @@ Review solution at end of independent time
 
 
 ```
+
+<details>
+<summary>Solution</summary>
+
+Here is one possible answer:
+
+```{r customize_pca_exercise}
+pca_plot +
+    labs(
+        title = 'PCA Plot',
+        subtitle = 'Top 500 variable genes',
+        color = 'Condition') +
+    theme_bw()
+```
+</details>
+<br>
 
 > # Breakout Exercise 1 - Imagine a heatmap {.unlisted .unnumbered}
 >
