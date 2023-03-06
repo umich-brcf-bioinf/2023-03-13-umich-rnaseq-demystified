@@ -89,11 +89,11 @@ At this point, we've run cutadapt on one of our samples. We could construct a se
 <br>
 <br>
 
-## Cutadapt All Samples Exercise (Breakout)
+## Cutadapt All Samples Exercise
 
-Before starting our breakout exercise, we should make sure that we are on the same page. Follow the link below:
+Before starting our cutadapt exercise, we should make sure that we are on the same page. Follow the link below:
 
-[Link to Cutadapt breakout exercise](Module02b_breakout01_ex.html)
+[Link to Cutadapt exercise](Module02b_breakout01_ex.html)
 
 <br>
 <br>
