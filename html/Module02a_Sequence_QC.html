@@ -14,7 +14,7 @@
 
 <title>Module 02a: Sequence QC</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -195,8 +195,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -204,9 +204,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -480,37 +487,26 @@ pre {
 </div>
 <div id="differential-expression-workflow" class="section level1">
 <h1>Differential Expression Workflow</h1>
-<p>An overview of the steps of entire differential expression experiment
-and analysis workflow is shown below. In this lesson, we will go over
-the highlighted part of the workflow.</p>
-<p><img src="images/wayfinder/slides/Slide2.png" /> <br> <br>
-<br> <br></p>
+<p>An overview of the steps of entire differential expression experiment and analysis workflow is shown below. In this lesson, we will go over the highlighted part of the workflow.</p>
+<p><img src="images/wayfinder/slides/Slide2.png" /> <br> <br> <br> <br></p>
 </div>
 <div id="rna-seq-data" class="section level1">
 <h1>RNA-seq Data</h1>
-<p>Analysis of RNA-seq requires the use of many types of data. The three
-most common that we will encounter are:</p>
+<p>Analysis of RNA-seq requires the use of many types of data. The three most common that we will encounter are:</p>
 <ul>
 <li>Sequence data</li>
 <li>Genome feature data</li>
 <li>Alignment data</li>
 </ul>
-<p>We will introduce each data type and their formats in more detail as
-they enter the workflow, but for now some general notes about the
-formats we will encounter:</p>
+<p>We will introduce each data type and their formats in more detail as they enter the workflow, but for now some general notes about the formats we will encounter:</p>
 <ul>
 <li>File formats represent the data in a structured manner.</li>
-<li>Some file formats are not human-readable; they are binary, and we
-will see what that means when we discuss alignments.</li>
-<li>Many file formats are human readable, but very large. <strong>These
-files should not be viewed in Word or Excel.</strong></li>
+<li>Some file formats are not human-readable; they are binary, and we will see what that means when we discuss alignments.</li>
+<li>Many file formats are human readable, but very large. <strong>These files should not be viewed in Word or Excel.</strong></li>
 </ul>
 <div id="fastq-files" class="section level2">
 <h2>FASTQ Files</h2>
-<p>Raw sequenced reads are stored in <a
-href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> format. This
-is a plain text, human readable file format that stores information
-about each read. For a single read there are four lines:</p>
+<p>Raw sequenced reads are stored in <a href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> format. This is a plain text, human readable file format that stores information about each read. For a single read there are four lines:</p>
 <pre><code>@A00437:266:HVFMYDSXX:1:1101:1181:1000 1:N:0:AGCCTATC+TGCGTAAC
 TTTATTGTTGATGGTTATTTTTTGTTTATGGTTATTTTGTGTTTATGGTTATTTTTTGTTTATGGTTATTTTTTA
 +
@@ -529,8 +525,7 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</cod
 <tbody>
 <tr class="odd">
 <td align="center">1</td>
-<td>Begins with <code>@</code> and has information about the read. From
-AGC will contain flowcell and barcode information.</td>
+<td>Begins with <code>@</code> and has information about the read. From AGC will contain flowcell and barcode information.</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
@@ -538,37 +533,24 @@ AGC will contain flowcell and barcode information.</td>
 </tr>
 <tr class="odd">
 <td align="center">3</td>
-<td>Always begins with <code>+</code> and may contain the same
-information as line 1.</td>
+<td>Always begins with <code>+</code> and may contain the same information as line 1.</td>
 </tr>
 <tr class="even">
 <td align="center">4</td>
-<td>A string of characters representing the quality scores. Always the
-same number of characters as line 2.</td>
+<td>A string of characters representing the quality scores. Always the same number of characters as line 2.</td>
 </tr>
 </tbody>
 </table>
 <div id="base-quality-scores" class="section level3">
 <h3>Base Quality Scores</h3>
-<p>The fourth line encodes the quality of each nucleotide in the read.
-The most common encoding is referred to as PHRED-33, and the following
-maps characters to qualities:</p>
+<p>The fourth line encodes the quality of each nucleotide in the read. The most common encoding is referred to as PHRED-33, and the following maps characters to qualities:</p>
 <pre><code>Quality encoding: !&quot;#$%&amp;&#39;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHI
                   |         |         |         |         |
    Quality score: 0........10........20........30........40</code></pre>
-<p>The above example is a rather boring read with all bases having
-<code>F</code>, meaning a score of 37, which is good. Each quality score
-represents the probability that the corresponding nucleotide call is
-incorrect. The quality score is logarithmic and is calculated as:</p>
+<p>The above example is a rather boring read with all bases having <code>F</code>, meaning a score of 37, which is good. Each quality score represents the probability that the corresponding nucleotide call is incorrect. The quality score is logarithmic and is calculated as:</p>
 <pre><code>Q = -10 x log10(P), where P is the probability that the base call is erroneous</code></pre>
-<p>Another way to interpret the scores is in terms of the following
-table:</p>
-<table style="width:100%;">
-<colgroup>
-<col width="26%" />
-<col width="47%" />
-<col width="25%" />
-</colgroup>
+<p>Another way to interpret the scores is in terms of the following table:</p>
+<table>
 <thead>
 <tr class="header">
 <th>PHRED Quality Score</th>
@@ -599,12 +581,7 @@ table:</p>
 </tr>
 </tbody>
 </table>
-<p>It would clearly be painstaking to go through all the base quality
-scores of all the millions of reads obtained from a sequencing run, so
-we typically don’t evaluate the FASTQ files by sight. Instead, we use
-tools that take in FASTQ files and summarize the base quality scores
-(and other characteristics) to determine the overall quality of the
-reads from the sequencer.</p>
+<p>It would clearly be painstaking to go through all the base quality scores of all the millions of reads obtained from a sequencing run, so we typically don’t evaluate the FASTQ files by sight. Instead, we use tools that take in FASTQ files and summarize the base quality scores (and other characteristics) to determine the overall quality of the reads from the sequencer.</p>
 </div>
 </div>
 </div>
@@ -614,59 +591,32 @@ reads from the sequencer.</p>
 <img src="images/fastqc_logo.png" alt="" />
 <p class="caption">FastQC</p>
 </div>
-<p>The first step in many high-throughput sequencing analyses is to
-examine the quality of the raw reads with <a
-href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a>.
-It analyzes various aspects of each FASTQ file and provides a quick
-impression of the overall quality metrics which are useful to determine
-before proceeding with downstream analysis. The following modules are
-present in an easy to read HTML report.</p>
+<p>The first step in many high-throughput sequencing analyses is to examine the quality of the raw reads with <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a>. It analyzes various aspects of each FASTQ file and provides a quick impression of the overall quality metrics which are useful to determine before proceeding with downstream analysis. The following modules are present in an easy to read HTML report.</p>
 <ul>
-<li>Read quality score per base (by interpreting the PHRED33
-scores)</li>
-<li>Per tile sequencing quality (related to sequencing clusters on the
-flowcell)</li>
+<li>Read quality score per base (by interpreting the PHRED33 scores)</li>
+<li>Per tile sequencing quality (related to sequencing clusters on the flowcell)</li>
 <li>Read lengths</li>
 <li>GC content</li>
 <li>Adapter content</li>
 <li>Overrepresented sequences</li>
 </ul>
-<p>Toward the end of this module, we’ll run FastQC. For now, we’ll
-discuss the output files it produces and view some examples.</p>
+<p>Toward the end of this module, we’ll run FastQC. For now, we’ll discuss the output files it produces and view some examples.</p>
 <div id="fastqc-output-files" class="section level2">
 <h2>FastQC output files</h2>
-<p>FastQC outputs an HTML report and a zipped archive of intermediate
-files. These will appear like this:</p>
-<pre><code>sample_A_R1.trimmed_fastqc.html
-sample_A_R1.trimmed_fastqc.zip</code></pre>
-<p>For most situations, opening the HTML report and inspecting the
-results will provide the information necessary to make decisions about
-your data.</p>
-<p>First we’ll take a look at some of the figures found in a typical
-FastQC report, then we’ll view an example of an HTML report and try to
-make interpretations from this. Finally, we’ll run FastQC to produce
-some of these files from our example dataset.</p>
+<p>FastQC outputs an HTML report and a zipped archive of intermediate files. These will appear like this:</p>
+<pre><code>sample_A_R1_fastqc.html
+sample_A_R1_fastqc.zip</code></pre>
+<p>For most situations, opening the HTML report and inspecting the results will provide the information necessary to make decisions about your data.</p>
+<p>First we’ll take a look at some of the figures found in a typical FastQC report, then we’ll view an example of an HTML report and try to make interpretations from this. Finally, we’ll run FastQC to produce some of these files from our example dataset.</p>
 </div>
 <div id="interpreting-fastqc" class="section level2">
 <h2>Interpreting FastQC</h2>
-<p>FastQC reports are organized around the the different modules
-characterizing different aspects of the reads. The FastQC <a
-href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">help
-page</a> has detailed descriptions for each module.</p>
-<p>The report summary is a PASS, WARN, FAIL overview of the modules.
-It’s important to not take them too seriously in all cases as there are
-a number of assumptions that go into the thresholds that may not apply
-in your particular experiment.</p>
-<p>An important note: For computational reasons, FastQC only evaluates
-the first 100,000 reads in a FASTQ file. The assumption is that the
-first 100,000 reads sufficiently represent the full library.</p>
+<p>FastQC reports are organized around the the different modules characterizing different aspects of the reads. The FastQC <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">help page</a> has detailed descriptions for each module.</p>
+<p>The report summary is a PASS, WARN, FAIL overview of the modules. It’s important to not take them too seriously in all cases as there are a number of assumptions that go into the thresholds that may not apply in your particular experiment.</p>
+<p>An important note: For computational reasons, FastQC only evaluates the first 100,000 reads in a FASTQ file. The assumption is that the first 100,000 reads sufficiently represent the full library.</p>
 <div id="per-base-sequence-quality" class="section level3">
 <h3>Per base sequence quality</h3>
-<p>A per base boxplot of the quality scores with helpful coloring for
-good, fair, and poor qualities. If a sample has quality scores that
-degrade at the 3’ end of a read (as in the second example below), the
-sample doesn’t necessarily have to be dropped. Some aligners, e.g. STAR,
-will automatically trim poor quality read ends.</p>
+<p>A per base boxplot of the quality scores with helpful coloring for good, fair, and poor qualities. If a sample has quality scores that degrade at the 3’ end of a read (as in the second example below), the sample doesn’t necessarily have to be dropped. Some aligners, e.g. STAR, will automatically trim poor quality read ends.</p>
 <center>
 <p><img src="images/fastqc_per_base.png" width="800"/></p>
 <p>An example of a good quality run.</p>
@@ -678,13 +628,8 @@ will automatically trim poor quality read ends.</p>
 </div>
 <div id="sequence-duplication" class="section level3">
 <h3>Sequence Duplication</h3>
-<p>High sequence duplication, indicated by a skew to the right of the
-blue curve in the plots below, can be caused by low complexity
-libraries, too many cycles of PCR amplification, or too little starting
-material.</p>
-<p>On the other hand, if the library was prepared with an enrichment
-step (e.g. ChIP-seq), then sequence duplication might not be
-unexpected.</p>
+<p>High sequence duplication, indicated by a skew to the right of the blue curve in the plots below, can be caused by low complexity libraries, too many cycles of PCR amplification, or too little starting material.</p>
+<p>On the other hand, if the library was prepared with an enrichment step (e.g. ChIP-seq), then sequence duplication might not be unexpected.</p>
 <center>
 <p><img src="images/fastqc_duplication.png" width="800" /></p>
 <p>An example of a sample with low sequence duplication levels.</p>
@@ -696,47 +641,27 @@ unexpected.</p>
 </div>
 <div id="overrepresented-sequences" class="section level3">
 <h3>Overrepresented sequences</h3>
-<p>Overrepresented sequences are those making up more than 0.1% of the
-total (of the 100,000 reads sampled). Finding an overrepresented
-sequence is an indication of something biologically meaningful (e.g. an
-enrichment step in the library prep process), or it is an issue stemming
-from the library preparation process (e.g. adapters, a failure to fully
-remove polyA tails, or contamination).</p>
+<p>Overrepresented sequences are those making up more than 0.1% of the total (of the 100,000 reads sampled). Finding an overrepresented sequence is an indication of something biologically meaningful (e.g. an enrichment step in the library prep process), or it is an issue stemming from the library preparation process (e.g. adapters, a failure to fully remove polyA tails, or contamination).</p>
 <center>
 <p><img src="images/fastqc_overrepresented.png" width="800" /></p>
-<p>We see that there is a high number of reads with polyA tails. This
-could be a result of an inefficient removal of polyA tails.</p>
+<p>We see that there is a high number of reads with polyA tails. This could be a result of an inefficient removal of polyA tails.</p>
 </center>
 </div>
 <div id="adapter-content" class="section level3">
 <h3>Adapter Content</h3>
-<p>Adapter sequence typically is not present in standard RNA-seq
-libraries. However, if the fragment sizes resulting from library prep
-are smaller than the read length on the sequencer, then it is possible
-to get “read-through” of the adapter.</p>
-<p>This can be dealt with by adding a step to the workflow that trims
-the reads of adapter content with a tool such as <a
-href="https://cutadapt.readthedocs.io/en/stable/">cutadapt</a>. We will
-see this in a later module.</p>
+<p>Adapter sequence typically is not present in standard RNA-seq libraries. However, if the fragment sizes resulting from library prep are smaller than the read length on the sequencer, then it is possible to get “read-through” of the adapter.</p>
+<p>This can be dealt with by adding a step to the workflow that trims the reads of adapter content with a tool such as <a href="https://cutadapt.readthedocs.io/en/stable/">cutadapt</a>. We will see this in a later module.</p>
 </div>
 </div>
 <div id="examining-a-fastqc-report" class="section level2">
 <h2>Examining a FastQC report</h2>
-<p>From the zipped folder you downloaded earlier, find the FastQC report
-<code>sample_A_R1.trimmed_fastqc.html</code>.</p>
+<p>From the zipped folder you downloaded earlier, find the FastQC report <code>sample_A_R1_fastqc.html</code>.</p>
 <p>We’ll view this report and try to interpret some of the figures.</p>
 </div>
 <div id="acting-on-qc---good-or-bad-results" class="section level2">
 <h2>Acting on QC - Good or Bad Results?</h2>
-<p>Good QC on raw reads means that RNA quality, library preparation, and
-sequencing seem fine to proceed with the next steps of analysis. It
-<strong>does not</strong> mean that you will find differentially
-expressed genes downstream.</p>
-<p>The source of bad QC measures are not always easy to determine, and
-doesn’t necessarily mean the data cannot be used downstream. However,
-bad QC measures may indicate that hazards lie ahead, and that certain
-steps upstream of sequencing (sample handling, RNA extraction, library
-preparation) might need to be altered.</p>
+<p>Good QC on raw reads means that RNA quality, library preparation, and sequencing seem fine to proceed with the next steps of analysis. It <strong>does not</strong> mean that you will find differentially expressed genes downstream.</p>
+<p>The source of bad QC measures are not always easy to determine, and doesn’t necessarily mean the data cannot be used downstream. However, bad QC measures may indicate that hazards lie ahead, and that certain steps upstream of sequencing (sample handling, RNA extraction, library preparation) might need to be altered.</p>
 </div>
 <div id="fastqc-exercise" class="section level2">
 <h2>FastQC Exercise</h2>
@@ -760,18 +685,11 @@ fastqc -o out_fastqc/ ../reads/*.fastq.gz
 # View the output of FastQC (the filenames)</code></pre>
 <p><br> <br></p>
 <hr />
-<p>These materials have been adapted and extended from materials created
-by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan
-Bioinformatics Core (HBC)</a>. These are open access materials
-distributed under the terms of the <a
-href="http://creativecommons.org/licenses/by/4.0/">Creative Commons
-Attribution license (CC BY 4.0)</a>, which permits unrestricted use,
-distribution, and reproduction in any medium, provided the original
-author and source are credited.</p>
+<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTW9kdWxlIDAyYTogU2VxdWVuY2UgUUMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCiMgU2VxdWVuY2UgUUMgYW5kIEZBU1RRIEZpbGVzCgpJbiB0aGlzIFF1YWxpdHkgQ29udHJvbCAoUUMpIG1vZHVsZSwgd2Ugd2lsbCBsZWFybjoKCiogd2hhdCBhIEZBU1RRIGZpbGUgaXMKKiBob3cgdG8gdXNlIEZhc3RRQyB0byBhc3Nlc3MgdGhlIHF1YWxpdHkgb2Ygc2VxdWVuY2luZyByZWFkcwoqIGhvdyB0byBpbnRlcnByZXQgRmFzdFFDIHJlcG9ydHMKCiMgRGlmZmVyZW50aWFsIEV4cHJlc3Npb24gV29ya2Zsb3cKCkFuIG92ZXJ2aWV3IG9mIHRoZSBzdGVwcyBvZiBlbnRpcmUgZGlmZmVyZW50aWFsIGV4cHJlc3Npb24gZXhwZXJpbWVudCBhbmQgYW5hbHlzaXMgd29ya2Zsb3cgaXMgc2hvd24gYmVsb3cuIEluIHRoaXMgbGVzc29uLCB3ZSB3aWxsIGdvIG92ZXIgdGhlIGhpZ2hsaWdodGVkIHBhcnQgb2YgdGhlIHdvcmtmbG93LgoKIVtdKGltYWdlcy93YXlmaW5kZXIvd2F5ZmluZGVyLVNlcXVlbmNlX1FDLnBuZykKPGJyPgo8YnI+Cjxicj4KPGJyPgoKIyBSTkEtc2VxIERhdGEKCkFuYWx5c2lzIG9mIFJOQS1zZXEgcmVxdWlyZXMgdGhlIHVzZSBvZiBtYW55IHR5cGVzIG9mIGRhdGEuIFRoZSB0aHJlZSBtb3N0IGNvbW1vbiB0aGF0IHdlIHdpbGwgZW5jb3VudGVyIGFyZToKCi0gU2VxdWVuY2UgZGF0YQotIEdlbm9tZSBmZWF0dXJlIGRhdGEKLSBBbGlnbm1lbnQgZGF0YQoKV2Ugd2lsbCBpbnRyb2R1Y2UgZWFjaCBkYXRhIHR5cGUgYW5kIHRoZWlyIGZvcm1hdHMgaW4gbW9yZSBkZXRhaWwgYXMgdGhleSBlbnRlciB0aGUgd29ya2Zsb3csIGJ1dCBmb3Igbm93IHNvbWUgZ2VuZXJhbCBub3RlcyBhYm91dCB0aGUgZm9ybWF0cyB3ZSB3aWxsIGVuY291bnRlcjoKCi0gRmlsZSBmb3JtYXRzIHJlcHJlc2VudCB0aGUgZGF0YSBpbiBhIHN0cnVjdHVyZWQgbWFubmVyLgotIFNvbWUgZmlsZSBmb3JtYXRzIGFyZSBub3QgaHVtYW4tcmVhZGFibGU7IHRoZXkgYXJlIGJpbmFyeSwgYW5kIHdlIHdpbGwgc2VlIHdoYXQgdGhhdCBtZWFucyB3aGVuIHdlIGRpc2N1c3MgYWxpZ25tZW50cy4KLSBNYW55IGZpbGUgZm9ybWF0cyBhcmUgaHVtYW4gcmVhZGFibGUsIGJ1dCB2ZXJ5IGxhcmdlLiAqKlRoZXNlIGZpbGVzIHNob3VsZCBub3QgYmUgdmlld2VkIGluIFdvcmQgb3IgRXhjZWwuKioKCiMjIEZBU1RRIEZpbGVzCgpSYXcgc2VxdWVuY2VkIHJlYWRzIGFyZSBzdG9yZWQgaW4gW0ZBU1RRXShodHRwczovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9GQVNUUV9mb3JtYXQpIGZvcm1hdC4gVGhpcyBpcyBhIHBsYWluIHRleHQsIGh1bWFuIHJlYWRhYmxlIGZpbGUgZm9ybWF0IHRoYXQgc3RvcmVzIGluZm9ybWF0aW9uIGFib3V0IGVhY2ggcmVhZC4gRm9yIGEgc2luZ2xlIHJlYWQgdGhlcmUgYXJlIGZvdXIgbGluZXM6CgoKICAgIEBBMDA0Mzc6MjY2OkhWRk1ZRFNYWDoxOjExMDE6MTE4MToxMDAwIDE6TjowOkFHQ0NUQVRDK1RHQ0dUQUFDCiAgICBUVFRBVFRHVFRHQVRHR1RUQVRUVFRUVEdUVFRBVEdHVFRBVFRUVEdUR1RUVEFUR0dUVEFUVFRUVFRHVFRUQVRHR1RUQVRUVFRUVEEKICAgICsKICAgIEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoKCnwgTGluZSB8IERlc2NyaXB0aW9uIHwKfCA6LS06IHwgLS0tLS0tLS0tLS0gfAp8IDEgfCBCZWdpbnMgd2l0aCBgQGAgYW5kIGhhcyBpbmZvcm1hdGlvbiBhYm91dCB0aGUgcmVhZC4gRnJvbSBBR0Mgd2lsbCBjb250YWluIGZsb3djZWxsIGFuZCBiYXJjb2RlIGluZm9ybWF0aW9uLiB8CnwgMiB8IFRoZSBSTkEgc2VxdWVuY2UuIHwKfCAzIHwgQWx3YXlzIGJlZ2lucyB3aXRoIGArYCBhbmQgbWF5IGNvbnRhaW4gdGhlIHNhbWUgaW5mb3JtYXRpb24gYXMgbGluZSAxLiB8CnwgNCB8IEEgc3RyaW5nIG9mIGNoYXJhY3RlcnMgcmVwcmVzZW50aW5nIHRoZSBxdWFsaXR5IHNjb3Jlcy4gQWx3YXlzIHRoZSBzYW1lIG51bWJlciBvZiBjaGFyYWN0ZXJzIGFzIGxpbmUgMi4gfAoKIyMjIEJhc2UgUXVhbGl0eSBTY29yZXMKClRoZSBmb3VydGggbGluZSBlbmNvZGVzIHRoZSBxdWFsaXR5IG9mIGVhY2ggbnVjbGVvdGlkZSBpbiB0aGUgcmVhZC4gVGhlIG1vc3QgY29tbW9uIGVuY29kaW5nIGlzIHJlZmVycmVkIHRvIGFzIFBIUkVELTMzLCBhbmQgdGhlIGZvbGxvd2luZyBtYXBzIGNoYXJhY3RlcnMgdG8gcXVhbGl0aWVzOgoKCiAgICBRdWFsaXR5IGVuY29kaW5nOiAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISQogICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgIHwgICAgICAgICB8ICAgICAgICAgfCAgICAgICAgIHwKICAgICAgIFF1YWxpdHkgc2NvcmU6IDAuLi4uLi4uLjEwLi4uLi4uLi4yMC4uLi4uLi4uMzAuLi4uLi4uLjQwCgoKVGhlIGFib3ZlIGV4YW1wbGUgaXMgYSByYXRoZXIgYm9yaW5nIHJlYWQgd2l0aCBhbGwgYmFzZXMgaGF2aW5nIGBGYCwgbWVhbmluZyBhIHNjb3JlIG9mIDM3LCB3aGljaCBpcyBnb29kLiBFYWNoIHF1YWxpdHkgc2NvcmUgcmVwcmVzZW50cyB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgY29ycmVzcG9uZGluZyBudWNsZW90aWRlIGNhbGwgaXMgaW5jb3JyZWN0LiBUaGUgcXVhbGl0eSBzY29yZSBpcyBsb2dhcml0aG1pYyBhbmQgaXMgY2FsY3VsYXRlZCBhczoKCgogICAgUSA9IC0xMCB4IGxvZzEwKFApLCB3aGVyZSBQIGlzIHRoZSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBiYXNlIGNhbGwgaXMgZXJyb25lb3VzCgoKQW5vdGhlciB3YXkgdG8gaW50ZXJwcmV0IHRoZSBzY29yZXMgaXMgaW4gdGVybXMgb2YgdGhlIGZvbGxvd2luZyB0YWJsZToKCnwgUEhSRUQgUXVhbGl0eSBTY29yZSB8IFByb2JhYmlsaXR5IG9mIGluY29ycmVjdCBiYXNlIGNhbGwgfCBCYXNlIGNhbGwgYWNjdXJhY3kgfAp8IC0tLS0tLS0tLS0tLS0tLS0tLS0gfCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHwgLS0tLS0tLS0tLS0tLS0tLS0tIHwKfCAxMCB8IDEgaW4gMTAgfCA5MCUgfAp8IDIwIHwgMSBpbiAxMDAgfCA5OSUgfAp8IDMwIHwgMSBpbiAxMDAwIHwgOTkuOSUgfAp8IDQwIHwgMSBpbiAxMDAwMCB8IDk5Ljk5JSB8CgpJdCB3b3VsZCBjbGVhcmx5IGJlIHBhaW5zdGFraW5nIHRvIGdvIHRocm91Z2ggYWxsIHRoZSBiYXNlIHF1YWxpdHkgc2NvcmVzIG9mIGFsbCB0aGUgbWlsbGlvbnMgb2YgcmVhZHMgb2J0YWluZWQgZnJvbSBhIHNlcXVlbmNpbmcgcnVuLCBzbyB3ZSB0eXBpY2FsbHkgZG9uJ3QgZXZhbHVhdGUgdGhlIEZBU1RRIGZpbGVzIGJ5IHNpZ2h0LiBJbnN0ZWFkLCB3ZSB1c2UgdG9vbHMgdGhhdCB0YWtlIGluIEZBU1RRIGZpbGVzIGFuZCBzdW1tYXJpemUgdGhlIGJhc2UgcXVhbGl0eSBzY29yZXMgKGFuZCBvdGhlciBjaGFyYWN0ZXJpc3RpY3MpIHRvIGRldGVybWluZSB0aGUgb3ZlcmFsbCBxdWFsaXR5IG9mIHRoZSByZWFkcyBmcm9tIHRoZSBzZXF1ZW5jZXIuCgojIFF1YWxpdHkgQXNzZXNzbWVudCB3aXRoIEZhc3RRQwoKIVtGYXN0UUNdKGltYWdlcy9mYXN0cWNfbG9nby5wbmcpCgpUaGUgZmlyc3Qgc3RlcCBpbiBtYW55IGhpZ2gtdGhyb3VnaHB1dCBzZXF1ZW5jaW5nIGFuYWx5c2VzIGlzIHRvIGV4YW1pbmUgdGhlIHF1YWxpdHkgb2YgdGhlIHJhdyByZWFkcyB3aXRoIFtGYXN0UUNdKGh0dHBzOi8vd3d3LmJpb2luZm9ybWF0aWNzLmJhYnJhaGFtLmFjLnVrL3Byb2plY3RzL2Zhc3RxYy8pLiBJdCBhbmFseXplcyB2YXJpb3VzIGFzcGVjdHMgb2YgZWFjaCBGQVNUUSBmaWxlIGFuZCBwcm92aWRlcyBhIHF1aWNrIGltcHJlc3Npb24gb2YgdGhlIG92ZXJhbGwgcXVhbGl0eSBtZXRyaWNzIHdoaWNoIGFyZSB1c2VmdWwgdG8gZGV0ZXJtaW5lIGJlZm9yZSBwcm9jZWVkaW5nIHdpdGggZG93bnN0cmVhbSBhbmFseXNpcy4gVGhlIGZvbGxvd2luZyBtb2R1bGVzIGFyZSBwcmVzZW50IGluIGFuIGVhc3kgdG8gcmVhZCBIVE1MIHJlcG9ydC4KCi0gUmVhZCBxdWFsaXR5IHNjb3JlIHBlciBiYXNlIChieSBpbnRlcnByZXRpbmcgdGhlIFBIUkVEMzMgc2NvcmVzKQotIFBlciB0aWxlIHNlcXVlbmNpbmcgcXVhbGl0eSAocmVsYXRlZCB0byBzZXF1ZW5jaW5nIGNsdXN0ZXJzIG9uIHRoZSBmbG93Y2VsbCkKLSBSZWFkIGxlbmd0aHMKLSBHQyBjb250ZW50Ci0gQWRhcHRlciBjb250ZW50Ci0gT3ZlcnJlcHJlc2VudGVkIHNlcXVlbmNlcwoKVG93YXJkIHRoZSBlbmQgb2YgdGhpcyBtb2R1bGUsIHdlJ2xsIHJ1biBGYXN0UUMuIEZvciBub3csIHdlJ2xsIGRpc2N1c3MgdGhlIG91dHB1dCBmaWxlcyBpdCBwcm9kdWNlcyBhbmQgdmlldyBzb21lIGV4YW1wbGVzLgoKIyMgRmFzdFFDIG91dHB1dCBmaWxlcwoKRmFzdFFDIG91dHB1dHMgYW4gSFRNTCByZXBvcnQgYW5kIGEgemlwcGVkIGFyY2hpdmUgb2YgaW50ZXJtZWRpYXRlIGZpbGVzLiBUaGVzZSB3aWxsIGFwcGVhciBsaWtlIHRoaXM6CgogICAgc2FtcGxlX0FfUjEudHJpbW1lZF9mYXN0cWMuaHRtbAogICAgc2FtcGxlX0FfUjEudHJpbW1lZF9mYXN0cWMuemlwCgpGb3IgbW9zdCBzaXR1YXRpb25zLCBvcGVuaW5nIHRoZSBIVE1MIHJlcG9ydCBhbmQgaW5zcGVjdGluZyB0aGUgcmVzdWx0cyB3aWxsIHByb3ZpZGUgdGhlIGluZm9ybWF0aW9uIG5lY2Vzc2FyeSB0byBtYWtlIGRlY2lzaW9ucyBhYm91dCB5b3VyIGRhdGEuCgpGaXJzdCB3ZSdsbCB0YWtlIGEgbG9vayBhdCBzb21lIG9mIHRoZSBmaWd1cmVzIGZvdW5kIGluIGEgdHlwaWNhbCBGYXN0UUMgcmVwb3J0LCB0aGVuIHdlJ2xsIHZpZXcgYW4gZXhhbXBsZSBvZiBhbiBIVE1MIHJlcG9ydCBhbmQgdHJ5IHRvIG1ha2UgaW50ZXJwcmV0YXRpb25zIGZyb20gdGhpcy4gRmluYWxseSwgd2UnbGwgcnVuIEZhc3RRQyB0byBwcm9kdWNlIHNvbWUgb2YgdGhlc2UgZmlsZXMgZnJvbSBvdXIgZXhhbXBsZSBkYXRhc2V0LgoKCiMjIEludGVycHJldGluZyBGYXN0UUMKCkZhc3RRQyByZXBvcnRzIGFyZSBvcmdhbml6ZWQgYXJvdW5kIHRoZSB0aGUgZGlmZmVyZW50IG1vZHVsZXMgY2hhcmFjdGVyaXppbmcgZGlmZmVyZW50IGFzcGVjdHMgb2YgdGhlIHJlYWRzLiBUaGUgRmFzdFFDIFtoZWxwIHBhZ2VdKGh0dHBzOi8vd3d3LmJpb2luZm9ybWF0aWNzLmJhYnJhaGFtLmFjLnVrL3Byb2plY3RzL2Zhc3RxYy9IZWxwLykgaGFzIGRldGFpbGVkIGRlc2NyaXB0aW9ucyBmb3IgZWFjaCBtb2R1bGUuCgpUaGUgcmVwb3J0IHN1bW1hcnkgaXMgYSBQQVNTLCBXQVJOLCBGQUlMIG92ZXJ2aWV3IG9mIHRoZSBtb2R1bGVzLiBJdCdzIGltcG9ydGFudCB0byBub3QgdGFrZSB0aGVtIHRvbyBzZXJpb3VzbHkgaW4gYWxsIGNhc2VzIGFzIHRoZXJlIGFyZSBhIG51bWJlciBvZiBhc3N1bXB0aW9ucyB0aGF0IGdvIGludG8gdGhlIHRocmVzaG9sZHMgdGhhdCBtYXkgbm90IGFwcGx5IGluIHlvdXIgcGFydGljdWxhciBleHBlcmltZW50LgoKQW4gaW1wb3J0YW50IG5vdGU6IEZvciBjb21wdXRhdGlvbmFsIHJlYXNvbnMsIEZhc3RRQyBvbmx5IGV2YWx1YXRlcyB0aGUgZmlyc3QgMTAwLDAwMCByZWFkcyBpbiBhIEZBU1RRIGZpbGUuIFRoZSBhc3N1bXB0aW9uIGlzIHRoYXQgdGhlIGZpcnN0IDEwMCwwMDAgcmVhZHMgc3VmZmljaWVudGx5IHJlcHJlc2VudCB0aGUgZnVsbCBsaWJyYXJ5LgoKIyMjIFBlciBiYXNlIHNlcXVlbmNlIHF1YWxpdHkKCkEgcGVyIGJhc2UgYm94cGxvdCBvZiB0aGUgcXVhbGl0eSBzY29yZXMgd2l0aCBoZWxwZnVsIGNvbG9yaW5nIGZvciBnb29kLCBmYWlyLCBhbmQgcG9vciBxdWFsaXRpZXMuIElmIGEgc2FtcGxlIGhhcyBxdWFsaXR5IHNjb3JlcyB0aGF0IGRlZ3JhZGUgYXQgdGhlIDMnIGVuZCBvZiBhIHJlYWQgKGFzIGluIHRoZSBzZWNvbmQgZXhhbXBsZSBiZWxvdyksIHRoZSBzYW1wbGUgZG9lc24ndCBuZWNlc3NhcmlseSBoYXZlIHRvIGJlIGRyb3BwZWQuIFNvbWUgYWxpZ25lcnMsIGUuZy4gU1RBUiwgd2lsbCBhdXRvbWF0aWNhbGx5IHRyaW0gcG9vciBxdWFsaXR5IHJlYWQgZW5kcy4KCjxjZW50ZXI+Cgo8aW1nIHNyYz0iaW1hZ2VzL2Zhc3RxY19wZXJfYmFzZS5wbmciIHdpZHRoPSI4MDAiLz4KCgpBbiBleGFtcGxlIG9mIGEgZ29vZCBxdWFsaXR5IHJ1bi4KCjwvY2VudGVyPgoKPGNlbnRlcj4KCjxpbWcgc3JjPSJpbWFnZXMvZmFzdHFjX3Bvb3JfcGVyX2Jhc2UucG5nIiB3aWR0aD0iODAwIiAvPgoKQW4gZXhhbXBsZSBvZiBhIHBvb3IgcXVhbGl0eSBydW4uCgo8L2NlbnRlcj4KCiMjIyBTZXF1ZW5jZSBEdXBsaWNhdGlvbgoKSGlnaCBzZXF1ZW5jZSBkdXBsaWNhdGlvbiwgaW5kaWNhdGVkIGJ5IGEgc2tldyB0byB0aGUgcmlnaHQgb2YgdGhlIGJsdWUgY3VydmUgaW4gdGhlIHBsb3RzIGJlbG93LCBjYW4gYmUgY2F1c2VkIGJ5IGxvdyBjb21wbGV4aXR5IGxpYnJhcmllcywgdG9vIG1hbnkgY3ljbGVzIG9mIFBDUiBhbXBsaWZpY2F0aW9uLCBvciB0b28gbGl0dGxlIHN0YXJ0aW5nIG1hdGVyaWFsLgoKT24gdGhlIG90aGVyIGhhbmQsIGlmIHRoZSBsaWJyYXJ5IHdhcyBwcmVwYXJlZCB3aXRoIGFuIGVucmljaG1lbnQgc3RlcCAoZS5nLiBDaElQLXNlcSksIHRoZW4gc2VxdWVuY2UgZHVwbGljYXRpb24gbWlnaHQgbm90IGJlIHVuZXhwZWN0ZWQuCgo8Y2VudGVyPgoKPGltZyBzcmM9ImltYWdlcy9mYXN0cWNfZHVwbGljYXRpb24ucG5nIiB3aWR0aD0iODAwIiAvPgoKQW4gZXhhbXBsZSBvZiBhIHNhbXBsZSB3aXRoIGxvdyBzZXF1ZW5jZSBkdXBsaWNhdGlvbiBsZXZlbHMuCgo8L2NlbnRlcj4KCjxjZW50ZXI+Cgo8aW1nIHNyYz0iaW1hZ2VzL2Zhc3RxY19wb29yX2R1cGxpY2F0aW9uLnBuZyIgd2lkdGg9IjgwMCIgLz4KCkFuIGV4YW1wbGUgb2YgYSBzYW1wbGUgd2l0aCBoaWdoIHNlcXVlbmNlIGR1cGxpY2F0aW9uIGxldmVscy4KCjwvY2VudGVyPgoKIyMjIE92ZXJyZXByZXNlbnRlZCBzZXF1ZW5jZXMKCk92ZXJyZXByZXNlbnRlZCBzZXF1ZW5jZXMgYXJlIHRob3NlIG1ha2luZyB1cCBtb3JlIHRoYW4gMC4xJSBvZiB0aGUgdG90YWwgKG9mIHRoZSAxMDAsMDAwIHJlYWRzIHNhbXBsZWQpLiBGaW5kaW5nIGFuIG92ZXJyZXByZXNlbnRlZCBzZXF1ZW5jZSBpcyBhbiBpbmRpY2F0aW9uIG9mIHNvbWV0aGluZyBiaW9sb2dpY2FsbHkgbWVhbmluZ2Z1bCAoZS5nLiBhbiBlbnJpY2htZW50IHN0ZXAgaW4gdGhlIGxpYnJhcnkgcHJlcCBwcm9jZXNzKSwgb3IgaXQgaXMgYW4gaXNzdWUgc3RlbW1pbmcgZnJvbSB0aGUgbGlicmFyeSBwcmVwYXJhdGlvbiBwcm9jZXNzIChlLmcuIGFkYXB0ZXJzLCBhIGZhaWx1cmUgdG8gZnVsbHkgcmVtb3ZlIHBvbHlBIHRhaWxzLCBvciBjb250YW1pbmF0aW9uKS4KCjxjZW50ZXI+Cgo8aW1nIHNyYz0iaW1hZ2VzL2Zhc3RxY19vdmVycmVwcmVzZW50ZWQucG5nIiB3aWR0aD0iODAwIiAvPgoKV2Ugc2VlIHRoYXQgdGhlcmUgaXMgYSBoaWdoIG51bWJlciBvZiByZWFkcyB3aXRoIHBvbHlBIHRhaWxzLiBUaGlzIGNvdWxkIGJlIGEgcmVzdWx0IG9mIGFuIGluZWZmaWNpZW50IHJlbW92YWwgb2YgcG9seUEgdGFpbHMuCgo8L2NlbnRlcj4KCiMjIyBBZGFwdGVyIENvbnRlbnQKCkFkYXB0ZXIgc2VxdWVuY2UgdHlwaWNhbGx5IGlzIG5vdCBwcmVzZW50IGluIHN0YW5kYXJkIFJOQS1zZXEgbGlicmFyaWVzLiBIb3dldmVyLCBpZiB0aGUgZnJhZ21lbnQgc2l6ZXMgcmVzdWx0aW5nIGZyb20gbGlicmFyeSBwcmVwIGFyZSBzbWFsbGVyIHRoYW4gdGhlIHJlYWQgbGVuZ3RoIG9uIHRoZSBzZXF1ZW5jZXIsIHRoZW4gaXQgaXMgcG9zc2libGUgdG8gZ2V0ICJyZWFkLXRocm91Z2giIG9mIHRoZSBhZGFwdGVyLgoKVGhpcyBjYW4gYmUgZGVhbHQgd2l0aCBieSBhZGRpbmcgYSBzdGVwIHRvIHRoZSB3b3JrZmxvdyB0aGF0IHRyaW1zIHRoZSByZWFkcyBvZiBhZGFwdGVyIGNvbnRlbnQgd2l0aCBhIHRvb2wgc3VjaCBhcyBbY3V0YWRhcHRdKGh0dHBzOi8vY3V0YWRhcHQucmVhZHRoZWRvY3MuaW8vZW4vc3RhYmxlLykuIFdlIHdpbGwgc2VlIHRoaXMgaW4gYSBsYXRlciBtb2R1bGUuCgojIyBFeGFtaW5pbmcgYSBGYXN0UUMgcmVwb3J0CgpGcm9tIHRoZSB6aXBwZWQgZm9sZGVyIHlvdSBkb3dubG9hZGVkIGVhcmxpZXIsIGZpbmQgdGhlIEZhc3RRQyByZXBvcnQgYHNhbXBsZV9BX1IxLnRyaW1tZWRfZmFzdHFjLmh0bWxgLgoKV2UnbGwgdmlldyB0aGlzIHJlcG9ydCBhbmQgdHJ5IHRvIGludGVycHJldCBzb21lIG9mIHRoZSBmaWd1cmVzLgoKIyMgQWN0aW5nIG9uIFFDIC0gR29vZCBvciBCYWQgUmVzdWx0cz8KCkdvb2QgUUMgb24gcmF3IHJlYWRzIG1lYW5zIHRoYXQgUk5BIHF1YWxpdHksIGxpYnJhcnkgcHJlcGFyYXRpb24sIGFuZCBzZXF1ZW5jaW5nIHNlZW0gZmluZSB0byBwcm9jZWVkIHdpdGggdGhlIG5leHQgc3RlcHMgb2YgYW5hbHlzaXMuIEl0ICoqZG9lcyBub3QqKiBtZWFuIHRoYXQgeW91IHdpbGwgZmluZCBkaWZmZXJlbnRpYWxseSBleHByZXNzZWQgZ2VuZXMgZG93bnN0cmVhbS4KClRoZSBzb3VyY2Ugb2YgYmFkIFFDIG1lYXN1cmVzIGFyZSBub3QgYWx3YXlzIGVhc3kgdG8gZGV0ZXJtaW5lLCBhbmQgZG9lc24ndCBuZWNlc3NhcmlseSBtZWFuIHRoZSBkYXRhIGNhbm5vdCBiZSB1c2VkIGRvd25zdHJlYW0uIEhvd2V2ZXIsIGJhZCBRQyBtZWFzdXJlcyBtYXkgaW5kaWNhdGUgdGhhdCBoYXphcmRzIGxpZSBhaGVhZCwgYW5kIHRoYXQgY2VydGFpbiBzdGVwcyB1cHN0cmVhbSBvZiBzZXF1ZW5jaW5nIChzYW1wbGUgaGFuZGxpbmcsIFJOQSBleHRyYWN0aW9uLCBsaWJyYXJ5IHByZXBhcmF0aW9uKSBtaWdodCBuZWVkIHRvIGJlIGFsdGVyZWQuCgojIyBGYXN0UUMgRXhlcmNpc2UKCkxldCdzIHRyeSBydW5uaW5nIEZhc3RRQyBvbiBvdXIgRkFTVFEgaW5wdXQgZmlsZXMuCgoxLiBOYXZpZ2F0ZSB0byBgYW5hbHlzaXNgIGRpcmVjdG9yeQoyLiBWaWV3IEZhc3RRQyBoZWxwIGZpbGUKMy4gQ29uc3RydWN0IHRoZSBjYWxsIHRvIEZhc3RRQwo0LiBXYXRjaCBGYXN0UUMgcHJvY2VzcyB0aGUgZmlsZXMgLyBnYXRoZXIgcXVhbGl0eSBtZXRyaWNzCjUuIFZpZXcgdGhlIG91dHB1dCBvZiBGYXN0UUMgKHRoZSBmaWxlbmFtZXMpCgpgYGAKIyBOYXZpZ2F0ZSB0byBhbmFseXNpcyBkaXJlY3RvcnkKY2Qgfi9SU0RfU2hlbGwvYW5hbHlzaXMKIyBWaWV3IHRoZSBGYXN0UUMgaGVscCBmaWxlCmZhc3RxYyAtaAojIE1ha2UgYSBkaXJlY3RvcnkgZm9yIG91ciBvdXRwdXQKbWtkaXIgb3V0X2Zhc3RxYwojIENvbnRzdHJ1Y3QgdGhlIGNhbGwgdG8gRmFzdFFDCmZhc3RxYyAtbyBvdXRfZmFzdHFjLyAuLi9yZWFkcy8qLmZhc3RxLmd6CiMgV2F0Y2ggdGhlIG91dHB1dCBvZiBGYXN0UUMKIyBWaWV3IHRoZSBvdXRwdXQgb2YgRmFzdFFDICh0aGUgZmlsZW5hbWVzKQpgYGAKCjxicj4KPGJyPgoKLS0tCgpUaGVzZSBtYXRlcmlhbHMgaGF2ZSBiZWVuIGFkYXB0ZWQgYW5kIGV4dGVuZGVkIGZyb20gbWF0ZXJpYWxzIGNyZWF0ZWQgYnkgdGhlIFtIYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZSAoSEJDKV0oaHR0cDovL2Jpb2luZm9ybWF0aWNzLnNwaC5oYXJ2YXJkLmVkdS8pLiBUaGVzZSBhcmUgb3BlbiBhY2Nlc3MgbWF0ZXJpYWxzIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgW0NyZWF0aXZlIENvbW1vbnMgQXR0cmlidXRpb24gbGljZW5zZSAoQ0MgQlkgNC4wKV0oaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvNC4wLyksIHdoaWNoIHBlcm1pdHMgdW5yZXN0cmljdGVkIHVzZSwgZGlzdHJpYnV0aW9uLCBhbmQgcmVwcm9kdWN0aW9uIGluIGFueSBtZWRpdW0sIHByb3ZpZGVkIHRoZSBvcmlnaW5hbCBhdXRob3IgYW5kIHNvdXJjZSBhcmUgY3JlZGl0ZWQuCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTW9kdWxlIDAyYTogU2VxdWVuY2UgUUMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCiMgU2VxdWVuY2UgUUMgYW5kIEZBU1RRIEZpbGVzCgpJbiB0aGlzIFF1YWxpdHkgQ29udHJvbCAoUUMpIG1vZHVsZSwgd2Ugd2lsbCBsZWFybjoKCiogd2hhdCBhIEZBU1RRIGZpbGUgaXMKKiBob3cgdG8gdXNlIEZhc3RRQyB0byBhc3Nlc3MgdGhlIHF1YWxpdHkgb2Ygc2VxdWVuY2luZyByZWFkcwoqIGhvdyB0byBpbnRlcnByZXQgRmFzdFFDIHJlcG9ydHMKCiMgRGlmZmVyZW50aWFsIEV4cHJlc3Npb24gV29ya2Zsb3cKCkFuIG92ZXJ2aWV3IG9mIHRoZSBzdGVwcyBvZiBlbnRpcmUgZGlmZmVyZW50aWFsIGV4cHJlc3Npb24gZXhwZXJpbWVudCBhbmQgYW5hbHlzaXMgd29ya2Zsb3cgaXMgc2hvd24gYmVsb3cuIEluIHRoaXMgbGVzc29uLCB3ZSB3aWxsIGdvIG92ZXIgdGhlIGhpZ2hsaWdodGVkIHBhcnQgb2YgdGhlIHdvcmtmbG93LgoKIVtdKGltYWdlcy93YXlmaW5kZXIvd2F5ZmluZGVyLVNlcXVlbmNlX1FDLnBuZykKPGJyPgo8YnI+Cjxicj4KPGJyPgoKIyBSTkEtc2VxIERhdGEKCkFuYWx5c2lzIG9mIFJOQS1zZXEgcmVxdWlyZXMgdGhlIHVzZSBvZiBtYW55IHR5cGVzIG9mIGRhdGEuIFRoZSB0aHJlZSBtb3N0IGNvbW1vbiB0aGF0IHdlIHdpbGwgZW5jb3VudGVyIGFyZToKCi0gU2VxdWVuY2UgZGF0YQotIEdlbm9tZSBmZWF0dXJlIGRhdGEKLSBBbGlnbm1lbnQgZGF0YQoKV2Ugd2lsbCBpbnRyb2R1Y2UgZWFjaCBkYXRhIHR5cGUgYW5kIHRoZWlyIGZvcm1hdHMgaW4gbW9yZSBkZXRhaWwgYXMgdGhleSBlbnRlciB0aGUgd29ya2Zsb3csIGJ1dCBmb3Igbm93IHNvbWUgZ2VuZXJhbCBub3RlcyBhYm91dCB0aGUgZm9ybWF0cyB3ZSB3aWxsIGVuY291bnRlcjoKCi0gRmlsZSBmb3JtYXRzIHJlcHJlc2VudCB0aGUgZGF0YSBpbiBhIHN0cnVjdHVyZWQgbWFubmVyLgotIFNvbWUgZmlsZSBmb3JtYXRzIGFyZSBub3QgaHVtYW4tcmVhZGFibGU7IHRoZXkgYXJlIGJpbmFyeSwgYW5kIHdlIHdpbGwgc2VlIHdoYXQgdGhhdCBtZWFucyB3aGVuIHdlIGRpc2N1c3MgYWxpZ25tZW50cy4KLSBNYW55IGZpbGUgZm9ybWF0cyBhcmUgaHVtYW4gcmVhZGFibGUsIGJ1dCB2ZXJ5IGxhcmdlLiAqKlRoZXNlIGZpbGVzIHNob3VsZCBub3QgYmUgdmlld2VkIGluIFdvcmQgb3IgRXhjZWwuKioKCiMjIEZBU1RRIEZpbGVzCgpSYXcgc2VxdWVuY2VkIHJlYWRzIGFyZSBzdG9yZWQgaW4gW0ZBU1RRXShodHRwczovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9GQVNUUV9mb3JtYXQpIGZvcm1hdC4gVGhpcyBpcyBhIHBsYWluIHRleHQsIGh1bWFuIHJlYWRhYmxlIGZpbGUgZm9ybWF0IHRoYXQgc3RvcmVzIGluZm9ybWF0aW9uIGFib3V0IGVhY2ggcmVhZC4gRm9yIGEgc2luZ2xlIHJlYWQgdGhlcmUgYXJlIGZvdXIgbGluZXM6CgoKICAgIEBBMDA0Mzc6MjY2OkhWRk1ZRFNYWDoxOjExMDE6MTE4MToxMDAwIDE6TjowOkFHQ0NUQVRDK1RHQ0dUQUFDCiAgICBUVFRBVFRHVFRHQVRHR1RUQVRUVFRUVEdUVFRBVEdHVFRBVFRUVEdUR1RUVEFUR0dUVEFUVFRUVFRHVFRUQVRHR1RUQVRUVFRUVEEKICAgICsKICAgIEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoKCnwgTGluZSB8IERlc2NyaXB0aW9uIHwKfCA6LS06IHwgLS0tLS0tLS0tLS0gfAp8IDEgfCBCZWdpbnMgd2l0aCBgQGAgYW5kIGhhcyBpbmZvcm1hdGlvbiBhYm91dCB0aGUgcmVhZC4gRnJvbSBBR0Mgd2lsbCBjb250YWluIGZsb3djZWxsIGFuZCBiYXJjb2RlIGluZm9ybWF0aW9uLiB8CnwgMiB8IFRoZSBSTkEgc2VxdWVuY2UuIHwKfCAzIHwgQWx3YXlzIGJlZ2lucyB3aXRoIGArYCBhbmQgbWF5IGNvbnRhaW4gdGhlIHNhbWUgaW5mb3JtYXRpb24gYXMgbGluZSAxLiB8CnwgNCB8IEEgc3RyaW5nIG9mIGNoYXJhY3RlcnMgcmVwcmVzZW50aW5nIHRoZSBxdWFsaXR5IHNjb3Jlcy4gQWx3YXlzIHRoZSBzYW1lIG51bWJlciBvZiBjaGFyYWN0ZXJzIGFzIGxpbmUgMi4gfAoKIyMjIEJhc2UgUXVhbGl0eSBTY29yZXMKClRoZSBmb3VydGggbGluZSBlbmNvZGVzIHRoZSBxdWFsaXR5IG9mIGVhY2ggbnVjbGVvdGlkZSBpbiB0aGUgcmVhZC4gVGhlIG1vc3QgY29tbW9uIGVuY29kaW5nIGlzIHJlZmVycmVkIHRvIGFzIFBIUkVELTMzLCBhbmQgdGhlIGZvbGxvd2luZyBtYXBzIGNoYXJhY3RlcnMgdG8gcXVhbGl0aWVzOgoKCiAgICBRdWFsaXR5IGVuY29kaW5nOiAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISQogICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgIHwgICAgICAgICB8ICAgICAgICAgfCAgICAgICAgIHwKICAgICAgIFF1YWxpdHkgc2NvcmU6IDAuLi4uLi4uLjEwLi4uLi4uLi4yMC4uLi4uLi4uMzAuLi4uLi4uLjQwCgoKVGhlIGFib3ZlIGV4YW1wbGUgaXMgYSByYXRoZXIgYm9yaW5nIHJlYWQgd2l0aCBhbGwgYmFzZXMgaGF2aW5nIGBGYCwgbWVhbmluZyBhIHNjb3JlIG9mIDM3LCB3aGljaCBpcyBnb29kLiBFYWNoIHF1YWxpdHkgc2NvcmUgcmVwcmVzZW50cyB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgY29ycmVzcG9uZGluZyBudWNsZW90aWRlIGNhbGwgaXMgaW5jb3JyZWN0LiBUaGUgcXVhbGl0eSBzY29yZSBpcyBsb2dhcml0aG1pYyBhbmQgaXMgY2FsY3VsYXRlZCBhczoKCgogICAgUSA9IC0xMCB4IGxvZzEwKFApLCB3aGVyZSBQIGlzIHRoZSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBiYXNlIGNhbGwgaXMgZXJyb25lb3VzCgoKQW5vdGhlciB3YXkgdG8gaW50ZXJwcmV0IHRoZSBzY29yZXMgaXMgaW4gdGVybXMgb2YgdGhlIGZvbGxvd2luZyB0YWJsZToKCnwgUEhSRUQgUXVhbGl0eSBTY29yZSB8IFByb2JhYmlsaXR5IG9mIGluY29ycmVjdCBiYXNlIGNhbGwgfCBCYXNlIGNhbGwgYWNjdXJhY3kgfAp8IC0tLS0tLS0tLS0tLS0tLS0tLS0gfCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHwgLS0tLS0tLS0tLS0tLS0tLS0tIHwKfCAxMCB8IDEgaW4gMTAgfCA5MCUgfAp8IDIwIHwgMSBpbiAxMDAgfCA5OSUgfAp8IDMwIHwgMSBpbiAxMDAwIHwgOTkuOSUgfAp8IDQwIHwgMSBpbiAxMDAwMCB8IDk5Ljk5JSB8CgpJdCB3b3VsZCBjbGVhcmx5IGJlIHBhaW5zdGFraW5nIHRvIGdvIHRocm91Z2ggYWxsIHRoZSBiYXNlIHF1YWxpdHkgc2NvcmVzIG9mIGFsbCB0aGUgbWlsbGlvbnMgb2YgcmVhZHMgb2J0YWluZWQgZnJvbSBhIHNlcXVlbmNpbmcgcnVuLCBzbyB3ZSB0eXBpY2FsbHkgZG9uJ3QgZXZhbHVhdGUgdGhlIEZBU1RRIGZpbGVzIGJ5IHNpZ2h0LiBJbnN0ZWFkLCB3ZSB1c2UgdG9vbHMgdGhhdCB0YWtlIGluIEZBU1RRIGZpbGVzIGFuZCBzdW1tYXJpemUgdGhlIGJhc2UgcXVhbGl0eSBzY29yZXMgKGFuZCBvdGhlciBjaGFyYWN0ZXJpc3RpY3MpIHRvIGRldGVybWluZSB0aGUgb3ZlcmFsbCBxdWFsaXR5IG9mIHRoZSByZWFkcyBmcm9tIHRoZSBzZXF1ZW5jZXIuCgojIFF1YWxpdHkgQXNzZXNzbWVudCB3aXRoIEZhc3RRQwoKIVtGYXN0UUNdKGltYWdlcy9mYXN0cWNfbG9nby5wbmcpCgpUaGUgZmlyc3Qgc3RlcCBpbiBtYW55IGhpZ2gtdGhyb3VnaHB1dCBzZXF1ZW5jaW5nIGFuYWx5c2VzIGlzIHRvIGV4YW1pbmUgdGhlIHF1YWxpdHkgb2YgdGhlIHJhdyByZWFkcyB3aXRoIFtGYXN0UUNdKGh0dHBzOi8vd3d3LmJpb2luZm9ybWF0aWNzLmJhYnJhaGFtLmFjLnVrL3Byb2plY3RzL2Zhc3RxYy8pLiBJdCBhbmFseXplcyB2YXJpb3VzIGFzcGVjdHMgb2YgZWFjaCBGQVNUUSBmaWxlIGFuZCBwcm92aWRlcyBhIHF1aWNrIGltcHJlc3Npb24gb2YgdGhlIG92ZXJhbGwgcXVhbGl0eSBtZXRyaWNzIHdoaWNoIGFyZSB1c2VmdWwgdG8gZGV0ZXJtaW5lIGJlZm9yZSBwcm9jZWVkaW5nIHdpdGggZG93bnN0cmVhbSBhbmFseXNpcy4gVGhlIGZvbGxvd2luZyBtb2R1bGVzIGFyZSBwcmVzZW50IGluIGFuIGVhc3kgdG8gcmVhZCBIVE1MIHJlcG9ydC4KCi0gUmVhZCBxdWFsaXR5IHNjb3JlIHBlciBiYXNlIChieSBpbnRlcnByZXRpbmcgdGhlIFBIUkVEMzMgc2NvcmVzKQotIFBlciB0aWxlIHNlcXVlbmNpbmcgcXVhbGl0eSAocmVsYXRlZCB0byBzZXF1ZW5jaW5nIGNsdXN0ZXJzIG9uIHRoZSBmbG93Y2VsbCkKLSBSZWFkIGxlbmd0aHMKLSBHQyBjb250ZW50Ci0gQWRhcHRlciBjb250ZW50Ci0gT3ZlcnJlcHJlc2VudGVkIHNlcXVlbmNlcwoKVG93YXJkIHRoZSBlbmQgb2YgdGhpcyBtb2R1bGUsIHdlJ2xsIHJ1biBGYXN0UUMuIEZvciBub3csIHdlJ2xsIGRpc2N1c3MgdGhlIG91dHB1dCBmaWxlcyBpdCBwcm9kdWNlcyBhbmQgdmlldyBzb21lIGV4YW1wbGVzLgoKIyMgRmFzdFFDIG91dHB1dCBmaWxlcwoKRmFzdFFDIG91dHB1dHMgYW4gSFRNTCByZXBvcnQgYW5kIGEgemlwcGVkIGFyY2hpdmUgb2YgaW50ZXJtZWRpYXRlIGZpbGVzLiBUaGVzZSB3aWxsIGFwcGVhciBsaWtlIHRoaXM6CgogICAgc2FtcGxlX0FfUjFfZmFzdHFjLmh0bWwKICAgIHNhbXBsZV9BX1IxX2Zhc3RxYy56aXAKCkZvciBtb3N0IHNpdHVhdGlvbnMsIG9wZW5pbmcgdGhlIEhUTUwgcmVwb3J0IGFuZCBpbnNwZWN0aW5nIHRoZSByZXN1bHRzIHdpbGwgcHJvdmlkZSB0aGUgaW5mb3JtYXRpb24gbmVjZXNzYXJ5IHRvIG1ha2UgZGVjaXNpb25zIGFib3V0IHlvdXIgZGF0YS4KCkZpcnN0IHdlJ2xsIHRha2UgYSBsb29rIGF0IHNvbWUgb2YgdGhlIGZpZ3VyZXMgZm91bmQgaW4gYSB0eXBpY2FsIEZhc3RRQyByZXBvcnQsIHRoZW4gd2UnbGwgdmlldyBhbiBleGFtcGxlIG9mIGFuIEhUTUwgcmVwb3J0IGFuZCB0cnkgdG8gbWFrZSBpbnRlcnByZXRhdGlvbnMgZnJvbSB0aGlzLiBGaW5hbGx5LCB3ZSdsbCBydW4gRmFzdFFDIHRvIHByb2R1Y2Ugc29tZSBvZiB0aGVzZSBmaWxlcyBmcm9tIG91ciBleGFtcGxlIGRhdGFzZXQuCgoKIyMgSW50ZXJwcmV0aW5nIEZhc3RRQwoKRmFzdFFDIHJlcG9ydHMgYXJlIG9yZ2FuaXplZCBhcm91bmQgdGhlIHRoZSBkaWZmZXJlbnQgbW9kdWxlcyBjaGFyYWN0ZXJpemluZyBkaWZmZXJlbnQgYXNwZWN0cyBvZiB0aGUgcmVhZHMuIFRoZSBGYXN0UUMgW2hlbHAgcGFnZV0oaHR0cHM6Ly93d3cuYmlvaW5mb3JtYXRpY3MuYmFicmFoYW0uYWMudWsvcHJvamVjdHMvZmFzdHFjL0hlbHAvKSBoYXMgZGV0YWlsZWQgZGVzY3JpcHRpb25zIGZvciBlYWNoIG1vZHVsZS4KClRoZSByZXBvcnQgc3VtbWFyeSBpcyBhIFBBU1MsIFdBUk4sIEZBSUwgb3ZlcnZpZXcgb2YgdGhlIG1vZHVsZXMuIEl0J3MgaW1wb3J0YW50IHRvIG5vdCB0YWtlIHRoZW0gdG9vIHNlcmlvdXNseSBpbiBhbGwgY2FzZXMgYXMgdGhlcmUgYXJlIGEgbnVtYmVyIG9mIGFzc3VtcHRpb25zIHRoYXQgZ28gaW50byB0aGUgdGhyZXNob2xkcyB0aGF0IG1heSBub3QgYXBwbHkgaW4geW91ciBwYXJ0aWN1bGFyIGV4cGVyaW1lbnQuCgpBbiBpbXBvcnRhbnQgbm90ZTogRm9yIGNvbXB1dGF0aW9uYWwgcmVhc29ucywgRmFzdFFDIG9ubHkgZXZhbHVhdGVzIHRoZSBmaXJzdCAxMDAsMDAwIHJlYWRzIGluIGEgRkFTVFEgZmlsZS4gVGhlIGFzc3VtcHRpb24gaXMgdGhhdCB0aGUgZmlyc3QgMTAwLDAwMCByZWFkcyBzdWZmaWNpZW50bHkgcmVwcmVzZW50IHRoZSBmdWxsIGxpYnJhcnkuCgojIyMgUGVyIGJhc2Ugc2VxdWVuY2UgcXVhbGl0eQoKQSBwZXIgYmFzZSBib3hwbG90IG9mIHRoZSBxdWFsaXR5IHNjb3JlcyB3aXRoIGhlbHBmdWwgY29sb3JpbmcgZm9yIGdvb2QsIGZhaXIsIGFuZCBwb29yIHF1YWxpdGllcy4gSWYgYSBzYW1wbGUgaGFzIHF1YWxpdHkgc2NvcmVzIHRoYXQgZGVncmFkZSBhdCB0aGUgMycgZW5kIG9mIGEgcmVhZCAoYXMgaW4gdGhlIHNlY29uZCBleGFtcGxlIGJlbG93KSwgdGhlIHNhbXBsZSBkb2Vzbid0IG5lY2Vzc2FyaWx5IGhhdmUgdG8gYmUgZHJvcHBlZC4gU29tZSBhbGlnbmVycywgZS5nLiBTVEFSLCB3aWxsIGF1dG9tYXRpY2FsbHkgdHJpbSBwb29yIHF1YWxpdHkgcmVhZCBlbmRzLgoKPGNlbnRlcj4KCjxpbWcgc3JjPSJpbWFnZXMvZmFzdHFjX3Blcl9iYXNlLnBuZyIgd2lkdGg9IjgwMCIvPgoKCkFuIGV4YW1wbGUgb2YgYSBnb29kIHF1YWxpdHkgcnVuLgoKPC9jZW50ZXI+Cgo8Y2VudGVyPgoKPGltZyBzcmM9ImltYWdlcy9mYXN0cWNfcG9vcl9wZXJfYmFzZS5wbmciIHdpZHRoPSI4MDAiIC8+CgpBbiBleGFtcGxlIG9mIGEgcG9vciBxdWFsaXR5IHJ1bi4KCjwvY2VudGVyPgoKIyMjIFNlcXVlbmNlIER1cGxpY2F0aW9uCgpIaWdoIHNlcXVlbmNlIGR1cGxpY2F0aW9uLCBpbmRpY2F0ZWQgYnkgYSBza2V3IHRvIHRoZSByaWdodCBvZiB0aGUgYmx1ZSBjdXJ2ZSBpbiB0aGUgcGxvdHMgYmVsb3csIGNhbiBiZSBjYXVzZWQgYnkgbG93IGNvbXBsZXhpdHkgbGlicmFyaWVzLCB0b28gbWFueSBjeWNsZXMgb2YgUENSIGFtcGxpZmljYXRpb24sIG9yIHRvbyBsaXR0bGUgc3RhcnRpbmcgbWF0ZXJpYWwuCgpPbiB0aGUgb3RoZXIgaGFuZCwgaWYgdGhlIGxpYnJhcnkgd2FzIHByZXBhcmVkIHdpdGggYW4gZW5yaWNobWVudCBzdGVwIChlLmcuIENoSVAtc2VxKSwgdGhlbiBzZXF1ZW5jZSBkdXBsaWNhdGlvbiBtaWdodCBub3QgYmUgdW5leHBlY3RlZC4KCjxjZW50ZXI+Cgo8aW1nIHNyYz0iaW1hZ2VzL2Zhc3RxY19kdXBsaWNhdGlvbi5wbmciIHdpZHRoPSI4MDAiIC8+CgpBbiBleGFtcGxlIG9mIGEgc2FtcGxlIHdpdGggbG93IHNlcXVlbmNlIGR1cGxpY2F0aW9uIGxldmVscy4KCjwvY2VudGVyPgoKPGNlbnRlcj4KCjxpbWcgc3JjPSJpbWFnZXMvZmFzdHFjX3Bvb3JfZHVwbGljYXRpb24ucG5nIiB3aWR0aD0iODAwIiAvPgoKQW4gZXhhbXBsZSBvZiBhIHNhbXBsZSB3aXRoIGhpZ2ggc2VxdWVuY2UgZHVwbGljYXRpb24gbGV2ZWxzLgoKPC9jZW50ZXI+CgojIyMgT3ZlcnJlcHJlc2VudGVkIHNlcXVlbmNlcwoKT3ZlcnJlcHJlc2VudGVkIHNlcXVlbmNlcyBhcmUgdGhvc2UgbWFraW5nIHVwIG1vcmUgdGhhbiAwLjElIG9mIHRoZSB0b3RhbCAob2YgdGhlIDEwMCwwMDAgcmVhZHMgc2FtcGxlZCkuIEZpbmRpbmcgYW4gb3ZlcnJlcHJlc2VudGVkIHNlcXVlbmNlIGlzIGFuIGluZGljYXRpb24gb2Ygc29tZXRoaW5nIGJpb2xvZ2ljYWxseSBtZWFuaW5nZnVsIChlLmcuIGFuIGVucmljaG1lbnQgc3RlcCBpbiB0aGUgbGlicmFyeSBwcmVwIHByb2Nlc3MpLCBvciBpdCBpcyBhbiBpc3N1ZSBzdGVtbWluZyBmcm9tIHRoZSBsaWJyYXJ5IHByZXBhcmF0aW9uIHByb2Nlc3MgKGUuZy4gYWRhcHRlcnMsIGEgZmFpbHVyZSB0byBmdWxseSByZW1vdmUgcG9seUEgdGFpbHMsIG9yIGNvbnRhbWluYXRpb24pLgoKPGNlbnRlcj4KCjxpbWcgc3JjPSJpbWFnZXMvZmFzdHFjX292ZXJyZXByZXNlbnRlZC5wbmciIHdpZHRoPSI4MDAiIC8+CgpXZSBzZWUgdGhhdCB0aGVyZSBpcyBhIGhpZ2ggbnVtYmVyIG9mIHJlYWRzIHdpdGggcG9seUEgdGFpbHMuIFRoaXMgY291bGQgYmUgYSByZXN1bHQgb2YgYW4gaW5lZmZpY2llbnQgcmVtb3ZhbCBvZiBwb2x5QSB0YWlscy4KCjwvY2VudGVyPgoKIyMjIEFkYXB0ZXIgQ29udGVudAoKQWRhcHRlciBzZXF1ZW5jZSB0eXBpY2FsbHkgaXMgbm90IHByZXNlbnQgaW4gc3RhbmRhcmQgUk5BLXNlcSBsaWJyYXJpZXMuIEhvd2V2ZXIsIGlmIHRoZSBmcmFnbWVudCBzaXplcyByZXN1bHRpbmcgZnJvbSBsaWJyYXJ5IHByZXAgYXJlIHNtYWxsZXIgdGhhbiB0aGUgcmVhZCBsZW5ndGggb24gdGhlIHNlcXVlbmNlciwgdGhlbiBpdCBpcyBwb3NzaWJsZSB0byBnZXQgInJlYWQtdGhyb3VnaCIgb2YgdGhlIGFkYXB0ZXIuCgpUaGlzIGNhbiBiZSBkZWFsdCB3aXRoIGJ5IGFkZGluZyBhIHN0ZXAgdG8gdGhlIHdvcmtmbG93IHRoYXQgdHJpbXMgdGhlIHJlYWRzIG9mIGFkYXB0ZXIgY29udGVudCB3aXRoIGEgdG9vbCBzdWNoIGFzIFtjdXRhZGFwdF0oaHR0cHM6Ly9jdXRhZGFwdC5yZWFkdGhlZG9jcy5pby9lbi9zdGFibGUvKS4gV2Ugd2lsbCBzZWUgdGhpcyBpbiBhIGxhdGVyIG1vZHVsZS4KCiMjIEV4YW1pbmluZyBhIEZhc3RRQyByZXBvcnQKCkZyb20gdGhlIHppcHBlZCBmb2xkZXIgeW91IGRvd25sb2FkZWQgZWFybGllciwgZmluZCB0aGUgRmFzdFFDIHJlcG9ydCBgc2FtcGxlX0FfUjFfZmFzdHFjLmh0bWxgLgoKV2UnbGwgdmlldyB0aGlzIHJlcG9ydCBhbmQgdHJ5IHRvIGludGVycHJldCBzb21lIG9mIHRoZSBmaWd1cmVzLgoKIyMgQWN0aW5nIG9uIFFDIC0gR29vZCBvciBCYWQgUmVzdWx0cz8KCkdvb2QgUUMgb24gcmF3IHJlYWRzIG1lYW5zIHRoYXQgUk5BIHF1YWxpdHksIGxpYnJhcnkgcHJlcGFyYXRpb24sIGFuZCBzZXF1ZW5jaW5nIHNlZW0gZmluZSB0byBwcm9jZWVkIHdpdGggdGhlIG5leHQgc3RlcHMgb2YgYW5hbHlzaXMuIEl0ICoqZG9lcyBub3QqKiBtZWFuIHRoYXQgeW91IHdpbGwgZmluZCBkaWZmZXJlbnRpYWxseSBleHByZXNzZWQgZ2VuZXMgZG93bnN0cmVhbS4KClRoZSBzb3VyY2Ugb2YgYmFkIFFDIG1lYXN1cmVzIGFyZSBub3QgYWx3YXlzIGVhc3kgdG8gZGV0ZXJtaW5lLCBhbmQgZG9lc24ndCBuZWNlc3NhcmlseSBtZWFuIHRoZSBkYXRhIGNhbm5vdCBiZSB1c2VkIGRvd25zdHJlYW0uIEhvd2V2ZXIsIGJhZCBRQyBtZWFzdXJlcyBtYXkgaW5kaWNhdGUgdGhhdCBoYXphcmRzIGxpZSBhaGVhZCwgYW5kIHRoYXQgY2VydGFpbiBzdGVwcyB1cHN0cmVhbSBvZiBzZXF1ZW5jaW5nIChzYW1wbGUgaGFuZGxpbmcsIFJOQSBleHRyYWN0aW9uLCBsaWJyYXJ5IHByZXBhcmF0aW9uKSBtaWdodCBuZWVkIHRvIGJlIGFsdGVyZWQuCgojIyBGYXN0UUMgRXhlcmNpc2UKCkxldCdzIHRyeSBydW5uaW5nIEZhc3RRQyBvbiBvdXIgRkFTVFEgaW5wdXQgZmlsZXMuCgoxLiBOYXZpZ2F0ZSB0byBgYW5hbHlzaXNgIGRpcmVjdG9yeQoyLiBWaWV3IEZhc3RRQyBoZWxwIGZpbGUKMy4gQ29uc3RydWN0IHRoZSBjYWxsIHRvIEZhc3RRQwo0LiBXYXRjaCBGYXN0UUMgcHJvY2VzcyB0aGUgZmlsZXMgLyBnYXRoZXIgcXVhbGl0eSBtZXRyaWNzCjUuIFZpZXcgdGhlIG91dHB1dCBvZiBGYXN0UUMgKHRoZSBmaWxlbmFtZXMpCgpgYGAKIyBOYXZpZ2F0ZSB0byBhbmFseXNpcyBkaXJlY3RvcnkKY2Qgfi9SU0RfU2hlbGwvYW5hbHlzaXMKIyBWaWV3IHRoZSBGYXN0UUMgaGVscCBmaWxlCmZhc3RxYyAtaAojIE1ha2UgYSBkaXJlY3RvcnkgZm9yIG91ciBvdXRwdXQKbWtkaXIgb3V0X2Zhc3RxYwojIENvbnRzdHJ1Y3QgdGhlIGNhbGwgdG8gRmFzdFFDCmZhc3RxYyAtbyBvdXRfZmFzdHFjLyAuLi9yZWFkcy8qLmZhc3RxLmd6CiMgV2F0Y2ggdGhlIG91dHB1dCBvZiBGYXN0UUMKIyBWaWV3IHRoZSBvdXRwdXQgb2YgRmFzdFFDICh0aGUgZmlsZW5hbWVzKQpgYGAKCjxicj4KPGJyPgoKLS0tCgpUaGVzZSBtYXRlcmlhbHMgaGF2ZSBiZWVuIGFkYXB0ZWQgYW5kIGV4dGVuZGVkIGZyb20gbWF0ZXJpYWxzIGNyZWF0ZWQgYnkgdGhlIFtIYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZSAoSEJDKV0oaHR0cDovL2Jpb2luZm9ybWF0aWNzLnNwaC5oYXJ2YXJkLmVkdS8pLiBUaGVzZSBhcmUgb3BlbiBhY2Nlc3MgbWF0ZXJpYWxzIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgW0NyZWF0aXZlIENvbW1vbnMgQXR0cmlidXRpb24gbGljZW5zZSAoQ0MgQlkgNC4wKV0oaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvNC4wLyksIHdoaWNoIHBlcm1pdHMgdW5yZXN0cmljdGVkIHVzZSwgZGlzdHJpYnV0aW9uLCBhbmQgcmVwcm9kdWN0aW9uIGluIGFueSBtZWRpdW0sIHByb3ZpZGVkIHRoZSBvcmlnaW5hbCBhdXRob3IgYW5kIHNvdXJjZSBhcmUgY3JlZGl0ZWQuCg==</div>
 
 
 </div>

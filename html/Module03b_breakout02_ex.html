@@ -14,7 +14,7 @@
 
 <title>Breakout 02</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -192,8 +192,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -201,9 +201,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -399,36 +406,21 @@ pre {
 <p><br></p>
 <p><strong>15 Minutes</strong></p>
 <p><br></p>
-<p>We just learned about how to use RSEM &amp; STAR, but now we need to
-align all of the rest of our samples to the reference genome. In this
-breakout exercise, we’ll build upon some concepts we’ve learned
-previously.</p>
+<p>We just learned about how to use RSEM &amp; STAR, but now we need to align all of the rest of our samples to the reference genome. In this breakout exercise, we’ll build upon some concepts we’ve learned previously.</p>
 <p><br></p>
 <div id="instructions" class="section level3">
 <h3>Instructions:</h3>
 <p><br></p>
 <ul>
-<li>One group member should share their screen in the breakout room. If
-nobody volunteers, a helper may randomly select someone.</li>
-<li>The group members should discuss the exercise and work together to
-find a solution.</li>
-<li>After a solution is found, allow time for all members to complete
-the exercise.</li>
-</ul>
-<p><br></p>
-<ul>
-<li>Review what we’ve learned about running RSEM + STAR, to determine an
-appropriate command for aligning our samples.</li>
-<li>Using what we’ve learned previously, create a script using this
-command to quickly and easily align the rest of our samples.</li>
-<li>Run the script, view the output, and verify that we have the files
-we need.</li>
+<li>Review what we’ve learned about running RSEM + STAR, to determine an appropriate command for aligning our samples.</li>
+<li>Using what we’ve learned previously, create a script using this command to quickly and easily align the rest of our samples.</li>
+<li>Run the script, view the output, and verify that we have the files we need.</li>
 </ul>
 <p><br></p>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDIiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBBbGlnbmluZyBBbGwgU2FtcGxlcyBFeGVyY2lzZSAoQnJlYWtvdXQpOgoKPGJyPgoKKioxNSBNaW51dGVzKioKCjxicj4KCldlIGp1c3QgbGVhcm5lZCBhYm91dCBob3cgdG8gdXNlIFJTRU0gJiBTVEFSLCBidXQgbm93IHdlIG5lZWQgdG8gYWxpZ24gYWxsIG9mIHRoZSByZXN0IG9mIG91ciBzYW1wbGVzIHRvIHRoZSByZWZlcmVuY2UgZ2Vub21lLiBJbiB0aGlzIGJyZWFrb3V0IGV4ZXJjaXNlLCB3ZSdsbCBidWlsZCB1cG9uIHNvbWUgY29uY2VwdHMgd2UndmUgbGVhcm5lZCBwcmV2aW91c2x5LgoKPGJyPgoKIyMjIEluc3RydWN0aW9uczoKCjxicj4KCi0gT25lIGdyb3VwIG1lbWJlciBzaG91bGQgc2hhcmUgdGhlaXIgc2NyZWVuIGluIHRoZSBicmVha291dCByb29tLiBJZiBub2JvZHkgdm9sdW50ZWVycywgYSBoZWxwZXIgbWF5IHJhbmRvbWx5IHNlbGVjdCBzb21lb25lLgotIFRoZSBncm91cCBtZW1iZXJzIHNob3VsZCBkaXNjdXNzIHRoZSBleGVyY2lzZSBhbmQgd29yayB0b2dldGhlciB0byBmaW5kIGEgc29sdXRpb24uCi0gQWZ0ZXIgYSBzb2x1dGlvbiBpcyBmb3VuZCwgYWxsb3cgdGltZSBmb3IgYWxsIG1lbWJlcnMgdG8gY29tcGxldGUgdGhlIGV4ZXJjaXNlLgoKPGJyPgoKLSBSZXZpZXcgd2hhdCB3ZSd2ZSBsZWFybmVkIGFib3V0IHJ1bm5pbmcgUlNFTSArIFNUQVIsIHRvIGRldGVybWluZSBhbiBhcHByb3ByaWF0ZSBjb21tYW5kIGZvciBhbGlnbmluZyBvdXIgc2FtcGxlcy4KLSBVc2luZyB3aGF0IHdlJ3ZlIGxlYXJuZWQgcHJldmlvdXNseSwgY3JlYXRlIGEgc2NyaXB0IHVzaW5nIHRoaXMgY29tbWFuZCB0byBxdWlja2x5IGFuZCBlYXNpbHkgYWxpZ24gdGhlIHJlc3Qgb2Ygb3VyIHNhbXBsZXMuCi0gUnVuIHRoZSBzY3JpcHQsIHZpZXcgdGhlIG91dHB1dCwgYW5kIHZlcmlmeSB0aGF0IHdlIGhhdmUgdGhlIGZpbGVzIHdlIG5lZWQuCgo8YnI+Cg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDIiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBBbGlnbmluZyBBbGwgU2FtcGxlcyBFeGVyY2lzZSAoQnJlYWtvdXQpOgoKPGJyPgoKKioxNSBNaW51dGVzKioKCjxicj4KCldlIGp1c3QgbGVhcm5lZCBhYm91dCBob3cgdG8gdXNlIFJTRU0gJiBTVEFSLCBidXQgbm93IHdlIG5lZWQgdG8gYWxpZ24gYWxsIG9mIHRoZSByZXN0IG9mIG91ciBzYW1wbGVzIHRvIHRoZSByZWZlcmVuY2UgZ2Vub21lLiBJbiB0aGlzIGJyZWFrb3V0IGV4ZXJjaXNlLCB3ZSdsbCBidWlsZCB1cG9uIHNvbWUgY29uY2VwdHMgd2UndmUgbGVhcm5lZCBwcmV2aW91c2x5LgoKPGJyPgoKIyMjIEluc3RydWN0aW9uczoKCjxicj4KCi0gUmV2aWV3IHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCBydW5uaW5nIFJTRU0gKyBTVEFSLCB0byBkZXRlcm1pbmUgYW4gYXBwcm9wcmlhdGUgY29tbWFuZCBmb3IgYWxpZ25pbmcgb3VyIHNhbXBsZXMuCi0gVXNpbmcgd2hhdCB3ZSd2ZSBsZWFybmVkIHByZXZpb3VzbHksIGNyZWF0ZSBhIHNjcmlwdCB1c2luZyB0aGlzIGNvbW1hbmQgdG8gcXVpY2tseSBhbmQgZWFzaWx5IGFsaWduIHRoZSByZXN0IG9mIG91ciBzYW1wbGVzLgotIFJ1biB0aGUgc2NyaXB0LCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgdGhhdCB3ZSBoYXZlIHRoZSBmaWxlcyB3ZSBuZWVkLgoKPGJyPgo=</div>
 
 
 
