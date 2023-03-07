@@ -37,12 +37,6 @@ Now that we've learned the basics of running Cutadapt, we need to trim all the r
 
 <br>
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- After a solution is found, allow time for all members to complete the exercise.
-
-<br>
-
 - Review Cutadapt's help page and choose the proper arguments for our Cutadapt command(s).
 - Use a bash variable along with Cutadapt to trim all remaining FASTQ files.
 - Confirm that we have all of our expected output files.

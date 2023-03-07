@@ -14,7 +14,7 @@
 
 <title>Breakout 01</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -192,8 +192,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -201,9 +201,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -399,35 +406,19 @@ pre {
 <p><br></p>
 <p><strong>15 Minutes</strong></p>
 <p><br></p>
-<p>Now that we’ve learned the basics of running Cutadapt, we need to
-trim all the rest of our samples. If you remember from the Computational
-Foundations course, we learned about using bash variables. Let’s try an
-exercise where we use a bash variable to trim each one of our FASTQ
-files.</p>
+<p>Now that we’ve learned the basics of running Cutadapt, we need to trim all the rest of our samples. If you remember from the Computational Foundations course, we learned about using bash variables. Let’s try an exercise where we use a bash variable to trim each one of our FASTQ files.</p>
 <p><br></p>
 <div id="instructions" class="section level3">
 <h3>Instructions:</h3>
 <p><br></p>
 <ul>
-<li>One group member should share their screen in the breakout room. If
-nobody volunteers, a helper may randomly select someone.</li>
-<li>The group members should discuss the exercise and work together to
-find a solution.</li>
-<li>After a solution is found, allow time for all members to complete
-the exercise.</li>
-</ul>
-<p><br></p>
-<ul>
-<li>Review Cutadapt’s help page and choose the proper arguments for our
-Cutadapt command(s).</li>
-<li>Use a bash variable along with Cutadapt to trim all remaining FASTQ
-files.</li>
+<li>Review Cutadapt’s help page and choose the proper arguments for our Cutadapt command(s).</li>
+<li>Use a bash variable along with Cutadapt to trim all remaining FASTQ files.</li>
 <li>Confirm that we have all of our expected output files.</li>
 </ul>
 <p><br></p>
 <blockquote>
-<p>Hint: Using a bash variable allows us to quickly change some
-arguments in a repeated command, e.g. :</p>
+<p>Hint: Using a bash variable allows us to quickly change some arguments in a repeated command, e.g. :</p>
 <pre><code>noun=&quot;World&quot;
 echo &quot;Hello, $noun!&quot;
 noun=&quot;Class&quot;
@@ -436,7 +427,7 @@ echo &quot;Hello, $noun!&quot;</code></pre>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDEiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBDdXRhZGFwdCBBbGwgU2FtcGxlcyBFeGVyY2lzZSAoQnJlYWtvdXQpCgo8YnI+CgoqKjE1IE1pbnV0ZXMqKgoKPGJyPgoKTm93IHRoYXQgd2UndmUgbGVhcm5lZCB0aGUgYmFzaWNzIG9mIHJ1bm5pbmcgQ3V0YWRhcHQsIHdlIG5lZWQgdG8gdHJpbSBhbGwgdGhlIHJlc3Qgb2Ygb3VyIHNhbXBsZXMuIElmIHlvdSByZW1lbWJlciBmcm9tIHRoZSBDb21wdXRhdGlvbmFsIEZvdW5kYXRpb25zIGNvdXJzZSwgd2UgbGVhcm5lZCBhYm91dCB1c2luZyBiYXNoIHZhcmlhYmxlcy4gTGV0J3MgdHJ5IGFuIGV4ZXJjaXNlIHdoZXJlIHdlIHVzZSBhIGJhc2ggdmFyaWFibGUgdG8gdHJpbSBlYWNoIG9uZSBvZiBvdXIgRkFTVFEgZmlsZXMuCgo8YnI+CgojIyMgSW5zdHJ1Y3Rpb25zOgoKPGJyPgoKLSBPbmUgZ3JvdXAgbWVtYmVyIHNob3VsZCBzaGFyZSB0aGVpciBzY3JlZW4gaW4gdGhlIGJyZWFrb3V0IHJvb20uIElmIG5vYm9keSB2b2x1bnRlZXJzLCBhIGhlbHBlciBtYXkgcmFuZG9tbHkgc2VsZWN0IHNvbWVvbmUuCi0gVGhlIGdyb3VwIG1lbWJlcnMgc2hvdWxkIGRpc2N1c3MgdGhlIGV4ZXJjaXNlIGFuZCB3b3JrIHRvZ2V0aGVyIHRvIGZpbmQgYSBzb2x1dGlvbi4KLSBBZnRlciBhIHNvbHV0aW9uIGlzIGZvdW5kLCBhbGxvdyB0aW1lIGZvciBhbGwgbWVtYmVycyB0byBjb21wbGV0ZSB0aGUgZXhlcmNpc2UuCgo8YnI+CgotIFJldmlldyBDdXRhZGFwdCdzIGhlbHAgcGFnZSBhbmQgY2hvb3NlIHRoZSBwcm9wZXIgYXJndW1lbnRzIGZvciBvdXIgQ3V0YWRhcHQgY29tbWFuZChzKS4KLSBVc2UgYSBiYXNoIHZhcmlhYmxlIGFsb25nIHdpdGggQ3V0YWRhcHQgdG8gdHJpbSBhbGwgcmVtYWluaW5nIEZBU1RRIGZpbGVzLgotIENvbmZpcm0gdGhhdCB3ZSBoYXZlIGFsbCBvZiBvdXIgZXhwZWN0ZWQgb3V0cHV0IGZpbGVzLgoKPGJyPgoKPiBIaW50OiBVc2luZyBhIGJhc2ggdmFyaWFibGUgYWxsb3dzIHVzIHRvIHF1aWNrbHkgY2hhbmdlIHNvbWUgYXJndW1lbnRzIGluIGEgcmVwZWF0ZWQgY29tbWFuZCwgZS5nLiA6Cj4KPiB+fn4KPiBub3VuPSJXb3JsZCIKPiBlY2hvICJIZWxsbywgJG5vdW4hIgo+IG5vdW49IkNsYXNzIgo+IGVjaG8gIkhlbGxvLCAkbm91biEiCj4gfn5+Cg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDEiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBDdXRhZGFwdCBBbGwgU2FtcGxlcyBFeGVyY2lzZSAoQnJlYWtvdXQpCgo8YnI+CgoqKjE1IE1pbnV0ZXMqKgoKPGJyPgoKTm93IHRoYXQgd2UndmUgbGVhcm5lZCB0aGUgYmFzaWNzIG9mIHJ1bm5pbmcgQ3V0YWRhcHQsIHdlIG5lZWQgdG8gdHJpbSBhbGwgdGhlIHJlc3Qgb2Ygb3VyIHNhbXBsZXMuIElmIHlvdSByZW1lbWJlciBmcm9tIHRoZSBDb21wdXRhdGlvbmFsIEZvdW5kYXRpb25zIGNvdXJzZSwgd2UgbGVhcm5lZCBhYm91dCB1c2luZyBiYXNoIHZhcmlhYmxlcy4gTGV0J3MgdHJ5IGFuIGV4ZXJjaXNlIHdoZXJlIHdlIHVzZSBhIGJhc2ggdmFyaWFibGUgdG8gdHJpbSBlYWNoIG9uZSBvZiBvdXIgRkFTVFEgZmlsZXMuCgo8YnI+CgojIyMgSW5zdHJ1Y3Rpb25zOgoKPGJyPgoKLSBSZXZpZXcgQ3V0YWRhcHQncyBoZWxwIHBhZ2UgYW5kIGNob29zZSB0aGUgcHJvcGVyIGFyZ3VtZW50cyBmb3Igb3VyIEN1dGFkYXB0IGNvbW1hbmQocykuCi0gVXNlIGEgYmFzaCB2YXJpYWJsZSBhbG9uZyB3aXRoIEN1dGFkYXB0IHRvIHRyaW0gYWxsIHJlbWFpbmluZyBGQVNUUSBmaWxlcy4KLSBDb25maXJtIHRoYXQgd2UgaGF2ZSBhbGwgb2Ygb3VyIGV4cGVjdGVkIG91dHB1dCBmaWxlcy4KCjxicj4KCj4gSGludDogVXNpbmcgYSBiYXNoIHZhcmlhYmxlIGFsbG93cyB1cyB0byBxdWlja2x5IGNoYW5nZSBzb21lIGFyZ3VtZW50cyBpbiBhIHJlcGVhdGVkIGNvbW1hbmQsIGUuZy4gOgo+Cj4gfn5+Cj4gbm91bj0iV29ybGQiCj4gZWNobyAiSGVsbG8sICRub3VuISIKPiBub3VuPSJDbGFzcyIKPiBlY2hvICJIZWxsbywgJG5vdW4hIgo+IH5+fgo=</div>
 
 
 

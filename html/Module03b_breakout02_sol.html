@@ -14,7 +14,7 @@
 
 <title>Breakout 02 Solution</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -192,8 +192,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -201,9 +201,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -399,39 +406,22 @@ pre {
 <p><br></p>
 <p><strong>15 Minutes</strong></p>
 <p><br></p>
-<p>We just learned about how to use RSEM &amp; STAR, but now we need to
-align all of the rest of our samples to the reference genome. In this
-breakout exercise, we’ll build upon some concepts we’ve learned
-previously.</p>
+<p>We just learned about how to use RSEM &amp; STAR, but now we need to align all of the rest of our samples to the reference genome. In this breakout exercise, we’ll build upon some concepts we’ve learned previously.</p>
 <p><br></p>
 <div id="instructions" class="section level3">
 <h3>Instructions:</h3>
 <p><br></p>
 <ul>
-<li>One group member should share their screen in the breakout room. If
-nobody volunteers, a helper may randomly select someone.</li>
-<li>The group members should discuss the exercise and work together to
-find a solution.</li>
-<li>After a solution is found, allow time for all members to complete
-the exercise.</li>
-</ul>
-<p><br></p>
-<ul>
-<li>Review what we’ve learned about running RSEM + STAR, to determine an
-appropriate command for aligning our samples.</li>
-<li>Using what we’ve learned previously, create a script using this
-command to quickly and easily align the rest of our samples.</li>
-<li>Run the script, view the output, and verify that we have the files
-we need.</li>
+<li>Review what we’ve learned about running RSEM + STAR, to determine an appropriate command for aligning our samples.</li>
+<li>Using what we’ve learned previously, create a script using this command to quickly and easily align the rest of our samples.</li>
+<li>Run the script, view the output, and verify that we have the files we need.</li>
 </ul>
 <p><br></p>
 </div>
-<div id="solution---aligning-all-samples-exercise"
-class="section level3">
+<div id="solution---aligning-all-samples-exercise" class="section level3">
 <h3>Solution - Aligning All Samples Exercise</h3>
 <p><br></p>
-<p>Based on our earlier breakout exercise, using a for-loop with our
-bash variable would look something like this:</p>
+<p>Based on our earlier breakout exercise, using a for-loop with our bash variable would look something like this:</p>
 <pre><code>for SAMPLE in sample_B sample_C sample_D sample_E sample_F
 do
     rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file \
@@ -440,32 +430,24 @@ do
     ../refs/GRCm38.102.chr19reduced \
     out_rsem/${SAMPLE}
 done</code></pre>
-<p>Place the appropriate code into a file using the <code>nano</code>
-editor to create the script, then execute the script.</p>
+<p>Place the appropriate code into a file using the <code>nano</code> editor to create the script, then execute the script.</p>
 <pre><code># Use the nano editor to create a script
 nano aligning_B-F.sh # Insert commands into editor, then close the file
 # Run the script
 bash aligning_B-F.sh</code></pre>
 <p>Optional: Add execute permissions to the script before executing.</p>
-<p>If going this route, you can call the script directly, without
-calling bash.</p>
-<p>Note that since the script is in the current directory, you’ll have
-to provide that additional contextual information when calling it
-(e.g. <code>./</code> to represent the current directory).</p>
+<p>If going this route, you can call the script directly, without calling bash.</p>
+<p>Note that since the script is in the current directory, you’ll have to provide that additional contextual information when calling it (e.g. <code>./</code> to represent the current directory).</p>
 <pre><code># Add execute permissions
 chmod +x aligning_B-F.sh
 # Run the script
 ./aligning_B-F.sh</code></pre>
 <p><br></p>
 <blockquote>
-<p>Helper Hints: When using a for-loop approach, it can be helpful to
-slowly build up to the end result, sometimes using a “dry-run” command
-as a test case, to get learners to be more cognizant of what their code
-will do.</p>
+<p>Helper Hints: When using a for-loop approach, it can be helpful to slowly build up to the end result, sometimes using a “dry-run” command as a test case, to get learners to be more cognizant of what their code will do.</p>
 <ul>
 <li>Echoing filenames is an easy place to start.</li>
-<li>Iterating over a single sample might also be helpful when
-testing.</li>
+<li>Iterating over a single sample might also be helpful when testing.</li>
 </ul>
 </blockquote>
 <blockquote>
@@ -477,8 +459,7 @@ do
     echo &quot;out_prefix: out_rsem/${SAMPLE}&quot;
 done</code></pre>
 <blockquote>
-<p>Example iterating over a single sample (sample_A, which we’ve already
-aligned prior to the breakout exercise)</p>
+<p>Example iterating over a single sample (sample_A, which we’ve already aligned prior to the breakout exercise)</p>
 </blockquote>
 <pre><code>for SAMPLE in sample_A
 do
@@ -492,7 +473,7 @@ done</code></pre>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDIgU29sdXRpb24iCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBBbGlnbmluZyBBbGwgU2FtcGxlcyBFeGVyY2lzZSAoQnJlYWtvdXQpOgoKPGJyPgoKKioxNSBNaW51dGVzKioKCjxicj4KCldlIGp1c3QgbGVhcm5lZCBhYm91dCBob3cgdG8gdXNlIFJTRU0gJiBTVEFSLCBidXQgbm93IHdlIG5lZWQgdG8gYWxpZ24gYWxsIG9mIHRoZSByZXN0IG9mIG91ciBzYW1wbGVzIHRvIHRoZSByZWZlcmVuY2UgZ2Vub21lLiBJbiB0aGlzIGJyZWFrb3V0IGV4ZXJjaXNlLCB3ZSdsbCBidWlsZCB1cG9uIHNvbWUgY29uY2VwdHMgd2UndmUgbGVhcm5lZCBwcmV2aW91c2x5LgoKPGJyPgoKIyMjIEluc3RydWN0aW9uczoKCjxicj4KCi0gT25lIGdyb3VwIG1lbWJlciBzaG91bGQgc2hhcmUgdGhlaXIgc2NyZWVuIGluIHRoZSBicmVha291dCByb29tLiBJZiBub2JvZHkgdm9sdW50ZWVycywgYSBoZWxwZXIgbWF5IHJhbmRvbWx5IHNlbGVjdCBzb21lb25lLgotIFRoZSBncm91cCBtZW1iZXJzIHNob3VsZCBkaXNjdXNzIHRoZSBleGVyY2lzZSBhbmQgd29yayB0b2dldGhlciB0byBmaW5kIGEgc29sdXRpb24uCi0gQWZ0ZXIgYSBzb2x1dGlvbiBpcyBmb3VuZCwgYWxsb3cgdGltZSBmb3IgYWxsIG1lbWJlcnMgdG8gY29tcGxldGUgdGhlIGV4ZXJjaXNlLgoKPGJyPgoKLSBSZXZpZXcgd2hhdCB3ZSd2ZSBsZWFybmVkIGFib3V0IHJ1bm5pbmcgUlNFTSArIFNUQVIsIHRvIGRldGVybWluZSBhbiBhcHByb3ByaWF0ZSBjb21tYW5kIGZvciBhbGlnbmluZyBvdXIgc2FtcGxlcy4KLSBVc2luZyB3aGF0IHdlJ3ZlIGxlYXJuZWQgcHJldmlvdXNseSwgY3JlYXRlIGEgc2NyaXB0IHVzaW5nIHRoaXMgY29tbWFuZCB0byBxdWlja2x5IGFuZCBlYXNpbHkgYWxpZ24gdGhlIHJlc3Qgb2Ygb3VyIHNhbXBsZXMuCi0gUnVuIHRoZSBzY3JpcHQsIHZpZXcgdGhlIG91dHB1dCwgYW5kIHZlcmlmeSB0aGF0IHdlIGhhdmUgdGhlIGZpbGVzIHdlIG5lZWQuCgo8YnI+CgojIyMgU29sdXRpb24gLSBBbGlnbmluZyBBbGwgU2FtcGxlcyBFeGVyY2lzZQoKPGJyPgoKQmFzZWQgb24gb3VyIGVhcmxpZXIgYnJlYWtvdXQgZXhlcmNpc2UsIHVzaW5nIGEgZm9yLWxvb3Agd2l0aCBvdXIgYmFzaCB2YXJpYWJsZSB3b3VsZCBsb29rIHNvbWV0aGluZyBsaWtlIHRoaXM6CgogICAgZm9yIFNBTVBMRSBpbiBzYW1wbGVfQiBzYW1wbGVfQyBzYW1wbGVfRCBzYW1wbGVfRSBzYW1wbGVfRgogICAgZG8KICAgICAgICByc2VtLWNhbGN1bGF0ZS1leHByZXNzaW9uIC0tc3RhciAtLW51bS10aHJlYWRzIDEgLS1zdGFyLWd6aXBwZWQtcmVhZC1maWxlIFwKICAgICAgICAtLXN0YXItb3V0cHV0LWdlbm9tZS1iYW0gLS1rZWVwLWludGVybWVkaWF0ZS1maWxlcyBcCiAgICAgICAgb3V0X3RyaW1tZWQvJHtTQU1QTEV9X1IxLnRyaW1tZWQuZmFzdHEuZ3ogXAogICAgICAgIC4uL3JlZnMvR1JDbTM4LjEwMi5jaHIxOXJlZHVjZWQgXAogICAgICAgIG91dF9yc2VtLyR7U0FNUExFfQogICAgZG9uZQoKUGxhY2UgdGhlIGFwcHJvcHJpYXRlIGNvZGUgaW50byBhIGZpbGUgdXNpbmcgdGhlIGBuYW5vYCBlZGl0b3IgdG8gY3JlYXRlIHRoZSBzY3JpcHQsIHRoZW4gZXhlY3V0ZSB0aGUgc2NyaXB0LgoKICAgICMgVXNlIHRoZSBuYW5vIGVkaXRvciB0byBjcmVhdGUgYSBzY3JpcHQKICAgIG5hbm8gYWxpZ25pbmdfQi1GLnNoICMgSW5zZXJ0IGNvbW1hbmRzIGludG8gZWRpdG9yLCB0aGVuIGNsb3NlIHRoZSBmaWxlCiAgICAjIFJ1biB0aGUgc2NyaXB0CiAgICBiYXNoIGFsaWduaW5nX0ItRi5zaAoKT3B0aW9uYWw6IEFkZCBleGVjdXRlIHBlcm1pc3Npb25zIHRvIHRoZSBzY3JpcHQgYmVmb3JlIGV4ZWN1dGluZy4KCklmIGdvaW5nIHRoaXMgcm91dGUsIHlvdSBjYW4gY2FsbCB0aGUgc2NyaXB0IGRpcmVjdGx5LCB3aXRob3V0IGNhbGxpbmcgYmFzaC4KCk5vdGUgdGhhdCBzaW5jZSB0aGUgc2NyaXB0IGlzIGluIHRoZSBjdXJyZW50IGRpcmVjdG9yeSwgeW91J2xsIGhhdmUgdG8gcHJvdmlkZSB0aGF0IGFkZGl0aW9uYWwgY29udGV4dHVhbCBpbmZvcm1hdGlvbiB3aGVuIGNhbGxpbmcgaXQgKGUuZy4gYC4vYCB0byByZXByZXNlbnQgdGhlIGN1cnJlbnQgZGlyZWN0b3J5KS4KCiAgICAjIEFkZCBleGVjdXRlIHBlcm1pc3Npb25zCiAgICBjaG1vZCAreCBhbGlnbmluZ19CLUYuc2gKICAgICMgUnVuIHRoZSBzY3JpcHQKICAgIC4vYWxpZ25pbmdfQi1GLnNoCgo8YnI+Cgo+IEhlbHBlciBIaW50czogV2hlbiB1c2luZyBhIGZvci1sb29wIGFwcHJvYWNoLCBpdCBjYW4gYmUgaGVscGZ1bCB0byBzbG93bHkgYnVpbGQgdXAgdG8gdGhlIGVuZCByZXN1bHQsIHNvbWV0aW1lcyB1c2luZyBhICJkcnktcnVuIiBjb21tYW5kIGFzIGEgdGVzdCBjYXNlLCB0byBnZXQgbGVhcm5lcnMgdG8gYmUgbW9yZSBjb2duaXphbnQgb2Ygd2hhdCB0aGVpciBjb2RlIHdpbGwgZG8uCj4KPiAgICAtIEVjaG9pbmcgZmlsZW5hbWVzIGlzIGFuIGVhc3kgcGxhY2UgdG8gc3RhcnQuCj4gICAgLSBJdGVyYXRpbmcgb3ZlciBhIHNpbmdsZSBzYW1wbGUgbWlnaHQgYWxzbyBiZSBoZWxwZnVsIHdoZW4gdGVzdGluZy4KCj4gRXhhbXBsZSBlY2hvaW5nIGZpbGVuYW1lczoKCiAgICBmb3IgU0FNUExFIGluIHNhbXBsZV9CIHNhbXBsZV9DIHNhbXBsZV9EIHNhbXBsZV9FIHNhbXBsZV9GCiAgICBkbwogICAgICAgIGVjaG8gImluX2ZpbGU6IG91dF90cmltbWVkLyR7U0FNUExFfV9SMS50cmltbWVkLmZhc3RxLmd6IgogICAgICAgIGVjaG8gIm91dF9wcmVmaXg6IG91dF9yc2VtLyR7U0FNUExFfSIKICAgIGRvbmUKCj4gRXhhbXBsZSBpdGVyYXRpbmcgb3ZlciBhIHNpbmdsZSBzYW1wbGUgKHNhbXBsZV9BLCB3aGljaCB3ZSd2ZSBhbHJlYWR5IGFsaWduZWQgcHJpb3IgdG8gdGhlIGJyZWFrb3V0IGV4ZXJjaXNlKQoKICAgIGZvciBTQU1QTEUgaW4gc2FtcGxlX0EKICAgIGRvCiAgICAgICAgcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbiAtLXN0YXIgLS1udW0tdGhyZWFkcyAxIC0tc3Rhci1nemlwcGVkLXJlYWQtZmlsZSBcCiAgICAgICAgLS1zdGFyLW91dHB1dC1nZW5vbWUtYmFtIC0ta2VlcC1pbnRlcm1lZGlhdGUtZmlsZXMgXAogICAgICAgIG91dF90cmltbWVkLyR7U0FNUExFfV9SMS50cmltbWVkLmZhc3RxLmd6IFwKICAgICAgICAuLi9yZWZzL0dSQ20zOC4xMDIuY2hyMTlyZWR1Y2VkIFwKICAgICAgICBvdXRfcnNlbS8ke1NBTVBMRX0KICAgIGRvbmUKCjxicj4K</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDIgU29sdXRpb24iCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBBbGlnbmluZyBBbGwgU2FtcGxlcyBFeGVyY2lzZSAoQnJlYWtvdXQpOgoKPGJyPgoKKioxNSBNaW51dGVzKioKCjxicj4KCldlIGp1c3QgbGVhcm5lZCBhYm91dCBob3cgdG8gdXNlIFJTRU0gJiBTVEFSLCBidXQgbm93IHdlIG5lZWQgdG8gYWxpZ24gYWxsIG9mIHRoZSByZXN0IG9mIG91ciBzYW1wbGVzIHRvIHRoZSByZWZlcmVuY2UgZ2Vub21lLiBJbiB0aGlzIGJyZWFrb3V0IGV4ZXJjaXNlLCB3ZSdsbCBidWlsZCB1cG9uIHNvbWUgY29uY2VwdHMgd2UndmUgbGVhcm5lZCBwcmV2aW91c2x5LgoKPGJyPgoKIyMjIEluc3RydWN0aW9uczoKCjxicj4KCi0gUmV2aWV3IHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCBydW5uaW5nIFJTRU0gKyBTVEFSLCB0byBkZXRlcm1pbmUgYW4gYXBwcm9wcmlhdGUgY29tbWFuZCBmb3IgYWxpZ25pbmcgb3VyIHNhbXBsZXMuCi0gVXNpbmcgd2hhdCB3ZSd2ZSBsZWFybmVkIHByZXZpb3VzbHksIGNyZWF0ZSBhIHNjcmlwdCB1c2luZyB0aGlzIGNvbW1hbmQgdG8gcXVpY2tseSBhbmQgZWFzaWx5IGFsaWduIHRoZSByZXN0IG9mIG91ciBzYW1wbGVzLgotIFJ1biB0aGUgc2NyaXB0LCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgdGhhdCB3ZSBoYXZlIHRoZSBmaWxlcyB3ZSBuZWVkLgoKPGJyPgoKIyMjIFNvbHV0aW9uIC0gQWxpZ25pbmcgQWxsIFNhbXBsZXMgRXhlcmNpc2UKCjxicj4KCkJhc2VkIG9uIG91ciBlYXJsaWVyIGJyZWFrb3V0IGV4ZXJjaXNlLCB1c2luZyBhIGZvci1sb29wIHdpdGggb3VyIGJhc2ggdmFyaWFibGUgd291bGQgbG9vayBzb21ldGhpbmcgbGlrZSB0aGlzOgoKICAgIGZvciBTQU1QTEUgaW4gc2FtcGxlX0Igc2FtcGxlX0Mgc2FtcGxlX0Qgc2FtcGxlX0Ugc2FtcGxlX0YKICAgIGRvCiAgICAgICAgcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbiAtLXN0YXIgLS1udW0tdGhyZWFkcyAxIC0tc3Rhci1nemlwcGVkLXJlYWQtZmlsZSBcCiAgICAgICAgLS1zdGFyLW91dHB1dC1nZW5vbWUtYmFtIC0ta2VlcC1pbnRlcm1lZGlhdGUtZmlsZXMgXAogICAgICAgIG91dF90cmltbWVkLyR7U0FNUExFfV9SMS50cmltbWVkLmZhc3RxLmd6IFwKICAgICAgICAuLi9yZWZzL0dSQ20zOC4xMDIuY2hyMTlyZWR1Y2VkIFwKICAgICAgICBvdXRfcnNlbS8ke1NBTVBMRX0KICAgIGRvbmUKClBsYWNlIHRoZSBhcHByb3ByaWF0ZSBjb2RlIGludG8gYSBmaWxlIHVzaW5nIHRoZSBgbmFub2AgZWRpdG9yIHRvIGNyZWF0ZSB0aGUgc2NyaXB0LCB0aGVuIGV4ZWN1dGUgdGhlIHNjcmlwdC4KCiAgICAjIFVzZSB0aGUgbmFubyBlZGl0b3IgdG8gY3JlYXRlIGEgc2NyaXB0CiAgICBuYW5vIGFsaWduaW5nX0ItRi5zaCAjIEluc2VydCBjb21tYW5kcyBpbnRvIGVkaXRvciwgdGhlbiBjbG9zZSB0aGUgZmlsZQogICAgIyBSdW4gdGhlIHNjcmlwdAogICAgYmFzaCBhbGlnbmluZ19CLUYuc2gKCk9wdGlvbmFsOiBBZGQgZXhlY3V0ZSBwZXJtaXNzaW9ucyB0byB0aGUgc2NyaXB0IGJlZm9yZSBleGVjdXRpbmcuCgpJZiBnb2luZyB0aGlzIHJvdXRlLCB5b3UgY2FuIGNhbGwgdGhlIHNjcmlwdCBkaXJlY3RseSwgd2l0aG91dCBjYWxsaW5nIGJhc2guCgpOb3RlIHRoYXQgc2luY2UgdGhlIHNjcmlwdCBpcyBpbiB0aGUgY3VycmVudCBkaXJlY3RvcnksIHlvdSdsbCBoYXZlIHRvIHByb3ZpZGUgdGhhdCBhZGRpdGlvbmFsIGNvbnRleHR1YWwgaW5mb3JtYXRpb24gd2hlbiBjYWxsaW5nIGl0IChlLmcuIGAuL2AgdG8gcmVwcmVzZW50IHRoZSBjdXJyZW50IGRpcmVjdG9yeSkuCgogICAgIyBBZGQgZXhlY3V0ZSBwZXJtaXNzaW9ucwogICAgY2htb2QgK3ggYWxpZ25pbmdfQi1GLnNoCiAgICAjIFJ1biB0aGUgc2NyaXB0CiAgICAuL2FsaWduaW5nX0ItRi5zaAoKPGJyPgoKPiBIZWxwZXIgSGludHM6IFdoZW4gdXNpbmcgYSBmb3ItbG9vcCBhcHByb2FjaCwgaXQgY2FuIGJlIGhlbHBmdWwgdG8gc2xvd2x5IGJ1aWxkIHVwIHRvIHRoZSBlbmQgcmVzdWx0LCBzb21ldGltZXMgdXNpbmcgYSAiZHJ5LXJ1biIgY29tbWFuZCBhcyBhIHRlc3QgY2FzZSwgdG8gZ2V0IGxlYXJuZXJzIHRvIGJlIG1vcmUgY29nbml6YW50IG9mIHdoYXQgdGhlaXIgY29kZSB3aWxsIGRvLgo+Cj4gICAgLSBFY2hvaW5nIGZpbGVuYW1lcyBpcyBhbiBlYXN5IHBsYWNlIHRvIHN0YXJ0Lgo+ICAgIC0gSXRlcmF0aW5nIG92ZXIgYSBzaW5nbGUgc2FtcGxlIG1pZ2h0IGFsc28gYmUgaGVscGZ1bCB3aGVuIHRlc3RpbmcuCgo+IEV4YW1wbGUgZWNob2luZyBmaWxlbmFtZXM6CgogICAgZm9yIFNBTVBMRSBpbiBzYW1wbGVfQiBzYW1wbGVfQyBzYW1wbGVfRCBzYW1wbGVfRSBzYW1wbGVfRgogICAgZG8KICAgICAgICBlY2hvICJpbl9maWxlOiBvdXRfdHJpbW1lZC8ke1NBTVBMRX1fUjEudHJpbW1lZC5mYXN0cS5neiIKICAgICAgICBlY2hvICJvdXRfcHJlZml4OiBvdXRfcnNlbS8ke1NBTVBMRX0iCiAgICBkb25lCgo+IEV4YW1wbGUgaXRlcmF0aW5nIG92ZXIgYSBzaW5nbGUgc2FtcGxlIChzYW1wbGVfQSwgd2hpY2ggd2UndmUgYWxyZWFkeSBhbGlnbmVkIHByaW9yIHRvIHRoZSBicmVha291dCBleGVyY2lzZSkKCiAgICBmb3IgU0FNUExFIGluIHNhbXBsZV9BCiAgICBkbwogICAgICAgIHJzZW0tY2FsY3VsYXRlLWV4cHJlc3Npb24gLS1zdGFyIC0tbnVtLXRocmVhZHMgMSAtLXN0YXItZ3ppcHBlZC1yZWFkLWZpbGUgXAogICAgICAgIC0tc3Rhci1vdXRwdXQtZ2Vub21lLWJhbSAtLWtlZXAtaW50ZXJtZWRpYXRlLWZpbGVzIFwKICAgICAgICBvdXRfdHJpbW1lZC8ke1NBTVBMRX1fUjEudHJpbW1lZC5mYXN0cS5neiBcCiAgICAgICAgLi4vcmVmcy9HUkNtMzguMTAyLmNocjE5cmVkdWNlZCBcCiAgICAgICAgb3V0X3JzZW0vJHtTQU1QTEV9CiAgICBkb25lCgo8YnI+Cg==</div>
 
 
 

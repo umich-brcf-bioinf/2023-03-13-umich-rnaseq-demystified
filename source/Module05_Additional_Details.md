@@ -241,11 +241,11 @@ conda deactivate
 
 <br>
 
-## Conda Create Exercise (breakout)
+## Conda Create Exercise
 
-Before starting our breakout exercise, we should make sure that we are on the same page. Follow the link below:
+Before starting our conda exercise, we should make sure that we are on the same page. Follow the link below:
 
-[Conda create exercise](Module05_breakout04_sol.html)
+[Conda create exercise](Module05_breakout04_ex.html)
 
 <br>
 <br>

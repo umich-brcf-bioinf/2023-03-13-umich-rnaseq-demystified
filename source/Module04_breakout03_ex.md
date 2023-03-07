@@ -37,15 +37,9 @@ We just tried two new variations of our MultiQC command, one pointed at the dire
 
 <br>
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- After a solution is found, allow time for all members to complete the exercise.
-
-<br>
-
 - Make sure that you are viewing your local terminal. The `scp` command should be run from your own machine.
-- Use `scp` to transfer the trimmed read fastqc report and the comprehensive (all) report from the AWS machine to your personal computer.
-- Confirm that you've received the reports
+- Use `scp` to transfer the comprehensive multiQC report from the AWS machine to your personal computer.
+- Confirm that you've received the report
 
 <br>
 

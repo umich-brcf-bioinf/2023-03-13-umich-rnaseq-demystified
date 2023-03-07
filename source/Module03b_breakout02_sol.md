@@ -37,12 +37,6 @@ We just learned about how to use RSEM & STAR, but now we need to align all of th
 
 <br>
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- After a solution is found, allow time for all members to complete the exercise.
-
-<br>
-
 - Review what we've learned about running RSEM + STAR, to determine an appropriate command for aligning our samples.
 - Using what we've learned previously, create a script using this command to quickly and easily align the rest of our samples.
 - Run the script, view the output, and verify that we have the files we need.
