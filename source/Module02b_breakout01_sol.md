@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Cutadapt All Samples Exercise (Breakout)
+## Cutadapt All Samples Exercise
 
 <br>
 

@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Aligning All Samples Exercise (Breakout):
+## Aligning All Samples Exercise
 
 <br>
 

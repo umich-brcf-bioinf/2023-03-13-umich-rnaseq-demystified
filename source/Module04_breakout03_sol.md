@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Transfer MultiQC Report With `scp` Exercise (Breakout)
+## Transfer MultiQC Report With `scp` Exercise
 
 <br>
 
