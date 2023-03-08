@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Conda Create Exercise (breakout)
+## Conda Create Exercise
 
 <br>
 
