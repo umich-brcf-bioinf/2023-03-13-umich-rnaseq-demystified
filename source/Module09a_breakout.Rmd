@@ -1,5 +1,5 @@
 ---
-title: "... Exercise 1 - Fancy PCA ..."
+title: "... Exercise 1 - Independent Exercise - Customize a PCA plot"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -47,19 +47,26 @@ library(RColorBrewer)
 
 Estimated time: **15 Minutes**
 
+
 # Motivation
 
 Plotting the expression values across all samples for the top variable genes in an experiment can help to visualize how samples cluster together by their expression profiles. When combined with phenotypic data, it can help show how samples with different treatments behave relative to one another.
 
 # Exercise
 
-Create a heatmap of the top 50 most variable genes using the `pheatmap()` function using the rlog normalized data in the `rld` object.
+Try doing the following to the `pca_plot`, starting with the "most popular" request and moving on to other customizations if you have time:
+
+* Add a title and subtitle to the plot using the `labs()` function.
+* Add labels to show which samples correspond to which points, like [here](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
+* Make our color palette color-blind friendly (with `RColorBrewer`), like [here](https://www.datanovia.com/en/blog/the-a-z-of-rcolorbrewer-palette/) and/or [here](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+* Use shape instead of color to indicate groups on the PCA plot. Hint, since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color (instead of adding an additional layers like the other prompts), similar to [these R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) 
+* _Challenge_: Change the legend title to "Iron Status". Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
 
 # Instructions
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- If there is time after a solution is found, allow all members to complete the exercise.
+- Work independently in the main room, posting any questions that arise to slack.
+- Join a room with a helper for a more guided experience.
+- We'll review possible solutions when 
 
 # Example
 

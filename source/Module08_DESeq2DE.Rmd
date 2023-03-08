@@ -79,7 +79,7 @@ The rlog transformation produces log2 scaled data that has also been normalized 
 The command to generate the normalized count object has a few parts, including `dds` as an input and providing a value to the option `blind`. For our purposes, we set `blind = TRUE` because we want to compare samples in downstream QC plots in an unbiased manner.
 
 ```{r CountNorm}
-rld = rlog(dds, blind = TRUE)
+rld = rlog(dds_filtered, blind = TRUE)
 ```
 
 Next, we'll look at the results of the transformation by extracting the values with the `assay()` function.
