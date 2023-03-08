@@ -115,15 +115,14 @@ for 90 days.
 ![Sponsors](images/Module00_sponsor_logos.png)
 
 ## Thank you to/from the workshop team
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) |
-|:-:|:-:|:-:|:-:|
-| **Chris** | **Marci** | **Raymond** | **Travis** |
+| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) |
+|:-:|:-:|:-:|
+| **Chris** | **Marci** | **Travis** |
 | | | |
-| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | ![](images/Module00_headshots/headshot_diaorch.jpg) | ![](images/Module00_headshots/headshot_rtagett.jpg) |
-|  **Dana** |**Grace** | **Rucheng** | **Becky** |
-| ![](images/Module00_headshots/headshot_weishwu.jpg) |
-| **Weisheng** |
+| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) | ![](images/Module00_headshots/headshot_diaorch.jpg) |
+|  **Dana** | **Raymond** | **Rucheng**|
 <br/>
+
 
 
 Thank you for participating in our workshop. We welcome your questions and feedback now and in the future.
