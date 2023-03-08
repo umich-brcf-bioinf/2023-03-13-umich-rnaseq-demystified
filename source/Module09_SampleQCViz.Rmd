@@ -1,5 +1,5 @@
 ---
-title: "Module 09: Sample QC"
+title: "Module 09: Sample Quality Control"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -61,13 +61,13 @@ Prior to testing for differential expression between our comparisons of interest
 
 ---
 
-# QC Visualizations
+# Quality Control Visualizations
 
-We have discussed some aspects of quality control assessment at the sequencing level. Today we will outline sample-level and gene-level quality control assessments to determine what we might expect for our differential expression comparisons.
+We have already discussed some aspects of quality control assessment at the sequencing level. Today we will outline sample-level and gene-level quality control for our expression data.
 
 To do this, we will first assess the similarity of our samples by using principal component analysis (PCA). This will allow us to determine how well patterns in the data fits our expectations from the experiments design and possible sources of variation.
 
-Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which (due to time restrictions) can be found as bonus content through the materials for today and in the bonus content module.
+Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which (due to time restrictions) can be found as bonus content through the materials for today and in the bonus content module at the end.
 
 # Principal Component Analysis
 
@@ -92,17 +92,17 @@ For most bulk RNA-seq experiments, we expect the majority of the total variance 
 
 For more information, this [helpful overview of PCA basics](https://blog.bioturing.com/2018/06/14/principal-component-analysis-explained-simply/) walks through both the generation and interpretation of PCA plots.
 
-## Evaluating batch effects or confounders
+## Evaluating batch effects or possible confounders
 
-PCA plots are also useful for evaluating the impact of factors other than the experimental treatment or group. At times, batch effects can be quite obvious, such as this example from the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html), where samples within each treatment group look staggered into two subgroups.
+PCA plots are also useful for evaluating the impact of "uninteresting" sources of variance, like library preparation or sequencer differences. Evidence of batch effects can sometimes be quite obvious, such as this example from the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html), where samples within each treatment group look split into two subgroups.
 
 ![](./images/PCA1_DESeq2Vignette.png)
 
-It turns out this experiment contained samples sequenced single-end and paired-end. If we color only by sequencing run type (paired-end vs. single-end), we see that PC2 (29% of variance) is primarily explained by this technical covariate.
+It turns out this experiment contained samples sequenced single-end and paired-end. If we color only by sequencing run type (paired-end vs. single-end), we see that in this example PC2 (29% of variance) is primarily explained by this technical covariate.
 
 ![](./images/PCA2_DESeq2Vignette.png)
 
-However, the samples are clearly seperated by experimental condition on PC1 **and** since we have non-confounded batches, if we saw this pattern in our data we could incorporate the technical covariate into our model design, such as outlined in the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs).
+However, since the samples are clearly seperated by experimental condition on PC1 **and** there are balanced batches, if we saw this pattern in our data we could incorporate the technical covariate into our model design, such as outlined in the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs).
 
 <details>
     <summary>*Click for complex design discussion*</summary>
@@ -125,7 +125,7 @@ pca_plot = plotPCA(rld, intgroup = c('condition'), ntop = 500)
 pca_plot
 ```
 
-The samples don't appear to cluster too tightly on their `condition`, but we do observe that they do separate in PC2. With real data, it is often the case that data doesn't cluster as well as you'd expect, or that the covariate of interest is not associated with the first (or sometimes second or third) principal component. That doesn't necessarily mean the experiment is a failure, but it does raise questions such as "What is associated with PC1?" Sometimes we can't answer a question like this if we don't have any sample phenotype to color in the PCA.
+The samples don't appear to cluster too tightly on their `condition`, but we do observe that they separate in PC2. With real data, it is often the case that data doesn't cluster as well as you'd expect, or that the covariate of interest is not associated with the first (or second or third) principal component. That doesn't necessarily mean the experiment is a failure, but it does raise questions such as "What is associated with PC1?" Sometimes we can't answer a question like this if we don't have additional sample phenotypes to color in the PCA.
 
 Next, let's save this plot as a file in our `outputs/figures` folder. The "base R" way is to:
 
@@ -170,7 +170,32 @@ pca_plot +
 </details>
 <br>
 
-**Checkpoint**: *If you generated and saved the `pca_plot` PCA plot, please indicate with the green 'check' button. Otherwise, please use  use the red 'x' button in your zoom reaction panel to have this step repeated.*
+**Checkpoint**: *If you generated and saved the `pca_plot` PCA plot, please indicate with the green 'check' button. Otherwise, please use the red 'x' button in your zoom reaction panel to have this step repeated.*
+
+```{r ExerciseHidden, include=FALSE, eval = FALSE}
+Keep everyone in main room & request questions be posted to slack
+Allow learners who want a guided experience to go to breakout room with a helper 
+Use time checks or count down for independent work time
+Review solution at end of independent time
+DK - update RSD-R section to update exercise to be extensions of PCA plot & mode to reflect new paradigm (see last week)
+
+RSD-R exercise
+Update exercise to be updating PCA plot with different visualization options
+Use written hints similar to Unix section to help learners with process
+Use poll to have learners rank order of priority for plot changes
+Change dot colors
+Include link to color-blind friendly palettes
+Rotate axes
+Labeling points 
+Change marker shape
+Since more novelty in exercise, walk through process of least popular option together with learners (highlighting connection to ggplot)
+Encourage learners to work through top visualization option and continue onto other options if they complete the first option 
+Keep everyone in main room & request questions be posted to slack
+Allow learners who want a guided experience to go to breakout room with a helper 
+Review solution at end of independent time
+
+
+```
 
 > # Breakout Exercise 1 - Imagine a heatmap {.unlisted .unnumbered}
 >
@@ -211,8 +236,9 @@ image: ![](./images/proportion-of-variance-blog-horz.jpg)
     <summary>*Click for code for a plot of dispersion estimates*</summary>
     We can visualize the **dispersion estimates** with the `plotDispEsts` function. This plot shows the the DESeq2 normalization results for our data, which centers on shrinking the variance across all genes to better fit the expected spread at a given expression level.
 ```{r CheckDispersions}
-plotDispEsts(dds)
+plotDispEsts(dds_fitted)
 ```
+    
     Above is the raw data plotted in black, the fitted (or expected) dispersion in red, and the normalized data with scaled variance in blue. Since we have fairly small sample sizes for each condition, we see shrinkage for many genes but a reasonable correlation between the expression level and dispersions.
 
     This [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DESeq2_analysis.html) has a more detailed overview of estimating size factors, estimating gene dispersion, and the shrinkage procedure, as well as examples of concerning dispersion plots that may suggest reassessing quality of the experimental data.

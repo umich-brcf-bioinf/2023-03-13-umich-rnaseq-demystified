@@ -1,11 +1,24 @@
+---
+title: "RNA-Seq Demystified Workshop"
+author: "UM Bioinformatics Core Workshop Team"
+output:
+        html_document:
+            includes:
+                in_header: header.html
+            theme: paper
+            toc: false
+            number_sections: false
+            fig_caption: true
+            markdown: GFM
+            code_download: false
+---
+
 <style type="text/css">
 
 body, td {
    font-size: 18px;
 }
 </style>
-
-# RNA-seq Demystified
 
 #### [Setup instructions](workshop_setup/setup_instructions.html)
 
@@ -51,9 +64,9 @@ body, td {
 |  9:00 | Review |
 |  9:10 | **Differential Expression:** |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Testing](Module10_DEComparisons.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Visualization and Annotation](Module11_DEVisualizations.html)|
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Visualization](Module11_DEVisualizations.html)|
 | 11:00 | Break |
-| 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[DE Visualization and Annotation (continued)](Module11_DEVisualizations.html)|
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Bonus Content](Module11X_BonusContent.html)|
+| 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[DE Annotation](Module12_DEAnnotations.html)|
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Bonus Content](R_bonus_content.html)|
 | 12:45 | [Wrap-up](Module99_Wrap_up.html)
 |  1:00 | Day 3 concludes |

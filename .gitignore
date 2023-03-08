@@ -12,9 +12,10 @@ html/rdata/
 html/server_setup/
 html/tables/
 Module09_SampleQCViz_files/
-Module11X_BonusContent_files/
+R_bonus_content_files/
 html/images/source
 Module11_DEVisualizations_files
 source/rdata/
 RunningData.RData
 source/data
+outputs/*

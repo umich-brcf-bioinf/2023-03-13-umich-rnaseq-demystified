@@ -52,9 +52,11 @@ navbar:
       menu:
         - text: "DE Testing"
           href: Module10_DEComparisons.html
-        - text: "DE Visualization and Annotation"
+        - text: "DE Visualization"
           href: Module11_DEVisualizations.html
+        - text: "DE Annotation"
+          href: Module12_DEAnnotations.html
         - text: "Bonus content"
-          href: Module11X_BonusContent.html
+          href: R_bonus_content.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html
