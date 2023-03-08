@@ -1,5 +1,5 @@
 ---
-title: "Breakout 01 Solution"
+title: "Exercise 01 Solution"
 author: "UM Bioinformatics Core"
 output:
         html_document:
