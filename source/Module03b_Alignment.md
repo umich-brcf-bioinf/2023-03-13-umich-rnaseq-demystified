@@ -184,11 +184,11 @@ rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star
 <br>
 <br>
 
-## Aligning All Samples Exercise (Breakout):
+## Aligning All Samples Exercise:
 
-Before starting our breakout exercise, we should make sure that we are on the same page. Follow the link below:
+Before starting our alignment exercise, we should make sure that we are on the same page. Follow the link below:
 
-[Link to alignment breakout exercise](Module03b_breakout02_sol.html)
+[Link to alignment exercise](Module03b_breakout02_ex.html)
 
 <br>
 <br>

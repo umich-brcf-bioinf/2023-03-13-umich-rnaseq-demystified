@@ -150,11 +150,11 @@ multiqc --outdir out_multiqc_cutadapt out_fastqc_trimmed/
 multiqc --outdir out_multiqc_all  .
 ```
 
-## Transfer MultiQC Reports With `scp` Exercise (Breakout)
+## Transfer MultiQC Reports With `scp` Exercise
 
-Before starting our breakout exercise, we should make sure that we are on the same page. Follow the link below:
+Before starting our file transfer exercise, we should make sure that we are on the same page. Follow the link below:
 
-[Link to report transfer breakout exercise](Module04_breakout03_sol.html)
+[Link to report transfer exercise](Module04_breakout03_ex.html)
 
 
 <br>

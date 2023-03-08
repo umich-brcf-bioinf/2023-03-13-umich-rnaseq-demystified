@@ -28,9 +28,9 @@ pre {
   - [Cutadapt solution](Module02b_breakout01_sol.html)
 - [Alignment exercise](Module04_breakout02_ex.html)
   - [Alignment solution](Module04_breakout02_sol.html)
-- [Report transfer exercise](Module05a_breakout03_ex.html)
-  - [Report transfer solution](Module05a_breakout03_sol.html)
-- Optional exercise that we will likely not do in workshop
+- Optional exercises that we will likely not do in workshop
+  - [Report transfer exercise](Module05a_breakout03_ex.html)
+    - [Report transfer solution](Module05a_breakout03_sol.html)
   - [Conda create exercise](Module05b_breakout04_ex.html)
     - [Conda create solution](Module05b_breakout04_sol.html)
 - [Heatmap exercise](Module09a_breakout.html)

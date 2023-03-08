@@ -1,5 +1,5 @@
 ---
-title: "Breakout 02"
+title: "Exercise 02"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Aligning All Samples Exercise (Breakout):
+## Aligning All Samples Exercise
 
 <br>
 
@@ -34,12 +34,6 @@ We just learned about how to use RSEM & STAR, but now we need to align all of th
 <br>
 
 ### Instructions:
-
-<br>
-
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- After a solution is found, allow time for all members to complete the exercise.
 
 <br>
 

@@ -1,5 +1,5 @@
 ---
-title: "Breakout 03 Solution"
+title: "Exercise 03 Solution"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Transfer MultiQC Report With `scp` Exercise (Breakout)
+## Transfer MultiQC Report With `scp` Exercise
 
 <br>
 
@@ -37,15 +37,9 @@ We just tried two new variations of our MultiQC command, one pointed at the dire
 
 <br>
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- After a solution is found, allow time for all members to complete the exercise.
-
-<br>
-
 - Make sure that you are viewing your local terminal. The `scp` command should be run from your own machine.
-- Use `scp` to transfer the trimmed read fastqc report and the comprehensive (all) report from the AWS machine to your personal computer.
-- Confirm that you've received the reports
+- Use `scp` to transfer the comprehensive multiQC report from the AWS machine to your personal computer.
+- Confirm that you've received the report
 
 <br>
 
@@ -61,7 +55,7 @@ We just tried two new variations of our MultiQC command, one pointed at the dire
 
 ### Solution - Transfer MultiQC Report With `scp` Exercise
 
-> Helper Hint: On the AWS instance, the multiQC reports have identical filenames. It is helpful to specify the destination filename for each transfer below, so that the reports can be easily differentiated (and don't overwrite one another).
+> Helper Hint: By default, any multiQC reports will have identical filenames `multiqc_report.html`. It is helpful to specify a more descriptive destination filename for the transfer below, so that multiple MultiQC reports can be easily differentiated (and don't overwrite one another).
 
 <br>
 
@@ -70,8 +64,6 @@ We just tried two new variations of our MultiQC command, one pointed at the dire
 <br>
 
 ```
-# Transfer the report of trimmed read results
-scp <username>@bfx-workshop01.med.umich.edu:~/RSD_Shell/analysis/out_multiqc_cutadapt/multiqc_report.html ~/rsd-workshop/multiqc_report_trimmed.html
 # Transfer the full report
 scp <username>@bfx-workshop01.med.umich.edu:~/RSD_Shell/analysis/out_multiqc_all/multiqc_report.html ~/rsd-workshop/multiqc_report_all.html
 ```

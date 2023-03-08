@@ -1,5 +1,5 @@
 ---
-title: "Breakout 04 Solution"
+title: "Exercise 04 Solution"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Conda Create Exercise (breakout)
+## Conda Create Exercise
 
 <br>
 
@@ -41,9 +41,7 @@ In this exercise, we'll use a special tool that enhances Conda, called Mamba. It
 
 <br>
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- When a solution is found **DO NOT** have all users create the environment. Instead, choose only a few learners in each group to complete this exercise. We do not want to overwhelm the AWS instance.
+- When a solution is found **DO NOT** have all users create the environment. Instead, choose only a subset of interested learners to complete this exercise. We do not want to overwhelm the AWS instance.
 
 <br>
 

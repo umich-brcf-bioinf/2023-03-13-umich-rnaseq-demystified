@@ -12,9 +12,9 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Breakout 04 Solution</title>
+<title>Exercise 04 Solution</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -192,8 +192,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -201,9 +201,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -382,7 +389,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Breakout 04 Solution</h1>
+<h1 class="title toc-ignore">Exercise 04 Solution</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -397,37 +404,24 @@ pre {
 }
 </style>
 <p><br></p>
-<div id="conda-create-exercise-breakout" class="section level2">
-<h2>Conda Create Exercise (breakout)</h2>
+<div id="conda-create-exercise" class="section level2">
+<h2>Conda Create Exercise</h2>
 <p><br></p>
 <p><strong>15 Minutes</strong></p>
 <p><br></p>
-<p>We’ve covered the basics of Conda, including how to create
-environments, as well as activate and deactivate them. We’ll use those
-same ideas in this exercise to create a conda environment with all of
-the software that we’ve used so far.</p>
+<p>We’ve covered the basics of Conda, including how to create environments, as well as activate and deactivate them. We’ll use those same ideas in this exercise to create a conda environment with all of the software that we’ve used so far.</p>
 <p><br></p>
-<p>In this exercise, we’ll use a special tool that enhances Conda,
-called Mamba. It is used for environment creation, so you will use it in
-place of <code>conda create</code> in this exercise.</p>
+<p>In this exercise, we’ll use a special tool that enhances Conda, called Mamba. It is used for environment creation, so you will use it in place of <code>conda create</code> in this exercise.</p>
 <p><br></p>
 <div id="instructions" class="section level3">
 <h3>Instructions:</h3>
 <p><br></p>
 <ul>
-<li>One group member should share their screen in the breakout room. If
-nobody volunteers, a helper may randomly select someone.</li>
-<li>The group members should discuss the exercise and work together to
-find a solution.</li>
-<li>When a solution is found <strong>DO NOT</strong> have all users
-create the environment. Instead, choose only a few learners in each
-group to complete this exercise. We do not want to overwhelm the AWS
-instance.</li>
+<li>When a solution is found <strong>DO NOT</strong> have all users create the environment. Instead, choose only a subset of interested learners to complete this exercise. We do not want to overwhelm the AWS instance.</li>
 </ul>
 <p><br></p>
 <ul>
-<li>Use <code>mamba</code> to create an environment with all of the
-software that we used today:
+<li>Use <code>mamba</code> to create an environment with all of the software that we used today:
 <ul>
 <li>cutadapt</li>
 <li>fastqc</li>
@@ -443,13 +437,7 @@ software that we used today:
 </ul>
 <p><br></p>
 <blockquote>
-<p>Hint: The tool <code>mamba</code> is a drop-in replacement for
-<code>conda create</code> and similar commands. It is powerful and fast,
-which allows us to easily replicate our whole environment from today.
-<code>conda create</code> can be very slow or uncooperative when
-creating environments with certain software combinations, and
-<code>mamba</code> helps us get around that in this case. The command is
-exactly the same as a <code>conda create</code> command, e.g.:</p>
+<p>Hint: The tool <code>mamba</code> is a drop-in replacement for <code>conda create</code> and similar commands. It is powerful and fast, which allows us to easily replicate our whole environment from today. <code>conda create</code> can be very slow or uncooperative when creating environments with certain software combinations, and <code>mamba</code> helps us get around that in this case. The command is exactly the same as a <code>conda create</code> command, e.g.:</p>
 <pre><code>mamba create -n &lt;env-name&gt; -c &lt;channel&gt; &lt;package1&gt; ...</code></pre>
 </blockquote>
 <p><br></p>
@@ -476,7 +464,7 @@ deactivate</code></pre>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYWtvdXQgMDQgU29sdXRpb24iCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBDb25kYSBDcmVhdGUgRXhlcmNpc2UgKGJyZWFrb3V0KQoKPGJyPgoKKioxNSBNaW51dGVzKioKCjxicj4KCldlJ3ZlIGNvdmVyZWQgdGhlIGJhc2ljcyBvZiBDb25kYSwgaW5jbHVkaW5nIGhvdyB0byBjcmVhdGUgZW52aXJvbm1lbnRzLCBhcyB3ZWxsIGFzIGFjdGl2YXRlIGFuZCBkZWFjdGl2YXRlIHRoZW0uIFdlJ2xsIHVzZSB0aG9zZSBzYW1lIGlkZWFzIGluIHRoaXMgZXhlcmNpc2UgdG8gY3JlYXRlIGEgY29uZGEgZW52aXJvbm1lbnQgd2l0aCBhbGwgb2YgdGhlIHNvZnR3YXJlIHRoYXQgd2UndmUgdXNlZCBzbyBmYXIuCgo8YnI+CgpJbiB0aGlzIGV4ZXJjaXNlLCB3ZSdsbCB1c2UgYSBzcGVjaWFsIHRvb2wgdGhhdCBlbmhhbmNlcyBDb25kYSwgY2FsbGVkIE1hbWJhLiBJdCBpcyB1c2VkIGZvciBlbnZpcm9ubWVudCBjcmVhdGlvbiwgc28geW91IHdpbGwgdXNlIGl0IGluIHBsYWNlIG9mIGBjb25kYSBjcmVhdGVgIGluIHRoaXMgZXhlcmNpc2UuCgo8YnI+CgojIyMgSW5zdHJ1Y3Rpb25zOgoKPGJyPgoKLSBPbmUgZ3JvdXAgbWVtYmVyIHNob3VsZCBzaGFyZSB0aGVpciBzY3JlZW4gaW4gdGhlIGJyZWFrb3V0IHJvb20uIElmIG5vYm9keSB2b2x1bnRlZXJzLCBhIGhlbHBlciBtYXkgcmFuZG9tbHkgc2VsZWN0IHNvbWVvbmUuCi0gVGhlIGdyb3VwIG1lbWJlcnMgc2hvdWxkIGRpc2N1c3MgdGhlIGV4ZXJjaXNlIGFuZCB3b3JrIHRvZ2V0aGVyIHRvIGZpbmQgYSBzb2x1dGlvbi4KLSBXaGVuIGEgc29sdXRpb24gaXMgZm91bmQgKipETyBOT1QqKiBoYXZlIGFsbCB1c2VycyBjcmVhdGUgdGhlIGVudmlyb25tZW50LiBJbnN0ZWFkLCBjaG9vc2Ugb25seSBhIGZldyBsZWFybmVycyBpbiBlYWNoIGdyb3VwIHRvIGNvbXBsZXRlIHRoaXMgZXhlcmNpc2UuIFdlIGRvIG5vdCB3YW50IHRvIG92ZXJ3aGVsbSB0aGUgQVdTIGluc3RhbmNlLgoKPGJyPgoKLSBVc2UgYG1hbWJhYCB0byBjcmVhdGUgYW4gZW52aXJvbm1lbnQgd2l0aCBhbGwgb2YgdGhlIHNvZnR3YXJlIHRoYXQgd2UgdXNlZCB0b2RheToKICAgIC0gY3V0YWRhcHQKICAgIC0gZmFzdHFjCiAgICAtIG11bHRpcWMKICAgIC0gc3RhcgogICAgLSByc2VtCi0gVXNlIHR3byBjaGFubmVscyB3aGVuIGJ1aWxkaW5nIHRoZSBlbnZpcm9ubWVudDoKICAgIC0gYGNvbmRhLWZvcmdlYAogICAgLSBgYmlvY29uZGFgCgo8YnI+Cgo+IEhpbnQ6IFRoZSB0b29sIGBtYW1iYWAgaXMgYSBkcm9wLWluIHJlcGxhY2VtZW50IGZvciBgY29uZGEgY3JlYXRlYCBhbmQgc2ltaWxhciBjb21tYW5kcy4KPiBJdCBpcyBwb3dlcmZ1bCBhbmQgZmFzdCwgd2hpY2ggYWxsb3dzIHVzIHRvIGVhc2lseSByZXBsaWNhdGUgb3VyIHdob2xlIGVudmlyb25tZW50IGZyb20gdG9kYXkuCj4gYGNvbmRhIGNyZWF0ZWAgY2FuIGJlIHZlcnkgc2xvdyBvciB1bmNvb3BlcmF0aXZlIHdoZW4gY3JlYXRpbmcgZW52aXJvbm1lbnRzIHdpdGggY2VydGFpbgo+IHNvZnR3YXJlIGNvbWJpbmF0aW9ucywgYW5kIGBtYW1iYWAgaGVscHMgdXMgZ2V0IGFyb3VuZCB0aGF0IGluIHRoaXMgY2FzZS4KPiBUaGUgY29tbWFuZCBpcyBleGFjdGx5IHRoZSBzYW1lIGFzIGEgYGNvbmRhIGNyZWF0ZWAgY29tbWFuZCwgZS5nLjoKPgo+IH5+fgo+IG1hbWJhIGNyZWF0ZSAtbiA8ZW52LW5hbWU+IC1jIDxjaGFubmVsPiA8cGFja2FnZTE+IC4uLgo+IH5+fgoKPGJyPgoKIyMjIFNvbHV0aW9uIC0gQ29uZGEgQ3JlYXRlIEV4ZXJjaXNlCgo8YnI+CgpgYGAKIyBDaGVjayB0byBzZWUgaWYgbWFtYmEgaXMgaW5zdGFsbGVkCndoaWNoIG1hbWJhCiMgSWYgeW91IGRvbid0IGhhdmUgbWFtYmEgaW5zdGFsbGVkLCB5b3UgY2FuIGluc3RhbGwgaXQgdG8geW91ciBiYXNlIGNvbmRhIGVudmlyb25tZW50CmNvbmRhIGluc3RhbGwgLWMgY29uZGEtZm9yZ2UgbWFtYmEKIyBVc2UgbWFtYmEgdG8gY3JlYXRlIGFuIGVudmlyb25tZW50IHdpdGggQ3V0YWRhcHQsIEZhc3RRQywgTXVsdGlRQywgU1RBUiwgYW5kIFJTRU0uCm1hbWJhIGNyZWF0ZSAtbiBSU0RfZW52aXJvbm1lbnQgLWMgY29uZGEtZm9yZ2UgLWMgYmlvY29uZGEgY3V0YWRhcHQgZmFzdHFjIG11bHRpcWMgc3RhciByc2VtCiMgQWN0aXZhdGUgdGhlIGVudmlyb25tZW50IGFuZCB1c2Ugd2hpY2ggdG8gY2hlY2sgZm9yIHNvZnR3YXJlIHByZXNlbmNlCmNvbmRhIGFjdGl2YXRlIFJTRF9lbnZpcm9ubWVudAp3aGljaCBjdXRhZGFwdAp3aGljaCBmYXN0cWMKd2hpY2ggbXVsdGlxYwp3aGljaCBTVEFSCndoaWNoIHJzZW0tY2FsY3VsYXRlLWV4cHJlc3Npb24KIyBEZWFjdGl2YXRlIHRoZSBlbnZpcm9ubWVudApkZWFjdGl2YXRlCmBgYAoKPGJyPgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgMDQgU29sdXRpb24iCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBDb25kYSBDcmVhdGUgRXhlcmNpc2UKCjxicj4KCioqMTUgTWludXRlcyoqCgo8YnI+CgpXZSd2ZSBjb3ZlcmVkIHRoZSBiYXNpY3Mgb2YgQ29uZGEsIGluY2x1ZGluZyBob3cgdG8gY3JlYXRlIGVudmlyb25tZW50cywgYXMgd2VsbCBhcyBhY3RpdmF0ZSBhbmQgZGVhY3RpdmF0ZSB0aGVtLiBXZSdsbCB1c2UgdGhvc2Ugc2FtZSBpZGVhcyBpbiB0aGlzIGV4ZXJjaXNlIHRvIGNyZWF0ZSBhIGNvbmRhIGVudmlyb25tZW50IHdpdGggYWxsIG9mIHRoZSBzb2Z0d2FyZSB0aGF0IHdlJ3ZlIHVzZWQgc28gZmFyLgoKPGJyPgoKSW4gdGhpcyBleGVyY2lzZSwgd2UnbGwgdXNlIGEgc3BlY2lhbCB0b29sIHRoYXQgZW5oYW5jZXMgQ29uZGEsIGNhbGxlZCBNYW1iYS4gSXQgaXMgdXNlZCBmb3IgZW52aXJvbm1lbnQgY3JlYXRpb24sIHNvIHlvdSB3aWxsIHVzZSBpdCBpbiBwbGFjZSBvZiBgY29uZGEgY3JlYXRlYCBpbiB0aGlzIGV4ZXJjaXNlLgoKPGJyPgoKIyMjIEluc3RydWN0aW9uczoKCjxicj4KCi0gV2hlbiBhIHNvbHV0aW9uIGlzIGZvdW5kICoqRE8gTk9UKiogaGF2ZSBhbGwgdXNlcnMgY3JlYXRlIHRoZSBlbnZpcm9ubWVudC4gSW5zdGVhZCwgY2hvb3NlIG9ubHkgYSBzdWJzZXQgb2YgaW50ZXJlc3RlZCBsZWFybmVycyB0byBjb21wbGV0ZSB0aGlzIGV4ZXJjaXNlLiBXZSBkbyBub3Qgd2FudCB0byBvdmVyd2hlbG0gdGhlIEFXUyBpbnN0YW5jZS4KCjxicj4KCi0gVXNlIGBtYW1iYWAgdG8gY3JlYXRlIGFuIGVudmlyb25tZW50IHdpdGggYWxsIG9mIHRoZSBzb2Z0d2FyZSB0aGF0IHdlIHVzZWQgdG9kYXk6CiAgICAtIGN1dGFkYXB0CiAgICAtIGZhc3RxYwogICAgLSBtdWx0aXFjCiAgICAtIHN0YXIKICAgIC0gcnNlbQotIFVzZSB0d28gY2hhbm5lbHMgd2hlbiBidWlsZGluZyB0aGUgZW52aXJvbm1lbnQ6CiAgICAtIGBjb25kYS1mb3JnZWAKICAgIC0gYGJpb2NvbmRhYAoKPGJyPgoKPiBIaW50OiBUaGUgdG9vbCBgbWFtYmFgIGlzIGEgZHJvcC1pbiByZXBsYWNlbWVudCBmb3IgYGNvbmRhIGNyZWF0ZWAgYW5kIHNpbWlsYXIgY29tbWFuZHMuCj4gSXQgaXMgcG93ZXJmdWwgYW5kIGZhc3QsIHdoaWNoIGFsbG93cyB1cyB0byBlYXNpbHkgcmVwbGljYXRlIG91ciB3aG9sZSBlbnZpcm9ubWVudCBmcm9tIHRvZGF5Lgo+IGBjb25kYSBjcmVhdGVgIGNhbiBiZSB2ZXJ5IHNsb3cgb3IgdW5jb29wZXJhdGl2ZSB3aGVuIGNyZWF0aW5nIGVudmlyb25tZW50cyB3aXRoIGNlcnRhaW4KPiBzb2Z0d2FyZSBjb21iaW5hdGlvbnMsIGFuZCBgbWFtYmFgIGhlbHBzIHVzIGdldCBhcm91bmQgdGhhdCBpbiB0aGlzIGNhc2UuCj4gVGhlIGNvbW1hbmQgaXMgZXhhY3RseSB0aGUgc2FtZSBhcyBhIGBjb25kYSBjcmVhdGVgIGNvbW1hbmQsIGUuZy46Cj4KPiB+fn4KPiBtYW1iYSBjcmVhdGUgLW4gPGVudi1uYW1lPiAtYyA8Y2hhbm5lbD4gPHBhY2thZ2UxPiAuLi4KPiB+fn4KCjxicj4KCiMjIyBTb2x1dGlvbiAtIENvbmRhIENyZWF0ZSBFeGVyY2lzZQoKPGJyPgoKYGBgCiMgQ2hlY2sgdG8gc2VlIGlmIG1hbWJhIGlzIGluc3RhbGxlZAp3aGljaCBtYW1iYQojIElmIHlvdSBkb24ndCBoYXZlIG1hbWJhIGluc3RhbGxlZCwgeW91IGNhbiBpbnN0YWxsIGl0IHRvIHlvdXIgYmFzZSBjb25kYSBlbnZpcm9ubWVudApjb25kYSBpbnN0YWxsIC1jIGNvbmRhLWZvcmdlIG1hbWJhCiMgVXNlIG1hbWJhIHRvIGNyZWF0ZSBhbiBlbnZpcm9ubWVudCB3aXRoIEN1dGFkYXB0LCBGYXN0UUMsIE11bHRpUUMsIFNUQVIsIGFuZCBSU0VNLgptYW1iYSBjcmVhdGUgLW4gUlNEX2Vudmlyb25tZW50IC1jIGNvbmRhLWZvcmdlIC1jIGJpb2NvbmRhIGN1dGFkYXB0IGZhc3RxYyBtdWx0aXFjIHN0YXIgcnNlbQojIEFjdGl2YXRlIHRoZSBlbnZpcm9ubWVudCBhbmQgdXNlIHdoaWNoIHRvIGNoZWNrIGZvciBzb2Z0d2FyZSBwcmVzZW5jZQpjb25kYSBhY3RpdmF0ZSBSU0RfZW52aXJvbm1lbnQKd2hpY2ggY3V0YWRhcHQKd2hpY2ggZmFzdHFjCndoaWNoIG11bHRpcWMKd2hpY2ggU1RBUgp3aGljaCByc2VtLWNhbGN1bGF0ZS1leHByZXNzaW9uCiMgRGVhY3RpdmF0ZSB0aGUgZW52aXJvbm1lbnQKZGVhY3RpdmF0ZQpgYGAKCjxicj4K</div>
 
 
 
