@@ -41,6 +41,15 @@ In this exercise, we'll use a special tool that enhances Conda, called Mamba. It
 
 <br>
 
+- Work independently in the main room, posting any questions that arise to slack.
+- Recommendations for writing your own code:
+  - Read function documentation
+  - Test out ideas - it's okay to make mistakes and generate errors
+  - Use a search engine to look up errors or recommended solutions using keywords
+- We'll review possible solutions after time is up as a group.
+
+<br>
+
 - When a solution is found **DO NOT** have all users create the environment. Instead, choose only a subset of interested learners to complete this exercise. We do not want to overwhelm the AWS instance.
 
 <br>

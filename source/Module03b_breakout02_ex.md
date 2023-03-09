@@ -37,6 +37,15 @@ We just learned about how to use RSEM & STAR, but now we need to align all of th
 
 <br>
 
+- Work independently in the main room, posting any questions that arise to slack.
+- Recommendations for writing your own code:
+  - Read function documentation
+  - Test out ideas - it's okay to make mistakes and generate errors
+  - Use a search engine to look up errors or recommended solutions using keywords
+- We'll review possible solutions after time is up as a group.
+
+<br>
+
 - Review what we've learned about running RSEM + STAR, to determine an appropriate command for aligning our samples.
 - Using what we've learned previously, create a script using this command to quickly and easily align the rest of our samples.
 - Run the script, view the output, and verify that we have the files we need.

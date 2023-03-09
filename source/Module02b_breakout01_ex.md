@@ -37,6 +37,15 @@ Now that we've learned the basics of running Cutadapt, we need to trim all the r
 
 <br>
 
+- Work independently in the main room, posting any questions that arise to slack.
+- Recommendations for writing your own code:
+  - Read function documentation
+  - Test out ideas - it's okay to make mistakes and generate errors
+  - Use a search engine to look up errors or recommended solutions using keywords
+- We'll review possible solutions after time is up as a group.
+
+<br>
+
 - Review Cutadapt's help page and choose the proper arguments for our Cutadapt command(s).
 - Use a bash variable along with Cutadapt to trim all remaining FASTQ files.
 - Confirm that we have all of our expected output files.
