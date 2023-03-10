@@ -158,7 +158,7 @@ str(pcaData) # check the structure
 ```
 
 
-With this table of PCA statistics, we can use what we learned at the end of the Computational Foundations Workshop to customize plot as we might see necessary. **What are some modifications we might want to make?**
+With this table of PCA statistics, we can use what we learned at the end of the Computational Foundations Workshop to customize plot as we might see necessary. **What are some modifications we might want to make?** [use slack poll to rank]:
 
 Examples:
 
@@ -172,13 +172,14 @@ Examples:
 
 Before working independently on an exercise, we'll work together to build a command to plot our `pcaData` with more familiar `ggplot2` syntax. 
 
-In this example, we'll still use color to indicate our groups but we'll customize the plot to have the same black and white theme that we used in Computational Foundations. Recall that `ggplot2` adds plot components in layers, and we can add additional layers with the `+` sign.
+In this example, we'll still use color to indicate our groups but we'll customize the plot to have the same black and white theme that we used in Computational Foundations and add an informative title. Recall that `ggplot2` adds plot components in layers, and we can add additional layers with the `+` sign.
 ```{r PCACustomDemo}
 # create custom plot object
 PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
   geom_point(size=3) +
   coord_fixed() +
-  theme_bw()
+  theme_bw() + 
+  labs(title = "PC1 and PC2 for iron deficient mouse samples")
 
 # add percentVar labels to *displayed plot*
 PCACustom + 
@@ -186,60 +187,33 @@ PCACustom +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
 # add percentVar labels to *stored plot object*
-PCACustom <- PCACustom + 
+PCACustom2 <- PCACustom + 
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 ```
-- Add an informative plot title to make interpretation/sharing easier
-- Add labels to show which samples correspond to which points
-- Make our color palette color-blind friendly
-- Use shape instead of color of the points to indicate groups on the PCA plot
+---
 
 > # Independent Exercise - Customize a PCA   
 > (15 minutes)
 > 
-> Like earlier - we'll plan to work independently in the main room, posting any questions that arise to slack. Although, we'll review possible solutions at the end of that time, anyone wanting a more guided experience can join a room with a helper.
+> Like earlier - we'll plan to work independently in the main room. This is a time to read function documentation, test out ideas, make mistakes, and use a search engine to look up errors or possible example solutions. Please post any questions or errors that arise to slack. We'll review possible solutions together at the end.
 > 
 > 
 > Try doing the following to the `pca_plot`, starting with the "most popular" request and moving on to other customizations if you have time:
 >
-> * Add a title and subtitle to the plot using the `labs()` function.
-> * Add labels to show which samples correspond to which points, like [here](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
-> * Make our color palette color-blind friendly (with `RColorBrewer`), like [here](https://www.datanovia.com/en/blog/the-a-z-of-rcolorbrewer-palette/) and/or [here](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
-> * Use shape instead of color to indicate groups on the PCA plot. Hint, since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color (instead of adding an additional layers like the other prompts), similar to [these R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) 
-> * _Challenge_: Change the legend title to "Iron Status". Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
+> * Add a title and subtitle to the plot
+> * Update the color palette to be color-blind friendly
+> * Add labels to show which samples correspond to which points
+> * Use shape instead of color to indicate groups on the PCA plot.
+> * _Challenge_: Change the legend title to "Iron Status". 
 >
 > [Link to exercise](Module09a_breakout.html)
 
-```{r ExerciseHidden, include=FALSE, eval = FALSE}
-Keep everyone in main room & request questions be posted to slack
-Allow learners who want a guided experience to go to breakout room with a helper 
-Use time checks or count down for independent work time
-Review solution at end of independent time
-DK - update RSD-R section to update exercise to be extensions of PCA plot & mode to reflect new paradigm (see last week)
-
-RSD-R exercise
-Update exercise to be updating PCA plot with different visualization options
-Use written hints similar to Unix section to help learners with process
-Use poll to have learners rank order of priority for plot changes
-Change dot colors
-Include link to color-blind friendly palettes
-Rotate axes
-Labeling points 
-Change marker shape
-Since more novelty in exercise, walk through process of least popular option together with learners (highlighting connection to ggplot)
-Encourage learners to work through top visualization option and continue onto other options if they complete the first option 
-Keep everyone in main room & request questions be posted to slack
-Allow learners who want a guided experience to go to breakout room with a helper 
-Review solution at end of independent time
-
-
-```
 
 <details>
 <summary>Solution</summary>
 
-Here is some possible answers:
+Here is some possible approaches:
 
 ```{r customize_pca_solutions}
 
@@ -248,7 +222,7 @@ Here is some possible answers:
 <br>
 
 
-
+----
 
 
 # Download plots

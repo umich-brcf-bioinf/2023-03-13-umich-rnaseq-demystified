@@ -50,45 +50,63 @@ Estimated time: **15 Minutes**
 
 # Motivation
 
-Plotting the expression values across all samples for the top variable genes in an experiment can help to visualize how samples cluster together by their expression profiles. When combined with phenotypic data, it can help show how samples with different treatments behave relative to one another.
+Customizing plots can help us see patterns in the data or make the claim(s) based on the data represented clearer.
+
+# Instructions
+
+- Work independently in the main room, posting any questions that arise to slack.
+- Recommendations for writing your own code:
+  - Read function documentation
+  - Test out ideas - it's okay to make mistakes and generate errors
+  - Use a search engine to look up errors or recommended solutions using keywords
+- We'll review possible solutions after time is up as a group.
 
 # Exercise
 
 Try doing the following to the `pca_plot`, starting with the "most popular" request and moving on to other customizations if you have time:
 
-* Add a title and subtitle to the plot using the `labs()` function.
-* Add labels to show which samples correspond to which points, like [here](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
-* Make our color palette color-blind friendly (with `RColorBrewer`), like [here](https://www.datanovia.com/en/blog/the-a-z-of-rcolorbrewer-palette/) and/or [here](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
-* Use shape instead of color to indicate groups on the PCA plot. Hint, since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color (instead of adding an additional layers like the other prompts), similar to [these R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) 
-* _Challenge_: Change the legend title to "Iron Status". Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
+* Add a title and subtitle to the plot 
+  * Hint: use the `labs()` function or search for [an example for a similar plot]()
 
-# Instructions
+* Add labels to show which samples correspond to which points
+  * Hint: use the 
+  * See [example in this support post](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
+  
+* Make our color palette more color-blind friendly (with `RColorBrewer`)
+  * When considering color choices, be aware of the [prevalence and types of color-blindness](https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695) and how to choose more [easily distinguishable colors](http://bconnelly.net/posts/creating_colorblind-friendly_figures/) and check the final figure for sufficient contrasts with a [simulator tool](https://www.color-blindness.com/coblis-color-blindness-simulator/). 
+  * There are pre-designed [color-blind friendly palettes available](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+  
+* Use shape instead of color to indicate groups on the PCA plot. 
+  * Hint: since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color instead of adding an additional layers like the other prompts 
+  * [These R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) could be a good place to start
 
-- Work independently in the main room, posting any questions that arise to slack.
-- Join a room with a helper for a more guided experience.
-- We'll review possible solutions when 
+* _Challenge_: Change the legend title to "Iron Status". 
+  * Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
+
 
 # Example
 
-To get an idea of what we expect to see at the end, let's look at a toy example from the `pheatmap()` help examples. There's no need to run this code, we just want to illustrate the form of the result.
+Here is a copy of the code we just tested together to 1) pull the underlying data from the PCA funtion and 2) change the theme of our PCA plot to `bw`
 
 ```{r test_heatmap}
-# Copied from the pheatmap documentation
+pcaData <- plotPCA(rld, intgroup=c("condition"), returnData=TRUE)
+percentVar <- round(100 * attr(pcaData, "percentVar")) # store PC axes (% variance)
 
-# Create matrix with random normally distributed values
-test = matrix(rnorm(200), 20, 10)
+# create custom plot object
+PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw()
 
-# Impose some structure so the heatmap appears interesting
-test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
-test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
-test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
+# add percentVar labels to *displayed plot*
+PCACustom + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
-# Name the rows and columns
-colnames(test) = paste("Test", 1:10, sep = "")
-rownames(test) = paste("Gene", 1:20, sep = "")
-
-# Draw the heatmap
-pheatmap(test)
+# add percentVar labels to *stored plot object*
+PCACustom2 <- PCACustom + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
 ```
 
 # Steps
