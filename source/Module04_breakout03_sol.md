@@ -37,6 +37,15 @@ We just tried two new variations of our MultiQC command, one pointed at the dire
 
 <br>
 
+- Work independently in the main room, posting any questions that arise to slack.
+- Recommendations for writing your own code:
+  - Read function documentation
+  - Test out ideas - it's okay to make mistakes and generate errors
+  - Use a search engine to look up errors or recommended solutions using keywords
+- We'll review possible solutions after time is up as a group.
+
+<br>
+
 - Make sure that you are viewing your local terminal. The `scp` command should be run from your own machine.
 - Use `scp` to transfer the comprehensive multiQC report from the AWS machine to your personal computer.
 - Confirm that you've received the report
