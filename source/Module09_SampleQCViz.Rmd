@@ -162,6 +162,7 @@ With this table of PCA statistics, we can use what we learned at the end of the 
 
 Examples:
 
+- Change the overall theme of the plot
 - Add an informative plot title to make interpretation/sharing easier
 - Add labels to show which samples correspond to which points
 - Make our color palette color-blind friendly

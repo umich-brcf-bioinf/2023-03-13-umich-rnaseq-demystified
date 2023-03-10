@@ -65,30 +65,17 @@ Customizing plots can help us see patterns in the data or make the claim(s) base
 
 Try doing the following to the `pca_plot`, starting with the "most popular" request and moving on to other customizations if you have time:
 
-* Add a title and subtitle to the plot 
-  * Hint: use the `labs()` function or search for [an example for a similar plot]()
-
-* Add labels to show which samples correspond to which points
-  * Hint: use the 
-  * See [example in this support post](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
-  
-* Make our color palette more color-blind friendly (with `RColorBrewer`)
-  * When considering color choices, be aware of the [prevalence and types of color-blindness](https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695) and how to choose more [easily distinguishable colors](http://bconnelly.net/posts/creating_colorblind-friendly_figures/) and check the final figure for sufficient contrasts with a [simulator tool](https://www.color-blindness.com/coblis-color-blindness-simulator/). 
-  * There are pre-designed [color-blind friendly palettes available](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
-  
-* Use shape instead of color to indicate groups on the PCA plot. 
-  * Hint: since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color instead of adding an additional layers like the other prompts 
-  * [These R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) could be a good place to start
-
-* _Challenge_: Change the legend title to "Iron Status". 
-  * Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
-
+> * Add a title and subtitle to the plot
+> * Update the color palette to be color-blind friendly
+> * Add labels to show which samples correspond to which points
+> * Use shape instead of color to indicate groups on the PCA plot.
+> * _Challenge_: Change the legend title to "Iron Status". 
 
 # Example
 
-Here is a copy of the code we just tested together to 1) pull the underlying data from the PCA funtion and 2) change the theme of our PCA plot to `bw`
+Here is a copy of the code we just tested together to 1) pull the underlying data from the PCA function and 2) change the theme of our PCA plot to black and white.
 
-```{r test_heatmap}
+```{r test_PCA}
 pcaData <- plotPCA(rld, intgroup=c("condition"), returnData=TRUE)
 percentVar <- round(100 * attr(pcaData, "percentVar")) # store PC axes (% variance)
 
@@ -111,74 +98,24 @@ PCACustom2 <- PCACustom +
 
 # Steps
 
-1. Look at the documentation for the `pheatmap()` function and determine what the most important parameter is. Hint: It's usually the first or first few parameters. This is telling us what we'll have to get for the next step.
+* Add a title and subtitle to the ggplot plot 
+  * Hint: use the `labs()` function or search for [examples](https://www.datanovia.com/en/blog/ggplot-title-subtitle-and-caption/)
 
-<details>
-<summary>Answer</summary>
-```{r pheatmap_help, eval = FALSE}
-?pheatmap
-```
+* Add labels to show which samples correspond to which points
+  * Hint: use the 
+  * See [example in this support post](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
+  
+* Make our color palette more color-blind friendly (with `RColorBrewer`)
+  * When considering color choices, be aware of the [prevalence and types of color-blindness](https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695) and how to choose more [easily distinguishable colors](http://bconnelly.net/posts/creating_colorblind-friendly_figures/) and check the final figure for sufficient contrasts with a [simulator tool](https://www.color-blindness.com/coblis-color-blindness-simulator/). 
+  * There are pre-designed [color-blind friendly palettes available](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+  
+* Use shape instead of color to indicate groups on the PCA plot. 
+  * Hint: since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color instead of adding an additional layers like the other prompts 
+  * [These R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) could be a good place to start
 
-For this exercise, we'll only need to use the `mat` parameter, giving the numeric matrix to be plotted.
-</details>
-<br>
+* _Challenge_: Change the legend title to "Iron Status". 
+  * Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
 
-2. Extract the rlog normalized expression values for the experiment. Hint: We created an `rld` object earlier. The `assay()` function pulls out the values.
-
-<details>
-<summary>Answer</summary>
-```{r extract_rld_expression}
-exp_mat = assay(rld)
-head(exp_mat)
-```
-</details>
-<br>
-
-3. Calculate the variance for each gene in the expression matrix we just extracted. Hint: Look at the help for `matrixStats::rowVars()` and decide if that's a reasonable function to use.
-
-<details>
-<summary>Answer</summary>
-```{r calc_row_vars}
-gene_vars = rowVars(exp_mat)
-head(gene_vars)
-```
-</details>
-<br>
-
-4. Get the numerical indices for the top 50 most variable genes. Hint: Run the `order()` function on a toy example, like `order(c(-1.25, 1.3, 5.6, 2.1))`, and think about what is being returned. Note, it's not the values in the original vector. Then look at the help for `order()` and figure out how how to reverse what is returned.
-
-<details>
-<summary>Answer</summary>
-```{r order_vars}
-order(c(-1.25, 1.3, 5.6, 2.1))
-order(c(-1.25, 1.3, 5.6, 2.1), decreasing = TRUE)
-
-ordered_idx = order(gene_vars, decreasing = TRUE)
-top_50_idx = ordered_idx[1:50]
-```
-</details>
-<br>
-
-5. Subset the expression matrix from step 2 using this index vector. Hint: Remember square-bracket notation, and that we want to subset the rows, while returning all the columns. Make sure the result has the number of rows you expect, that is, 50.
-
-<details>
-<summary>Answer</summary>
-```{r extract_top_exp}
-top_var_exp_mat = exp_mat[top_50_idx, ]
-dim(top_var_exp_mat)
-```
-</details>
-<br>
-
-6. Create a heatmap using this subsetted expression matrix using the `pheatmap()` function.
-
-<details>
-<summary>Answer</summary>
-```{r create_heatmap}
-pheatmap(top_var_exp_mat)
-```
-</details>
-<br>
 
 # Saving the result
 
