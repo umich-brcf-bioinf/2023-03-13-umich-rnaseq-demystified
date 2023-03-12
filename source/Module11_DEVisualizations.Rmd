@@ -250,14 +250,6 @@ In this section, we:
 * HBC DGE training module, part 2: https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html
 * DESeq2 vignette: http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#differential-expression-analysis
 
-# Additional Resources
-* MIDAS Reproduciblity Hub: https://midas.umich.edu/reproducibility-overview/
-* ARC resources: https://arc-ts.umich.edu/
-* Gene Set Enrichment Resources from Bioconductor: https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2018/RNASeq2018/html/06_Gene_set_testing.nb.html
-* Using HTSeq data with DESeq2: https://angus.readthedocs.io/en/2019/diff-ex-and-viz.html
-* Detailed RNA-seq analysis paper: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/
-* Overview of RNA-seq analysis considerations: https://academic-oup-com.proxy.lib.umich.edu/bfg/article/14/2/130/257370
-* Alternative overview of DESeq2, including visualizations and functional enrichments: http://dputhier.github.io/jgb71e-polytech-bioinfo-app/practical/rna-seq_R/rnaseq_diff_Snf2.html
 
 ---
 
@@ -266,10 +258,6 @@ In this section, we:
 # save.image(file = "rdata/RunningData_Full.RData")
 ```
 
-# Session Info
-```{r SessionInfo}
-sessionInfo()
-```
 
 ---
 

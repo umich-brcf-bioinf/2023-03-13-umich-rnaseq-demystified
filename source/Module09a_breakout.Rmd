@@ -1,5 +1,5 @@
 ---
-title: "... Exercise 1 - Independent Exercise - Customize a PCA plot"
+title: "Independent Exercise - Customize a PCA plot"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:

@@ -182,15 +182,17 @@ PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
   theme_bw() + 
   labs(title = "PC1 and PC2 for iron deficient mouse samples")
 
+# add percentVar labels to *stored plot object*
+PCACustom2 <- PCACustom + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+
 # add percentVar labels to *displayed plot*
 PCACustom + 
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
-# add percentVar labels to *stored plot object*
-PCACustom2 <- PCACustom + 
-  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
-  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+
 ```
 ---
 
@@ -212,7 +214,7 @@ PCACustom2 <- PCACustom +
 
 
 <details>
-<summary>Solutions</summary>
+<summary> Possible solutions to exercise prompts </summary>
 
 Here are examples of some possible approaches:
 
