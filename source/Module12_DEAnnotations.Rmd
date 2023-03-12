@@ -1,5 +1,5 @@
 ---
-title: "Module 11: DE Annotations & Downsteam applications"
+title: "Module 12: DE Annotations & Downsteam applications"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:

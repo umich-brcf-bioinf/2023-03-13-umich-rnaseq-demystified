@@ -266,7 +266,7 @@ If time permits, consider how you might save your favorite new PCA plot (with an
 
 Here are examples of some possible approaches:
 
-```{r save_custom_pca}
+```{r save_custom_pca, eval = FALSE}
 pdf(file = file.path('outputs', 'figures', 'PCA_rlog_Titled.pdf'), width = 6, height = 6)
 PCACustom3
 dev.off()

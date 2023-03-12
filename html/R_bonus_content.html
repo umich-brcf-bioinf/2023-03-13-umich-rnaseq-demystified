@@ -11,11 +11,11 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2023-02-23" />
+<meta name="date" content="2023-03-12" />
 
 <title>R Bonus Content</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -461,7 +461,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">R Bonus Content</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2023-02-23</h4>
+<h4 class="date">2023-03-12</h4>
 
 </div>
 
@@ -507,20 +507,20 @@ raw_counts</code></pre>
 10 ENSMUSG00000000085      402      483      744      898      811     1261
 # … with 55,482 more rows</code></pre>
 <pre class="r"><code>norm_counts</code></pre>
-<pre><code># A tibble: 55,492 × 7
+<pre><code># A tibble: 16,249 × 7
    id                 sample_A sample_B sample_C sample_D sample_E sample_F
    &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
  1 ENSMUSG00000000001    10.5     10.4     10.4     10.8     10.4     10.6 
- 2 ENSMUSG00000000003     0        0        0        0        0        0   
- 3 ENSMUSG00000000028    10.6     10.7     10.7     10.7     10.8     11.0 
- 4 ENSMUSG00000000031    11.2     10.5     10.7     11.9     10.6     10.3 
- 5 ENSMUSG00000000037     4.64     4.53     4.56     4.66     4.74     4.62
- 6 ENSMUSG00000000049     3.04     2.78     2.81     2.94     2.77     2.77
- 7 ENSMUSG00000000056    14.3     14.3     14.3     13.9     14.4     14.2 
- 8 ENSMUSG00000000058    -1.97    -1.97    -1.97    -1.98    -1.97    -1.98
- 9 ENSMUSG00000000078    10.1      9.77     9.86     9.94     9.67     9.90
-10 ENSMUSG00000000085     9.27     9.41     9.53     9.22     9.61     9.81
-# … with 55,482 more rows</code></pre>
+ 2 ENSMUSG00000000028    10.6     10.7     10.7     10.7     10.8     11.0 
+ 3 ENSMUSG00000000031    11.2     10.5     10.7     11.9     10.6     10.3 
+ 4 ENSMUSG00000000037     4.64     4.56     4.58     4.66     4.72     4.62
+ 5 ENSMUSG00000000049     3.02     2.82     2.84     2.94     2.81     2.81
+ 6 ENSMUSG00000000056    14.3     14.3     14.3     13.9     14.4     14.2 
+ 7 ENSMUSG00000000078    10.1      9.77     9.86     9.93     9.68     9.90
+ 8 ENSMUSG00000000085     9.28     9.41     9.53     9.23     9.60     9.80
+ 9 ENSMUSG00000000088    10.4     10.6     10.7     10.5     10.5     10.2 
+10 ENSMUSG00000000093     3.88     3.89     3.93     3.91     3.94     3.99
+# … with 16,239 more rows</code></pre>
 <p>Next, this is the <strong>perfect</strong> opportunity to use
 <code>tidyr::pivot_longer()</code> because we want to use
 <code>ggplot()</code> for the bar plots, but the data is currently in
@@ -555,18 +555,6 @@ raw_boxplot</code></pre>
         y = &#39;rlog Counts&#39;) +
     theme_bw() + theme(axis.text.x = element_text(angle = 90))
 norm_boxplot</code></pre>
-<pre><code>Notch went outside hinges
-ℹ Do you want `notch = FALSE`?
-Notch went outside hinges
-ℹ Do you want `notch = FALSE`?
-Notch went outside hinges
-ℹ Do you want `notch = FALSE`?
-Notch went outside hinges
-ℹ Do you want `notch = FALSE`?
-Notch went outside hinges
-ℹ Do you want `notch = FALSE`?
-Notch went outside hinges
-ℹ Do you want `notch = FALSE`?</code></pre>
 <p><img src="fig/R_bonus_contentNormBoxplot-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>Observe that the normalized plots truly do appear normalized; their
 means are more uniform. Let’s go ahead and save these plots in our
@@ -584,12 +572,12 @@ the boxplot.</p>
 <pre class="r"><code>norm_mat = assay(rld)
 head(norm_mat)</code></pre>
 <pre><code>                    sample_A  sample_B  sample_C  sample_D  sample_E  sample_F
-ENSMUSG00000000001 10.514325 10.362199 10.416747 10.848206 10.407358 10.580122
-ENSMUSG00000000003  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
-ENSMUSG00000000028 10.600258 10.733715 10.734514 10.680950 10.822340 10.996072
-ENSMUSG00000000031 11.165419 10.489474 10.739743 11.878080 10.571118 10.283484
-ENSMUSG00000000037  4.643908  4.531768  4.562049  4.662816  4.740959  4.615466
-ENSMUSG00000000049  3.039469  2.777797  2.809976  2.935325  2.769888  2.765076</code></pre>
+ENSMUSG00000000001 10.514813 10.366709 10.419463 10.840373 10.410449 10.578771
+ENSMUSG00000000028 10.604461 10.734506 10.735026 10.682714 10.820938 10.990999
+ENSMUSG00000000031 11.160276 10.498747 10.742763 11.861617 10.578156 10.298022
+ENSMUSG00000000037  4.642433  4.555500  4.578934  4.656950  4.719012  4.620204
+ENSMUSG00000000049  3.017478  2.820198  2.843894  2.936455  2.814833  2.811619
+ENSMUSG00000000056 14.321672 14.284652 14.337197 13.904238 14.393912 14.235971</code></pre>
 <p>Next, we’ll use the <code>dist()</code> function on the transpose of
 <code>norm_mat</code> to compute the distance. We will use the default
 Euclidean distance.</p>
@@ -674,9 +662,9 @@ class="uri">https://training.galaxyproject.org/training-material/topics/transcri
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.2.2 (2022-10-31)
+<pre><code>R version 4.2.0 (2022-04-22)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Ventura 13.2
+Running under: macOS 13.2.1
 
 Matrix products: default
 LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
@@ -688,41 +676,41 @@ attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] biomaRt_2.52.0              data.table_1.14.4           RColorBrewer_1.1-3         
- [4] pheatmap_1.0.12             ggrepel_0.9.1               DESeq2_1.36.0              
- [7] SummarizedExperiment_1.26.1 Biobase_2.56.0              MatrixGenerics_1.8.1       
-[10] matrixStats_0.62.0          GenomicRanges_1.48.0        GenomeInfoDb_1.32.4        
-[13] IRanges_2.30.1              S4Vectors_0.34.0            BiocGenerics_0.42.0        
-[16] forcats_0.5.2               stringr_1.4.1               dplyr_1.0.10               
-[19] purrr_0.3.5                 readr_2.1.3                 tidyr_1.2.1                
-[22] tibble_3.1.8                ggplot2_3.4.0               tidyverse_1.3.2            
-[25] knitr_1.40                  rmarkdown_2.17             
+ [1] biomaRt_2.52.0              knitr_1.41                  rmarkdown_2.18             
+ [4] data.table_1.14.6           RColorBrewer_1.1-3          pheatmap_1.0.12            
+ [7] ggrepel_0.9.2               DESeq2_1.36.0               SummarizedExperiment_1.26.1
+[10] Biobase_2.56.0              MatrixGenerics_1.8.1        matrixStats_0.63.0         
+[13] GenomicRanges_1.48.0        GenomeInfoDb_1.32.4         IRanges_2.30.1             
+[16] S4Vectors_0.34.0            BiocGenerics_0.42.0         forcats_0.5.2              
+[19] stringr_1.5.0               dplyr_1.0.10                purrr_0.3.5                
+[22] readr_2.1.3                 tidyr_1.2.1                 tibble_3.1.8               
+[25] ggplot2_3.4.0               tidyverse_1.3.2            
 
 loaded via a namespace (and not attached):
  [1] googledrive_2.0.0      colorspace_2.0-3       ellipsis_0.3.2         XVector_0.36.0        
  [5] fs_1.5.2               rstudioapi_0.14        farver_2.1.1           bit64_4.0.5           
- [9] AnnotationDbi_1.58.0   fansi_1.0.3            lubridate_1.8.0        xml2_1.3.3            
-[13] codetools_0.2-18       splines_4.2.2          cachem_1.0.6           geneplotter_1.74.0    
-[17] jsonlite_1.8.3         broom_1.0.1            annotate_1.48.0        dbplyr_2.2.1          
-[21] png_0.1-7              compiler_4.2.2         httr_1.4.4             backports_1.4.1       
-[25] assertthat_0.2.1       Matrix_1.5-1           fastmap_1.1.0          gargle_1.2.1          
-[29] cli_3.4.1              prettyunits_1.1.1      htmltools_0.5.3        tools_4.2.2           
+ [9] AnnotationDbi_1.58.0   fansi_1.0.3            lubridate_1.9.0        xml2_1.3.3            
+[13] codetools_0.2-18       splines_4.2.0          cachem_1.0.6           geneplotter_1.74.0    
+[17] jsonlite_1.8.3         broom_1.0.1            annotate_1.74.0        dbplyr_2.2.1          
+[21] png_0.1-8              compiler_4.2.0         httr_1.4.4             backports_1.4.1       
+[25] assertthat_0.2.1       Matrix_1.5-3           fastmap_1.1.0          gargle_1.2.1          
+[29] cli_3.4.1              prettyunits_1.1.1      htmltools_0.5.3        tools_4.2.0           
 [33] gtable_0.3.1           glue_1.6.2             GenomeInfoDbData_1.2.8 rappdirs_0.3.3        
-[37] Rcpp_1.0.9             cellranger_1.1.0       jquerylib_0.1.4        vctrs_0.5.0           
-[41] Biostrings_2.64.1      xfun_0.34              rvest_1.0.3            lifecycle_1.0.3       
-[45] XML_3.99-0.12          googlesheets4_1.0.1    zlibbioc_1.16.0        scales_1.2.1          
-[49] hms_1.1.2              parallel_4.2.2         curl_4.3.3             yaml_2.3.6            
-[53] memoise_2.0.1          sass_0.4.2             stringi_1.7.8          RSQLite_2.2.18        
-[57] highr_0.9              genefilter_1.78.0      filelock_1.0.2         BiocParallel_1.30.4   
-[61] rlang_1.0.6            pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.17         
-[65] lattice_0.20-45        labeling_0.4.2         bit_4.0.4              tidyselect_1.2.0      
-[69] magrittr_2.0.3         R6_2.5.1               generics_0.1.3         DelayedArray_0.22.0   
-[73] DBI_1.1.3              pillar_1.8.1           haven_2.5.1            withr_2.5.0           
-[77] survival_3.4-0         KEGGREST_1.36.3        RCurl_1.98-1.9         modelr_0.1.9          
-[81] crayon_1.5.2           utf8_1.2.2             BiocFileCache_2.4.0    tzdb_0.3.0            
-[85] progress_1.2.2         locfit_1.5-9.6         grid_4.2.2             readxl_1.4.1          
-[89] blob_1.2.3             reprex_2.0.2           digest_0.6.30          xtable_1.8-4          
-[93] munsell_0.5.0          bslib_0.4.1           </code></pre>
+[37] Rcpp_1.0.9             cellranger_1.1.0       jquerylib_0.1.4        vctrs_0.5.1           
+[41] Biostrings_2.64.1      xfun_0.35              rvest_1.0.3            timechange_0.1.1      
+[45] lifecycle_1.0.3        XML_3.99-0.13          googlesheets4_1.0.1    zlibbioc_1.42.0       
+[49] scales_1.2.1           vroom_1.6.0            hms_1.1.2              parallel_4.2.0        
+[53] curl_4.3.3             yaml_2.3.6             memoise_2.0.1          sass_0.4.4            
+[57] stringi_1.7.8          RSQLite_2.2.19         highr_0.9              genefilter_1.78.0     
+[61] filelock_1.0.2         BiocParallel_1.30.4    rlang_1.0.6            pkgconfig_2.0.3       
+[65] bitops_1.0-7           evaluate_0.18          lattice_0.20-45        labeling_0.4.2        
+[69] bit_4.0.5              tidyselect_1.2.0       magrittr_2.0.3         R6_2.5.1              
+[73] generics_0.1.3         DelayedArray_0.22.0    DBI_1.1.3              pillar_1.8.1          
+[77] haven_2.5.1            withr_2.5.0            survival_3.4-0         KEGGREST_1.36.3       
+[81] RCurl_1.98-1.9         modelr_0.1.10          crayon_1.5.2           utf8_1.2.2            
+[85] BiocFileCache_2.4.0    tzdb_0.3.0             progress_1.2.2         locfit_1.5-9.6        
+[89] grid_4.2.0             readxl_1.4.1           blob_1.2.3             reprex_2.0.2          
+[93] digest_0.6.30          xtable_1.8-4           munsell_0.5.0          bslib_0.4.1           </code></pre>
 <hr />
 <p>These materials have been adapted and extended from materials listed
 above. These are open access materials distributed under the terms of

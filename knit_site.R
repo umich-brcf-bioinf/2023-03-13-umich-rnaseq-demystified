@@ -51,12 +51,7 @@ render_site('source/Module05_breakout04_sol.md')
 render_site('source/Module06_DEAnalysisSetup.Rmd')
 render_site('source/Module07_DESeq2Init.Rmd')
 render_site('source/Module08_DESeq2DE.Rmd')
-
-#render_site('source/Module09_SampleQCViz.Rmd') #error when knitting
-#label: ScreePlot
-#Error in prcomp.default(t(assay(rld)), scale = TRUE) : 
-#  cannot rescale a constant/zero column to unit variance
-
+render_site('source/Module09_SampleQCViz.Rmd')
 render_site('source/Module09a_breakout.Rmd')
 render_site('source/Module10_DEComparisons.Rmd')
 render_site('source/Module11_DEVisualizations.Rmd')
