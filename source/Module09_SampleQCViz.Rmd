@@ -212,13 +212,81 @@ PCACustom2 <- PCACustom +
 
 
 <details>
-<summary>Solution</summary>
+<summary>Solutions</summary>
 
 Here are examples of some possible approaches:
 
-```{r customize_pca_solutions}
-
+* Add a title and subtitle to the ggplot plot
+```{r, eval= FALSE}
+PCACustom2 + 
+  labs(title = "Iron Supplemented Mice", subtitle = "PCA of top 500 genes")
 ```
+
+
+* Add labels to show which samples correspond to which points
+
+```{r, eval= FALSE}
+# display with labels
+PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)
+```
+
+
+* Make our color palette more color-blind friendly
+
+```{r, eval= TRUE}
+# look at pre-made color palettes from RColorBrewer
+display.brewer.all(colorblindFriendly = TRUE)
+# use RColorBrewer palette
+PCACustom2 + 
+  scale_colour_brewer(palette = "Set2")
+
+# OR customize using manual color palette
+# The R Cookbook palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+# To use for line and point colors, add manual color scaling with custom palette
+PCACustom2 + 
+  scale_colour_manual(values=cbPalette[2:3])
+```
+
+
+* Use shape instead of color to indicate groups on the PCA plot. 
+
+```{r, eval= FALSE}
+# generate new aesthetic mapping (with default shapes selected)
+ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+
+# generate new aesthetic mapping (with manually selected shapes)
+ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  scale_shape_manual(values = c(1, 4)) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+```
+
+
+* _Challenge_: Change the legend title to "Iron Status"
+
+```{r, eval= FALSE}
+#  customize label for colour mapping
+PCACustom2 + 
+  guides(colour=guide_legend(title="Iron supplementation status")) 
+
+# alternatively specify label for aesthetic mapping
+PCACustom2 + 
+  labs(colour="Iron supplementation status")
+```
+
 
 </details>
 <br>
