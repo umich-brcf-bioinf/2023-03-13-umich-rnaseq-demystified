@@ -96,30 +96,110 @@ PCACustom2 <- PCACustom +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 ```
 
-# Steps
+# Details & finding help
 
-* Add a title and subtitle to the ggplot plot 
+## Add a title and subtitle to the ggplot plot
+
   * Hint: use the `labs()` function or search for [examples](https://www.datanovia.com/en/blog/ggplot-title-subtitle-and-caption/)
+  * Remember that unless a change to a plot is _assigned to an object_, although the change will be displayed it will not stored for later reference or output to file
+  
+  
+<details>
+<summary>Possible solution</summary>
 
-* Add labels to show which samples correspond to which points
-  * Hint: use the 
+Example of possible :
+
+```{r, eval= FALSE}
+?labs
+PCACustom2 + labs(title = "Iron Supplemented Mice", subtitle = "PCA of top 500 genes")
+```
+
+</details>
+<br>
+
+
+## Add labels to show which samples correspond to which points
+
+  * Hint: use the `geom_label()` or `geom_label_repel()` functions and the `name` column in our `pcaData` object
   * See [example in this support post](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
+
+<details>
+<summary>Possible solution</summary>
+
+Example of possible solution:
+
+```{r, eval= FALSE}
+?geom_label_repel
+
+PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)
   
-* Make our color palette more color-blind friendly (with `RColorBrewer`)
-  * When considering color choices, be aware of the [prevalence and types of color-blindness](https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695) and how to choose more [easily distinguishable colors](http://bconnelly.net/posts/creating_colorblind-friendly_figures/) and check the final figure for sufficient contrasts with a [simulator tool](https://www.color-blindness.com/coblis-color-blindness-simulator/). 
-  * There are pre-designed [color-blind friendly palettes available](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+```
+
+</details>
+<br>
+
+## Make our color palette more color-blind friendly (with `RColorBrewer`)
+
+  * When considering color choices, be aware of the [prevalence and types of color-blindness](https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695) and how to choose more [easily distinguishable colors](http://bconnelly.net/posts/creating_colorblind-friendly_figures/)
+  * Pre-designed [color-blind friendly palettes available](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+  * For publication or presentations, we can also check the final figures for sufficient contrasts with a [color-blindness simulator tool](https://www.color-blindness.com/coblis-color-blindness-simulator/). 
   
-* Use shape instead of color to indicate groups on the PCA plot. 
+<details>
+<summary>Possible solution</summary>
+
+Example of possible solution:
+
+```{r, eval= FALSE}
+
+PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)
+
+PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw() + 
+  labs(title = "PC1 and PC2 for iron deficient mouse samples")
+
+  
+```
+
+</details>
+<br>
+  
+## Use shape instead of color to indicate groups on the PCA plot. 
+
   * Hint: since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color instead of adding an additional layers like the other prompts 
   * [These R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) could be a good place to start
 
-* _Challenge_: Change the legend title to "Iron Status". 
+
+## _Challenge_: Change the legend title to "Iron Status"
+
   * Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
+  * [This help thread with examples](https://stackoverflow.com/questions/14622421/how-to-change-legend-title-in-ggplot) may also be useful
+
 
 
 # Saving the result
 
-If time permits, discuss with your group how you might save this heatmap. Hint: Look at the parameters for the function in `?pheatmap`. Alternatively, consider how we saved the PCA in the previous module.
+If time permits, consider how you might save your favorite new PCA plot (with an informative file name). Hint: Consider how we saved our initial PCA plot in the previous module with `ggsave()`.
+
+<details>
+<summary>Solution</summary>
+
+Here are examples of some possible approaches:
+
+```{r save_custom_pca}
+
+```
+
+</details>
+<br>
+
 
 ```{r WriteOut.RData, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 #Hidden code block to write out data for knitting
