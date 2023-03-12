@@ -1,5 +1,5 @@
 ---
-title: "... Exercise 1 - Fancy PCA ..."
+title: "Independent Exercise - Customize a PCA plot"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -47,117 +47,239 @@ library(RColorBrewer)
 
 Estimated time: **15 Minutes**
 
+
 # Motivation
 
-Plotting the expression values across all samples for the top variable genes in an experiment can help to visualize how samples cluster together by their expression profiles. When combined with phenotypic data, it can help show how samples with different treatments behave relative to one another.
-
-# Exercise
-
-Create a heatmap of the top 50 most variable genes using the `pheatmap()` function using the rlog normalized data in the `rld` object.
+Customizing plots can help us see patterns in the data or make the claim(s) based on the data represented clearer.
 
 # Instructions
 
-- One group member should share their screen in the breakout room. If nobody volunteers, a helper may randomly select someone.
-- The group members should discuss the exercise and work together to find a solution.
-- If there is time after a solution is found, allow all members to complete the exercise.
+- Work independently in the main room, posting any questions that arise to slack.
+- Recommendations for writing your own code:
+  - Read function documentation
+  - Test out ideas - it's okay to make mistakes and generate errors
+  - Use a search engine to look up errors or recommended solutions using keywords
+- We'll review possible solutions after time is up as a group.
+
+# Exercise
+
+Try doing the following to the `pca_plot`, starting with the "most popular" request and moving on to other customizations if you have time:
+
+> * Add a title and subtitle to the plot
+> * Update the color palette to be color-blind friendly
+> * Add labels to show which samples correspond to which points
+> * Use shape instead of color to indicate groups on the PCA plot.
+> * _Challenge_: Change the legend title to "Iron Status". 
 
 # Example
 
-To get an idea of what we expect to see at the end, let's look at a toy example from the `pheatmap()` help examples. There's no need to run this code, we just want to illustrate the form of the result.
+Here is a copy of the code we just tested together to 1) pull the underlying data from the PCA function and 2) change the theme of our PCA plot to black and white.
 
-```{r test_heatmap}
-# Copied from the pheatmap documentation
+```{r test_PCA}
+pcaData <- plotPCA(rld, intgroup=c("condition"), returnData=TRUE)
+percentVar <- round(100 * attr(pcaData, "percentVar")) # store PC axes (% variance)
 
-# Create matrix with random normally distributed values
-test = matrix(rnorm(200), 20, 10)
+# create custom plot object
+PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw()
 
-# Impose some structure so the heatmap appears interesting
-test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
-test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
-test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
+# add percentVar labels to *displayed plot*
+PCACustom + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
-# Name the rows and columns
-colnames(test) = paste("Test", 1:10, sep = "")
-rownames(test) = paste("Gene", 1:20, sep = "")
-
-# Draw the heatmap
-pheatmap(test)
+# add percentVar labels to *stored plot object*
+PCACustom2 <- PCACustom + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
 ```
 
-# Steps
+# Details & finding help
 
-1. Look at the documentation for the `pheatmap()` function and determine what the most important parameter is. Hint: It's usually the first or first few parameters. This is telling us what we'll have to get for the next step.
+## Add a title and subtitle to the ggplot plot
 
+  * Hint: use the `labs()` function or search for [examples](https://www.datanovia.com/en/blog/ggplot-title-subtitle-and-caption/)
+  * Remember that unless a change to a plot is _assigned to an object_, although the change will be displayed it will not stored for later reference or output to file
+  
+  
 <details>
-<summary>Answer</summary>
-```{r pheatmap_help, eval = FALSE}
-?pheatmap
+<summary>Possible solution</summary>
+
+Example of possible :
+
+```{r, eval= FALSE}
+?labs
+PCACustom2 + 
+  labs(title = "Iron Supplemented Mice", subtitle = "PCA of top 500 genes")
+
+PCACustom3 <- PCACustom2 + 
+  labs(title = "Iron Supplemented Mice", subtitle = "PCA of top 500 genes")
 ```
 
-For this exercise, we'll only need to use the `mat` parameter, giving the numeric matrix to be plotted.
 </details>
 <br>
 
-2. Extract the rlog normalized expression values for the experiment. Hint: We created an `rld` object earlier. The `assay()` function pulls out the values.
+
+## Add labels to show which samples correspond to which points
+
+  * Hint: use the `geom_label()` or `geom_label_repel()` functions and the `name` column in our `pcaData` object
+  * See [example in this support post](https://support.bioconductor.org/p/90791/) and/or [apply more general recommendations from this R graph gallery](https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)
 
 <details>
-<summary>Answer</summary>
-```{r extract_rld_expression}
-exp_mat = assay(rld)
-head(exp_mat)
+<summary>Possible solution</summary>
+
+Example of possible solution:
+
+```{r, eval= FALSE}
+?geom_label_repel
+
+# display
+PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)
+
+# save to new object
+PCACustom4 <- PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)
+  
+```
+
+</details>
+<br>
+
+## Make our color palette more color-blind friendly (with `RColorBrewer`)
+  * Use either the `scale_colour_brewer` function to [change the color mappings in our plot](https://statisticsglobe.com/scale-colour-fill-brewer-rcolorbrewer-package-r) OR `scale_colour_manual` function to [completely customize color choices](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+  * Pre-designed [color-blind friendly palettes are available](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+   * When considering color choices, be aware of the [prevalence and types of color-blindness](https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695) and how to choose more [easily distinguishable colors](http://bconnelly.net/posts/creating_colorblind-friendly_figures/)
+  * For publication or presentations, we can also check the final figures for sufficient contrasts with a [color-blindness simulator tool](https://www.color-blindness.com/coblis-color-blindness-simulator/). 
+  
+<details>
+<summary>Possible solution</summary>
+
+Example of possible solution:
+
+```{r, eval= FALSE}
+# look at pre-made color palettes from RColorBrewer
+display.brewer.all(colorblindFriendly = TRUE)
+# use RColorBrewer palette
+PCACustom2 + 
+  scale_colour_brewer(palette = "Set2")
+
+# OR
+# customize using manual color palette
+# The R Cookbook palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+# To use for line and point colors, add manual color scaling with custom palette
+PCACustom2 + 
+  scale_colour_manual(values=cbPalette[2:3])
+
+PCACustom5 <- PCACustom2 + 
+  scale_colour_manual(values=cbPalette[2:3])
+  
+```
+
+</details>
+<br>
+  
+## Use shape instead of color to indicate groups on the PCA plot. 
+
+  * Hint: since color and shape are both mapping aspects, so we'll need to re-specify shape instead of color instead of adding an additional layers like the other prompts 
+  * The [documentation page for `geom_point`](https://ggplot2.tidyverse.org/reference/geom_point.html) and [R graphics cookbooks](https://r-graphics.org/recipe-scatter-shapes) includes some examples of changing the shapes of the plotted points
+  * [These R graph gallery examples](https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html) could also be helpful
+
+<details>
+<summary>Possible solution</summary>
+
+Example of possible solution:
+
+```{r, eval= FALSE}
+# generate new aesthetic mapping (with default shapes selected)
+ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+
+
+# generate new aesthetic mapping (with manually selected shapes)
+ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  scale_shape_manual(values = c(1, 4)) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+
+# create custom plot object with manual shapes
+PCACustom6 <- ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  scale_shape_manual(values = c(1, 4)) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance"))
+
 ```
 </details>
 <br>
 
-3. Calculate the variance for each gene in the expression matrix we just extracted. Hint: Look at the help for `matrixStats::rowVars()` and decide if that's a reasonable function to use.
+## _Challenge_: Change the legend title to "Iron Status"
+
+  * Hint, you can do this with the `labs()` function too, using the corresponding aesthetic mapping (e.g. "color").
+  * [This help thread with examples](https://stackoverflow.com/questions/14622421/how-to-change-legend-title-in-ggplot) may also be useful
 
 <details>
-<summary>Answer</summary>
-```{r calc_row_vars}
-gene_vars = rowVars(exp_mat)
-head(gene_vars)
-```
-</details>
-<br>
+<summary>Possible solution</summary>
 
-4. Get the numerical indices for the top 50 most variable genes. Hint: Run the `order()` function on a toy example, like `order(c(-1.25, 1.3, 5.6, 2.1))`, and think about what is being returned. Note, it's not the values in the original vector. Then look at the help for `order()` and figure out how how to reverse what is returned.
+Example of possible solution:
 
-<details>
-<summary>Answer</summary>
-```{r order_vars}
-order(c(-1.25, 1.3, 5.6, 2.1))
-order(c(-1.25, 1.3, 5.6, 2.1), decreasing = TRUE)
+```{r, eval= FALSE}
+#  customize label for colour mapping
+PCACustom2 + 
+  guides(colour=guide_legend(title="Iron supplementation status")) 
 
-ordered_idx = order(gene_vars, decreasing = TRUE)
-top_50_idx = ordered_idx[1:50]
-```
-</details>
-<br>
+# alternatively specify label for aesthetic mapping
+PCACustom2 + 
+  labs(colour="Iron supplementation status")
 
-5. Subset the expression matrix from step 2 using this index vector. Hint: Remember square-bracket notation, and that we want to subset the rows, while returning all the columns. Make sure the result has the number of rows you expect, that is, 50.
-
-<details>
-<summary>Answer</summary>
-```{r extract_top_exp}
-top_var_exp_mat = exp_mat[top_50_idx, ]
-dim(top_var_exp_mat)
-```
-</details>
-<br>
-
-6. Create a heatmap using this subsetted expression matrix using the `pheatmap()` function.
-
-<details>
-<summary>Answer</summary>
-```{r create_heatmap}
-pheatmap(top_var_exp_mat)
+# store custom plot as new object
+PCACustom7 <- PCACustom2 + 
+  labs(colour="Iron supplementation status")
+  
 ```
 </details>
 <br>
 
 # Saving the result
 
-If time permits, discuss with your group how you might save this heatmap. Hint: Look at the parameters for the function in `?pheatmap`. Alternatively, consider how we saved the PCA in the previous module.
+If time permits, consider how you might save your favorite new PCA plot (with an informative file name). Hint: Consider how we saved our initial PCA plot in the previous module with `ggsave()`.
+
+<details>
+<summary>Solution</summary>
+
+Here are examples of some possible approaches:
+
+```{r save_custom_pca, eval = FALSE}
+pdf(file = file.path('outputs', 'figures', 'PCA_rlog_Titled.pdf'), width = 6, height = 6)
+PCACustom3
+dev.off()
+
+ggsave(
+    filename = file.path('outputs', 'figures', 'PCA_rlog_Titled.pdf'),
+    plot = PCACustom3,
+    width = 6, height = 6, units = 'in')
+```
+
+</details>
+<br>
+
 
 ```{r WriteOut.RData, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 #Hidden code block to write out data for knitting

@@ -138,12 +138,15 @@ If we continue to look at the results table, after the `lfcSE` column we see:
 > # Question {.unlisted .unnumbered}
 > Why should we use values from `padj` instead of the `pvalue`? Post in the Slack thread.
 
+<br>
+
 ### Multiple hypothesis testing and FDR correction
 
+<br>
+![](./images/significant_xkcd.png){width=75%}
+<br
 
 Each p-value reported in the table is the result of a single test for a single gene. As stated earlier - with a significance cut-off of p-value < 0.05, we're expecting a 5% chance it is a false positive. The more genes we test, the greater chance we have of seeing a significant results by chance. **So if we are testing 20,000 genes for differential expression, we would expect to see ~1,000 significant genes (5%) just by chance.**
-
-![](./images/significant_xkcd.png)
 
 To address this [multiple hypothesis testing](https://multithreaded.stitchfix.com/blog/2015/10/15/multiple-hypothesis-testing/) can be performed. While there are a few approaches, the default method in DESeq2 is the False Discovery Rate (FDR) ([Benjamini and Hochberg (1995)](https://rss.onlinelibrary.wiley.com/doi/10.1111/j.2517-6161.1995.tb02031.x)).
 

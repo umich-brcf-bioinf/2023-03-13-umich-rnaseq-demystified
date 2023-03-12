@@ -11,11 +11,11 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2023-02-23" />
+<meta name="date" content="2023-03-12" />
 
-<title>… Exercise 1 - Fancy PCA …</title>
+<title>Independent Exercise - Customize a PCA plot</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -459,9 +459,10 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">… Exercise 1 - Fancy PCA …</h1>
+<h1 class="title toc-ignore">Independent Exercise - Customize a PCA
+plot</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2023-02-23</h4>
+<h4 class="date">2023-03-12</h4>
 
 </div>
 
@@ -480,162 +481,276 @@ pre {
 <p>Estimated time: <strong>15 Minutes</strong></p>
 <div id="motivation" class="section level1">
 <h1>Motivation</h1>
-<p>Plotting the expression values across all samples for the top
-variable genes in an experiment can help to visualize how samples
-cluster together by their expression profiles. When combined with
-phenotypic data, it can help show how samples with different treatments
-behave relative to one another.</p>
-</div>
-<div id="exercise" class="section level1">
-<h1>Exercise</h1>
-<p>Create a heatmap of the top 50 most variable genes using the
-<code>pheatmap()</code> function using the rlog normalized data in the
-<code>rld</code> object.</p>
+<p>Customizing plots can help us see patterns in the data or make the
+claim(s) based on the data represented clearer.</p>
 </div>
 <div id="instructions" class="section level1">
 <h1>Instructions</h1>
 <ul>
-<li>One group member should share their screen in the breakout room. If
-nobody volunteers, a helper may randomly select someone.</li>
-<li>The group members should discuss the exercise and work together to
-find a solution.</li>
-<li>If there is time after a solution is found, allow all members to
-complete the exercise.</li>
+<li>Work independently in the main room, posting any questions that
+arise to slack.</li>
+<li>Recommendations for writing your own code:
+<ul>
+<li>Read function documentation</li>
+<li>Test out ideas - it’s okay to make mistakes and generate errors</li>
+<li>Use a search engine to look up errors or recommended solutions using
+keywords</li>
+</ul></li>
+<li>We’ll review possible solutions after time is up as a group.</li>
 </ul>
+</div>
+<div id="exercise" class="section level1">
+<h1>Exercise</h1>
+<p>Try doing the following to the <code>pca_plot</code>, starting with
+the “most popular” request and moving on to other customizations if you
+have time:</p>
+<blockquote>
+<ul>
+<li>Add a title and subtitle to the plot</li>
+<li>Update the color palette to be color-blind friendly</li>
+<li>Add labels to show which samples correspond to which points</li>
+<li>Use shape instead of color to indicate groups on the PCA plot.</li>
+<li><em>Challenge</em>: Change the legend title to “Iron Status”.</li>
+</ul>
+</blockquote>
 </div>
 <div id="example" class="section level1">
 <h1>Example</h1>
-<p>To get an idea of what we expect to see at the end, let’s look at a
-toy example from the <code>pheatmap()</code> help examples. There’s no
-need to run this code, we just want to illustrate the form of the
-result.</p>
-<pre class="r"><code># Copied from the pheatmap documentation
+<p>Here is a copy of the code we just tested together to 1) pull the
+underlying data from the PCA function and 2) change the theme of our PCA
+plot to black and white.</p>
+<pre class="r"><code>pcaData &lt;- plotPCA(rld, intgroup=c(&quot;condition&quot;), returnData=TRUE)
+percentVar &lt;- round(100 * attr(pcaData, &quot;percentVar&quot;)) # store PC axes (% variance)
 
-# Create matrix with random normally distributed values
-test = matrix(rnorm(200), 20, 10)
+# create custom plot object
+PCACustom &lt;- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw()
 
-# Impose some structure so the heatmap appears interesting
-test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
-test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
-test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
-
-# Name the rows and columns
-colnames(test) = paste(&quot;Test&quot;, 1:10, sep = &quot;&quot;)
-rownames(test) = paste(&quot;Gene&quot;, 1:20, sep = &quot;&quot;)
-
-# Draw the heatmap
-pheatmap(test)</code></pre>
-<p><img src="fig/09a-test_heatmap-1.png" width="816" style="display: block; margin: auto;" /></p>
+# add percentVar labels to *displayed plot*
+PCACustom + 
+  xlab(paste0(&quot;PC1: &quot;,percentVar[1],&quot;% variance&quot;)) +
+  ylab(paste0(&quot;PC2: &quot;,percentVar[2],&quot;% variance&quot;))</code></pre>
+<p><img src="fig/09a-test_PCA-1.png" width="816" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># add percentVar labels to *stored plot object*
+PCACustom2 &lt;- PCACustom + 
+  xlab(paste0(&quot;PC1: &quot;,percentVar[1],&quot;% variance&quot;)) +
+  ylab(paste0(&quot;PC2: &quot;,percentVar[2],&quot;% variance&quot;))</code></pre>
 </div>
-<div id="steps" class="section level1">
-<h1>Steps</h1>
-<ol style="list-style-type: decimal">
-<li>Look at the documentation for the <code>pheatmap()</code> function
-and determine what the most important parameter is. Hint: It’s usually
-the first or first few parameters. This is telling us what we’ll have to
-get for the next step.</li>
-</ol>
+<div id="details-finding-help" class="section level1">
+<h1>Details &amp; finding help</h1>
+<div id="add-a-title-and-subtitle-to-the-ggplot-plot"
+class="section level2">
+<h2>Add a title and subtitle to the ggplot plot</h2>
+<ul>
+<li>Hint: use the <code>labs()</code> function or search for <a
+href="https://www.datanovia.com/en/blog/ggplot-title-subtitle-and-caption/">examples</a></li>
+<li>Remember that unless a change to a plot is <em>assigned to an
+object</em>, although the change will be displayed it will not stored
+for later reference or output to file</li>
+</ul>
 <details>
 <summary>
-Answer
+Possible solution
 </summary>
-<pre class="r"><code>?pheatmap</code></pre>
-For this exercise, we’ll only need to use the <code>mat</code>
-parameter, giving the numeric matrix to be plotted.
+<p>Example of possible :</p>
+<pre class="r"><code>?labs
+PCACustom2 + 
+  labs(title = &quot;Iron Supplemented Mice&quot;, subtitle = &quot;PCA of top 500 genes&quot;)
+
+PCACustom3 &lt;- PCACustom2 + 
+  labs(title = &quot;Iron Supplemented Mice&quot;, subtitle = &quot;PCA of top 500 genes&quot;)</code></pre>
 </details>
 <p><br></p>
-<ol start="2" style="list-style-type: decimal">
-<li>Extract the rlog normalized expression values for the experiment.
-Hint: We created an <code>rld</code> object earlier. The
-<code>assay()</code> function pulls out the values.</li>
-</ol>
+</div>
+<div id="add-labels-to-show-which-samples-correspond-to-which-points"
+class="section level2">
+<h2>Add labels to show which samples correspond to which points</h2>
+<ul>
+<li>Hint: use the <code>geom_label()</code> or
+<code>geom_label_repel()</code> functions and the <code>name</code>
+column in our <code>pcaData</code> object</li>
+<li>See <a href="https://support.bioconductor.org/p/90791/">example in
+this support post</a> and/or <a
+href="https://r-graph-gallery.com/275-add-text-labels-with-ggplot2.html">apply
+more general recommendations from this R graph gallery</a></li>
+</ul>
 <details>
 <summary>
-Answer
+Possible solution
 </summary>
-<pre class="r"><code>exp_mat = assay(rld)
-head(exp_mat)</code></pre>
-<pre><code>                    sample_A  sample_B  sample_C  sample_D  sample_E  sample_F
-ENSMUSG00000000001 10.514325 10.362199 10.416747 10.848206 10.407358 10.580122
-ENSMUSG00000000003  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
-ENSMUSG00000000028 10.600258 10.733715 10.734514 10.680950 10.822340 10.996072
-ENSMUSG00000000031 11.165419 10.489474 10.739743 11.878080 10.571118 10.283484
-ENSMUSG00000000037  4.643908  4.531768  4.562049  4.662816  4.740959  4.615466
-ENSMUSG00000000049  3.039469  2.777797  2.809976  2.935325  2.769888  2.765076</code></pre>
+<p>Example of possible solution:</p>
+<pre class="r"><code>?geom_label_repel
+
+# display
+PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)
+
+# save to new object
+PCACustom4 &lt;- PCACustom2 + 
+  geom_text_repel(aes(label = name), 
+                  point.padding = 0.5, 
+                  box.padding = 0.5)</code></pre>
 </details>
 <p><br></p>
-<ol start="3" style="list-style-type: decimal">
-<li>Calculate the variance for each gene in the expression matrix we
-just extracted. Hint: Look at the help for
-<code>matrixStats::rowVars()</code> and decide if that’s a reasonable
-function to use.</li>
-</ol>
+</div>
+<div
+id="make-our-color-palette-more-color-blind-friendly-with-rcolorbrewer"
+class="section level2">
+<h2>Make our color palette more color-blind friendly (with
+<code>RColorBrewer</code>)</h2>
+<ul>
+<li>Use either the <code>scale_colour_brewer</code> function to <a
+href="https://statisticsglobe.com/scale-colour-fill-brewer-rcolorbrewer-package-r">change
+the color mappings in our plot</a> OR <code>scale_colour_manual</code>
+function to <a
+href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette">completely
+customize color choices</a></li>
+<li>Pre-designed <a
+href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette">color-blind
+friendly palettes are available</a></li>
+<li>When considering color choices, be aware of the <a
+href="https://medium.com/version-1/simulating-visualisations-in-r-for-colour-blindness-2faddde63695">prevalence
+and types of color-blindness</a> and how to choose more <a
+href="http://bconnelly.net/posts/creating_colorblind-friendly_figures/">easily
+distinguishable colors</a></li>
+<li>For publication or presentations, we can also check the final
+figures for sufficient contrasts with a <a
+href="https://www.color-blindness.com/coblis-color-blindness-simulator/">color-blindness
+simulator tool</a>.</li>
+</ul>
 <details>
 <summary>
-Answer
+Possible solution
 </summary>
-<pre class="r"><code>gene_vars = rowVars(exp_mat)
-head(gene_vars)</code></pre>
-<pre><code>[1] 0.031920678 0.000000000 0.018542575 0.339432945 0.005594359 0.012724633</code></pre>
+<p>Example of possible solution:</p>
+<pre class="r"><code># look at pre-made color palettes from RColorBrewer
+display.brewer.all(colorblindFriendly = TRUE)
+# use RColorBrewer palette
+PCACustom2 + 
+  scale_colour_brewer(palette = &quot;Set2&quot;)
+
+# OR
+# customize using manual color palette
+# The R Cookbook palette with grey:
+cbPalette &lt;- c(&quot;#999999&quot;, &quot;#E69F00&quot;, &quot;#56B4E9&quot;, &quot;#009E73&quot;, &quot;#F0E442&quot;, &quot;#0072B2&quot;, &quot;#D55E00&quot;, &quot;#CC79A7&quot;)
+
+# To use for line and point colors, add manual color scaling with custom palette
+PCACustom2 + 
+  scale_colour_manual(values=cbPalette[2:3])
+
+PCACustom5 &lt;- PCACustom2 + 
+  scale_colour_manual(values=cbPalette[2:3])</code></pre>
 </details>
 <p><br></p>
-<ol start="4" style="list-style-type: decimal">
-<li>Get the numerical indices for the top 50 most variable genes. Hint:
-Run the <code>order()</code> function on a toy example, like
-<code>order(c(-1.25, 1.3, 5.6, 2.1))</code>, and think about what is
-being returned. Note, it’s not the values in the original vector. Then
-look at the help for <code>order()</code> and figure out how how to
-reverse what is returned.</li>
-</ol>
+</div>
+<div id="use-shape-instead-of-color-to-indicate-groups-on-the-pca-plot."
+class="section level2">
+<h2>Use shape instead of color to indicate groups on the PCA plot.</h2>
+<ul>
+<li>Hint: since color and shape are both mapping aspects, so we’ll need
+to re-specify shape instead of color instead of adding an additional
+layers like the other prompts</li>
+<li>The <a
+href="https://ggplot2.tidyverse.org/reference/geom_point.html">documentation
+page for <code>geom_point</code></a> and <a
+href="https://r-graphics.org/recipe-scatter-shapes">R graphics
+cookbooks</a> includes some examples of changing the shapes of the
+plotted points</li>
+<li><a
+href="https://r-graph-gallery.com/274-map-a-variable-to-ggplot2-scatterplot.html">These
+R graph gallery examples</a> could also be helpful</li>
+</ul>
 <details>
 <summary>
-Answer
+Possible solution
 </summary>
-<pre class="r"><code>order(c(-1.25, 1.3, 5.6, 2.1))</code></pre>
-<pre><code>[1] 1 2 4 3</code></pre>
-<pre class="r"><code>order(c(-1.25, 1.3, 5.6, 2.1), decreasing = TRUE)</code></pre>
-<pre><code>[1] 3 4 2 1</code></pre>
-<pre class="r"><code>ordered_idx = order(gene_vars, decreasing = TRUE)
-top_50_idx = ordered_idx[1:50]</code></pre>
+<p>Example of possible solution:</p>
+<pre class="r"><code># generate new aesthetic mapping (with default shapes selected)
+ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0(&quot;PC1: &quot;,percentVar[1],&quot;% variance&quot;)) +
+  ylab(paste0(&quot;PC2: &quot;,percentVar[2],&quot;% variance&quot;))
+
+
+# generate new aesthetic mapping (with manually selected shapes)
+ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  scale_shape_manual(values = c(1, 4)) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0(&quot;PC1: &quot;,percentVar[1],&quot;% variance&quot;)) +
+  ylab(paste0(&quot;PC2: &quot;,percentVar[2],&quot;% variance&quot;))
+
+# create custom plot object with manual shapes
+PCACustom6 &lt;- ggplot(pcaData, aes(PC1, PC2, shape=condition)) +
+  geom_point(size=3) +
+  scale_shape_manual(values = c(1, 4)) +
+  coord_fixed() +
+  theme_bw() + 
+  xlab(paste0(&quot;PC1: &quot;,percentVar[1],&quot;% variance&quot;)) +
+  ylab(paste0(&quot;PC2: &quot;,percentVar[2],&quot;% variance&quot;))</code></pre>
 </details>
 <p><br></p>
-<ol start="5" style="list-style-type: decimal">
-<li>Subset the expression matrix from step 2 using this index vector.
-Hint: Remember square-bracket notation, and that we want to subset the
-rows, while returning all the columns. Make sure the result has the
-number of rows you expect, that is, 50.</li>
-</ol>
+</div>
+<div id="challenge-change-the-legend-title-to-iron-status"
+class="section level2">
+<h2><em>Challenge</em>: Change the legend title to “Iron Status”</h2>
+<ul>
+<li>Hint, you can do this with the <code>labs()</code> function too,
+using the corresponding aesthetic mapping (e.g. “color”).</li>
+<li><a
+href="https://stackoverflow.com/questions/14622421/how-to-change-legend-title-in-ggplot">This
+help thread with examples</a> may also be useful</li>
+</ul>
 <details>
 <summary>
-Answer
+Possible solution
 </summary>
-<pre class="r"><code>top_var_exp_mat = exp_mat[top_50_idx, ]
-dim(top_var_exp_mat)</code></pre>
-<pre><code>[1] 50  6</code></pre>
+<p>Example of possible solution:</p>
+<pre class="r"><code>#  customize label for colour mapping
+PCACustom2 + 
+  guides(colour=guide_legend(title=&quot;Iron supplementation status&quot;)) 
+
+# alternatively specify label for aesthetic mapping
+PCACustom2 + 
+  labs(colour=&quot;Iron supplementation status&quot;)
+
+# store custom plot as new object
+PCACustom7 &lt;- PCACustom2 + 
+  labs(colour=&quot;Iron supplementation status&quot;)</code></pre>
 </details>
 <p><br></p>
-<ol start="6" style="list-style-type: decimal">
-<li>Create a heatmap using this subsetted expression matrix using the
-<code>pheatmap()</code> function.</li>
-</ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>pheatmap(top_var_exp_mat)</code></pre>
-<img src="fig/09a-create_heatmap-1.png" width="816" style="display: block; margin: auto;" />
-</details>
-<p><br></p>
+</div>
 </div>
 <div id="saving-the-result" class="section level1">
 <h1>Saving the result</h1>
-<p>If time permits, discuss with your group how you might save this
-heatmap. Hint: Look at the parameters for the function in
-<code>?pheatmap</code>. Alternatively, consider how we saved the PCA in
-the previous module.</p>
+<p>If time permits, consider how you might save your favorite new PCA
+plot (with an informative file name). Hint: Consider how we saved our
+initial PCA plot in the previous module with <code>ggsave()</code>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<p>Here are examples of some possible approaches:</p>
+<pre class="r"><code>pdf(file = file.path(&#39;outputs&#39;, &#39;figures&#39;, &#39;PCA_rlog_Titled.pdf&#39;), width = 6, height = 6)
+PCACustom3
+dev.off()
+
+ggsave(
+    filename = file.path(&#39;outputs&#39;, &#39;figures&#39;, &#39;PCA_rlog_Titled.pdf&#39;),
+    plot = PCACustom3,
+    width = 6, height = 6, units = &#39;in&#39;)</code></pre>
+</details>
+<p><br></p>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiLi4uIEV4ZXJjaXNlIDEgLSBGYW5jeSBQQ0EgLi4uIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpkYXRlOiAiYHIgU3lzLkRhdGUoKWAiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQoKPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keSwgdGQgewogICBmb250LXNpemU6IDE4cHg7Cn0KY29kZS5yewogIGZvbnQtc2l6ZTogMTJweDsKfQpwcmUgewogIGZvbnQtc2l6ZTogMTJweAp9Cjwvc3R5bGU+CgpgYGB7ciwgaW5jbHVkZSA9IEZBTFNFfQpzb3VyY2UoIi4uL2Jpbi9jaHVuay1vcHRpb25zLlIiKQprbml0cl9maWdfcGF0aCgiMDlhLSIpCmBgYAoKYGBge3IgTW9kdWxlcywgZXZhbD1UUlVFLCBlY2hvPUZBTFNFLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KERFU2VxMikKbGlicmFyeShnZ3Bsb3QyKQpsaWJyYXJ5KHRpZHlyKQpsaWJyYXJ5KGRwbHlyKQpsaWJyYXJ5KG1hdHJpeFN0YXRzKQpsaWJyYXJ5KGdncmVwZWwpCmxpYnJhcnkocGhlYXRtYXApCmxpYnJhcnkoUkNvbG9yQnJld2VyKQojIGxvYWQoInJkYXRhL1J1bm5pbmdEYXRhLlJEYXRhIikKYGBgCgpFc3RpbWF0ZWQgdGltZTogKioxNSBNaW51dGVzKioKCiMgTW90aXZhdGlvbgoKUGxvdHRpbmcgdGhlIGV4cHJlc3Npb24gdmFsdWVzIGFjcm9zcyBhbGwgc2FtcGxlcyBmb3IgdGhlIHRvcCB2YXJpYWJsZSBnZW5lcyBpbiBhbiBleHBlcmltZW50IGNhbiBoZWxwIHRvIHZpc3VhbGl6ZSBob3cgc2FtcGxlcyBjbHVzdGVyIHRvZ2V0aGVyIGJ5IHRoZWlyIGV4cHJlc3Npb24gcHJvZmlsZXMuIFdoZW4gY29tYmluZWQgd2l0aCBwaGVub3R5cGljIGRhdGEsIGl0IGNhbiBoZWxwIHNob3cgaG93IHNhbXBsZXMgd2l0aCBkaWZmZXJlbnQgdHJlYXRtZW50cyBiZWhhdmUgcmVsYXRpdmUgdG8gb25lIGFub3RoZXIuCgojIEV4ZXJjaXNlCgpDcmVhdGUgYSBoZWF0bWFwIG9mIHRoZSB0b3AgNTAgbW9zdCB2YXJpYWJsZSBnZW5lcyB1c2luZyB0aGUgYHBoZWF0bWFwKClgIGZ1bmN0aW9uIHVzaW5nIHRoZSBybG9nIG5vcm1hbGl6ZWQgZGF0YSBpbiB0aGUgYHJsZGAgb2JqZWN0LgoKIyBJbnN0cnVjdGlvbnMKCi0gT25lIGdyb3VwIG1lbWJlciBzaG91bGQgc2hhcmUgdGhlaXIgc2NyZWVuIGluIHRoZSBicmVha291dCByb29tLiBJZiBub2JvZHkgdm9sdW50ZWVycywgYSBoZWxwZXIgbWF5IHJhbmRvbWx5IHNlbGVjdCBzb21lb25lLgotIFRoZSBncm91cCBtZW1iZXJzIHNob3VsZCBkaXNjdXNzIHRoZSBleGVyY2lzZSBhbmQgd29yayB0b2dldGhlciB0byBmaW5kIGEgc29sdXRpb24uCi0gSWYgdGhlcmUgaXMgdGltZSBhZnRlciBhIHNvbHV0aW9uIGlzIGZvdW5kLCBhbGxvdyBhbGwgbWVtYmVycyB0byBjb21wbGV0ZSB0aGUgZXhlcmNpc2UuCgojIEV4YW1wbGUKClRvIGdldCBhbiBpZGVhIG9mIHdoYXQgd2UgZXhwZWN0IHRvIHNlZSBhdCB0aGUgZW5kLCBsZXQncyBsb29rIGF0IGEgdG95IGV4YW1wbGUgZnJvbSB0aGUgYHBoZWF0bWFwKClgIGhlbHAgZXhhbXBsZXMuIFRoZXJlJ3Mgbm8gbmVlZCB0byBydW4gdGhpcyBjb2RlLCB3ZSBqdXN0IHdhbnQgdG8gaWxsdXN0cmF0ZSB0aGUgZm9ybSBvZiB0aGUgcmVzdWx0LgoKYGBge3IgdGVzdF9oZWF0bWFwfQojIENvcGllZCBmcm9tIHRoZSBwaGVhdG1hcCBkb2N1bWVudGF0aW9uCgojIENyZWF0ZSBtYXRyaXggd2l0aCByYW5kb20gbm9ybWFsbHkgZGlzdHJpYnV0ZWQgdmFsdWVzCnRlc3QgPSBtYXRyaXgocm5vcm0oMjAwKSwgMjAsIDEwKQoKIyBJbXBvc2Ugc29tZSBzdHJ1Y3R1cmUgc28gdGhlIGhlYXRtYXAgYXBwZWFycyBpbnRlcmVzdGluZwp0ZXN0WzE6MTAsIHNlcSgxLCAxMCwgMildID0gdGVzdFsxOjEwLCBzZXEoMSwgMTAsIDIpXSArIDMKdGVzdFsxMToyMCwgc2VxKDIsIDEwLCAyKV0gPSB0ZXN0WzExOjIwLCBzZXEoMiwgMTAsIDIpXSArIDIKdGVzdFsxNToyMCwgc2VxKDIsIDEwLCAyKV0gPSB0ZXN0WzE1OjIwLCBzZXEoMiwgMTAsIDIpXSArIDQKCiMgTmFtZSB0aGUgcm93cyBhbmQgY29sdW1ucwpjb2xuYW1lcyh0ZXN0KSA9IHBhc3RlKCJUZXN0IiwgMToxMCwgc2VwID0gIiIpCnJvd25hbWVzKHRlc3QpID0gcGFzdGUoIkdlbmUiLCAxOjIwLCBzZXAgPSAiIikKCiMgRHJhdyB0aGUgaGVhdG1hcApwaGVhdG1hcCh0ZXN0KQpgYGAKCiMgU3RlcHMKCjEuIExvb2sgYXQgdGhlIGRvY3VtZW50YXRpb24gZm9yIHRoZSBgcGhlYXRtYXAoKWAgZnVuY3Rpb24gYW5kIGRldGVybWluZSB3aGF0IHRoZSBtb3N0IGltcG9ydGFudCBwYXJhbWV0ZXIgaXMuIEhpbnQ6IEl0J3MgdXN1YWxseSB0aGUgZmlyc3Qgb3IgZmlyc3QgZmV3IHBhcmFtZXRlcnMuIFRoaXMgaXMgdGVsbGluZyB1cyB3aGF0IHdlJ2xsIGhhdmUgdG8gZ2V0IGZvciB0aGUgbmV4dCBzdGVwLgoKPGRldGFpbHM+CjxzdW1tYXJ5PkFuc3dlcjwvc3VtbWFyeT4KYGBge3IgcGhlYXRtYXBfaGVscCwgZXZhbCA9IEZBTFNFfQo/cGhlYXRtYXAKYGBgCgpGb3IgdGhpcyBleGVyY2lzZSwgd2UnbGwgb25seSBuZWVkIHRvIHVzZSB0aGUgYG1hdGAgcGFyYW1ldGVyLCBnaXZpbmcgdGhlIG51bWVyaWMgbWF0cml4IHRvIGJlIHBsb3R0ZWQuCjwvZGV0YWlscz4KPGJyPgoKMi4gRXh0cmFjdCB0aGUgcmxvZyBub3JtYWxpemVkIGV4cHJlc3Npb24gdmFsdWVzIGZvciB0aGUgZXhwZXJpbWVudC4gSGludDogV2UgY3JlYXRlZCBhbiBgcmxkYCBvYmplY3QgZWFybGllci4gVGhlIGBhc3NheSgpYCBmdW5jdGlvbiBwdWxscyBvdXQgdGhlIHZhbHVlcy4KCjxkZXRhaWxzPgo8c3VtbWFyeT5BbnN3ZXI8L3N1bW1hcnk+CmBgYHtyIGV4dHJhY3RfcmxkX2V4cHJlc3Npb259CmV4cF9tYXQgPSBhc3NheShybGQpCmhlYWQoZXhwX21hdCkKYGBgCjwvZGV0YWlscz4KPGJyPgoKMy4gQ2FsY3VsYXRlIHRoZSB2YXJpYW5jZSBmb3IgZWFjaCBnZW5lIGluIHRoZSBleHByZXNzaW9uIG1hdHJpeCB3ZSBqdXN0IGV4dHJhY3RlZC4gSGludDogTG9vayBhdCB0aGUgaGVscCBmb3IgYG1hdHJpeFN0YXRzOjpyb3dWYXJzKClgIGFuZCBkZWNpZGUgaWYgdGhhdCdzIGEgcmVhc29uYWJsZSBmdW5jdGlvbiB0byB1c2UuCgo8ZGV0YWlscz4KPHN1bW1hcnk+QW5zd2VyPC9zdW1tYXJ5PgpgYGB7ciBjYWxjX3Jvd192YXJzfQpnZW5lX3ZhcnMgPSByb3dWYXJzKGV4cF9tYXQpCmhlYWQoZ2VuZV92YXJzKQpgYGAKPC9kZXRhaWxzPgo8YnI+Cgo0LiBHZXQgdGhlIG51bWVyaWNhbCBpbmRpY2VzIGZvciB0aGUgdG9wIDUwIG1vc3QgdmFyaWFibGUgZ2VuZXMuIEhpbnQ6IFJ1biB0aGUgYG9yZGVyKClgIGZ1bmN0aW9uIG9uIGEgdG95IGV4YW1wbGUsIGxpa2UgYG9yZGVyKGMoLTEuMjUsIDEuMywgNS42LCAyLjEpKWAsIGFuZCB0aGluayBhYm91dCB3aGF0IGlzIGJlaW5nIHJldHVybmVkLiBOb3RlLCBpdCdzIG5vdCB0aGUgdmFsdWVzIGluIHRoZSBvcmlnaW5hbCB2ZWN0b3IuIFRoZW4gbG9vayBhdCB0aGUgaGVscCBmb3IgYG9yZGVyKClgIGFuZCBmaWd1cmUgb3V0IGhvdyBob3cgdG8gcmV2ZXJzZSB3aGF0IGlzIHJldHVybmVkLgoKPGRldGFpbHM+CjxzdW1tYXJ5PkFuc3dlcjwvc3VtbWFyeT4KYGBge3Igb3JkZXJfdmFyc30Kb3JkZXIoYygtMS4yNSwgMS4zLCA1LjYsIDIuMSkpCm9yZGVyKGMoLTEuMjUsIDEuMywgNS42LCAyLjEpLCBkZWNyZWFzaW5nID0gVFJVRSkKCm9yZGVyZWRfaWR4ID0gb3JkZXIoZ2VuZV92YXJzLCBkZWNyZWFzaW5nID0gVFJVRSkKdG9wXzUwX2lkeCA9IG9yZGVyZWRfaWR4WzE6NTBdCmBgYAo8L2RldGFpbHM+Cjxicj4KCjUuIFN1YnNldCB0aGUgZXhwcmVzc2lvbiBtYXRyaXggZnJvbSBzdGVwIDIgdXNpbmcgdGhpcyBpbmRleCB2ZWN0b3IuIEhpbnQ6IFJlbWVtYmVyIHNxdWFyZS1icmFja2V0IG5vdGF0aW9uLCBhbmQgdGhhdCB3ZSB3YW50IHRvIHN1YnNldCB0aGUgcm93cywgd2hpbGUgcmV0dXJuaW5nIGFsbCB0aGUgY29sdW1ucy4gTWFrZSBzdXJlIHRoZSByZXN1bHQgaGFzIHRoZSBudW1iZXIgb2Ygcm93cyB5b3UgZXhwZWN0LCB0aGF0IGlzLCA1MC4KCjxkZXRhaWxzPgo8c3VtbWFyeT5BbnN3ZXI8L3N1bW1hcnk+CmBgYHtyIGV4dHJhY3RfdG9wX2V4cH0KdG9wX3Zhcl9leHBfbWF0ID0gZXhwX21hdFt0b3BfNTBfaWR4LCBdCmRpbSh0b3BfdmFyX2V4cF9tYXQpCmBgYAo8L2RldGFpbHM+Cjxicj4KCjYuIENyZWF0ZSBhIGhlYXRtYXAgdXNpbmcgdGhpcyBzdWJzZXR0ZWQgZXhwcmVzc2lvbiBtYXRyaXggdXNpbmcgdGhlIGBwaGVhdG1hcCgpYCBmdW5jdGlvbi4KCjxkZXRhaWxzPgo8c3VtbWFyeT5BbnN3ZXI8L3N1bW1hcnk+CmBgYHtyIGNyZWF0ZV9oZWF0bWFwfQpwaGVhdG1hcCh0b3BfdmFyX2V4cF9tYXQpCmBgYAo8L2RldGFpbHM+Cjxicj4KCiMgU2F2aW5nIHRoZSByZXN1bHQKCklmIHRpbWUgcGVybWl0cywgZGlzY3VzcyB3aXRoIHlvdXIgZ3JvdXAgaG93IHlvdSBtaWdodCBzYXZlIHRoaXMgaGVhdG1hcC4gSGludDogTG9vayBhdCB0aGUgcGFyYW1ldGVycyBmb3IgdGhlIGZ1bmN0aW9uIGluIGA/cGhlYXRtYXBgLiBBbHRlcm5hdGl2ZWx5LCBjb25zaWRlciBob3cgd2Ugc2F2ZWQgdGhlIFBDQSBpbiB0aGUgcHJldmlvdXMgbW9kdWxlLgoKYGBge3IgV3JpdGVPdXQuUkRhdGEsIGV2YWw9RkFMU0UsIGVjaG89RkFMU0UsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CiNIaWRkZW4gY29kZSBibG9jayB0byB3cml0ZSBvdXQgZGF0YSBmb3Iga25pdHRpbmcKIyBzYXZlLmltYWdlKGZpbGUgPSAicmRhdGEvUnVubmluZ0RhdGEuUkRhdGEiKQpgYGAK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW5kZXBlbmRlbnQgRXhlcmNpc2UgLSBDdXN0b21pemUgYSBQQ0EgcGxvdCIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKZGF0ZTogImByIFN5cy5EYXRlKClgIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHksIHRkIHsKICAgZm9udC1zaXplOiAxOHB4Owp9CmNvZGUucnsKICBmb250LXNpemU6IDEycHg7Cn0KcHJlIHsKICBmb250LXNpemU6IDEycHgKfQo8L3N0eWxlPgoKYGBge3IsIGluY2x1ZGUgPSBGQUxTRX0Kc291cmNlKCIuLi9iaW4vY2h1bmstb3B0aW9ucy5SIikKa25pdHJfZmlnX3BhdGgoIjA5YS0iKQpgYGAKCmBgYHtyIE1vZHVsZXMsIGV2YWw9VFJVRSwgZWNobz1GQUxTRSwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeShERVNlcTIpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeSh0aWR5cikKbGlicmFyeShkcGx5cikKbGlicmFyeShtYXRyaXhTdGF0cykKbGlicmFyeShnZ3JlcGVsKQpsaWJyYXJ5KHBoZWF0bWFwKQpsaWJyYXJ5KFJDb2xvckJyZXdlcikKIyBsb2FkKCJyZGF0YS9SdW5uaW5nRGF0YS5SRGF0YSIpCmBgYAoKRXN0aW1hdGVkIHRpbWU6ICoqMTUgTWludXRlcyoqCgoKIyBNb3RpdmF0aW9uCgpDdXN0b21pemluZyBwbG90cyBjYW4gaGVscCB1cyBzZWUgcGF0dGVybnMgaW4gdGhlIGRhdGEgb3IgbWFrZSB0aGUgY2xhaW0ocykgYmFzZWQgb24gdGhlIGRhdGEgcmVwcmVzZW50ZWQgY2xlYXJlci4KCiMgSW5zdHJ1Y3Rpb25zCgotIFdvcmsgaW5kZXBlbmRlbnRseSBpbiB0aGUgbWFpbiByb29tLCBwb3N0aW5nIGFueSBxdWVzdGlvbnMgdGhhdCBhcmlzZSB0byBzbGFjay4KLSBSZWNvbW1lbmRhdGlvbnMgZm9yIHdyaXRpbmcgeW91ciBvd24gY29kZToKICAtIFJlYWQgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogIC0gVGVzdCBvdXQgaWRlYXMgLSBpdCdzIG9rYXkgdG8gbWFrZSBtaXN0YWtlcyBhbmQgZ2VuZXJhdGUgZXJyb3JzCiAgLSBVc2UgYSBzZWFyY2ggZW5naW5lIHRvIGxvb2sgdXAgZXJyb3JzIG9yIHJlY29tbWVuZGVkIHNvbHV0aW9ucyB1c2luZyBrZXl3b3JkcwotIFdlJ2xsIHJldmlldyBwb3NzaWJsZSBzb2x1dGlvbnMgYWZ0ZXIgdGltZSBpcyB1cCBhcyBhIGdyb3VwLgoKIyBFeGVyY2lzZQoKVHJ5IGRvaW5nIHRoZSBmb2xsb3dpbmcgdG8gdGhlIGBwY2FfcGxvdGAsIHN0YXJ0aW5nIHdpdGggdGhlICJtb3N0IHBvcHVsYXIiIHJlcXVlc3QgYW5kIG1vdmluZyBvbiB0byBvdGhlciBjdXN0b21pemF0aW9ucyBpZiB5b3UgaGF2ZSB0aW1lOgoKPiAqIEFkZCBhIHRpdGxlIGFuZCBzdWJ0aXRsZSB0byB0aGUgcGxvdAo+ICogVXBkYXRlIHRoZSBjb2xvciBwYWxldHRlIHRvIGJlIGNvbG9yLWJsaW5kIGZyaWVuZGx5Cj4gKiBBZGQgbGFiZWxzIHRvIHNob3cgd2hpY2ggc2FtcGxlcyBjb3JyZXNwb25kIHRvIHdoaWNoIHBvaW50cwo+ICogVXNlIHNoYXBlIGluc3RlYWQgb2YgY29sb3IgdG8gaW5kaWNhdGUgZ3JvdXBzIG9uIHRoZSBQQ0EgcGxvdC4KPiAqIF9DaGFsbGVuZ2VfOiBDaGFuZ2UgdGhlIGxlZ2VuZCB0aXRsZSB0byAiSXJvbiBTdGF0dXMiLiAKCiMgRXhhbXBsZQoKSGVyZSBpcyBhIGNvcHkgb2YgdGhlIGNvZGUgd2UganVzdCB0ZXN0ZWQgdG9nZXRoZXIgdG8gMSkgcHVsbCB0aGUgdW5kZXJseWluZyBkYXRhIGZyb20gdGhlIFBDQSBmdW5jdGlvbiBhbmQgMikgY2hhbmdlIHRoZSB0aGVtZSBvZiBvdXIgUENBIHBsb3QgdG8gYmxhY2sgYW5kIHdoaXRlLgoKYGBge3IgdGVzdF9QQ0F9CnBjYURhdGEgPC0gcGxvdFBDQShybGQsIGludGdyb3VwPWMoImNvbmRpdGlvbiIpLCByZXR1cm5EYXRhPVRSVUUpCnBlcmNlbnRWYXIgPC0gcm91bmQoMTAwICogYXR0cihwY2FEYXRhLCAicGVyY2VudFZhciIpKSAjIHN0b3JlIFBDIGF4ZXMgKCUgdmFyaWFuY2UpCgojIGNyZWF0ZSBjdXN0b20gcGxvdCBvYmplY3QKUENBQ3VzdG9tIDwtIGdncGxvdChwY2FEYXRhLCBhZXMoUEMxLCBQQzIsIGNvbG9yPWNvbmRpdGlvbikpICsKICBnZW9tX3BvaW50KHNpemU9MykgKwogIGNvb3JkX2ZpeGVkKCkgKwogIHRoZW1lX2J3KCkKCiMgYWRkIHBlcmNlbnRWYXIgbGFiZWxzIHRvICpkaXNwbGF5ZWQgcGxvdCoKUENBQ3VzdG9tICsgCiAgeGxhYihwYXN0ZTAoIlBDMTogIixwZXJjZW50VmFyWzFdLCIlIHZhcmlhbmNlIikpICsKICB5bGFiKHBhc3RlMCgiUEMyOiAiLHBlcmNlbnRWYXJbMl0sIiUgdmFyaWFuY2UiKSkKCiMgYWRkIHBlcmNlbnRWYXIgbGFiZWxzIHRvICpzdG9yZWQgcGxvdCBvYmplY3QqClBDQUN1c3RvbTIgPC0gUENBQ3VzdG9tICsgCiAgeGxhYihwYXN0ZTAoIlBDMTogIixwZXJjZW50VmFyWzFdLCIlIHZhcmlhbmNlIikpICsKICB5bGFiKHBhc3RlMCgiUEMyOiAiLHBlcmNlbnRWYXJbMl0sIiUgdmFyaWFuY2UiKSkKYGBgCgojIERldGFpbHMgJiBmaW5kaW5nIGhlbHAKCiMjIEFkZCBhIHRpdGxlIGFuZCBzdWJ0aXRsZSB0byB0aGUgZ2dwbG90IHBsb3QKCiAgKiBIaW50OiB1c2UgdGhlIGBsYWJzKClgIGZ1bmN0aW9uIG9yIHNlYXJjaCBmb3IgW2V4YW1wbGVzXShodHRwczovL3d3dy5kYXRhbm92aWEuY29tL2VuL2Jsb2cvZ2dwbG90LXRpdGxlLXN1YnRpdGxlLWFuZC1jYXB0aW9uLykKICAqIFJlbWVtYmVyIHRoYXQgdW5sZXNzIGEgY2hhbmdlIHRvIGEgcGxvdCBpcyBfYXNzaWduZWQgdG8gYW4gb2JqZWN0XywgYWx0aG91Z2ggdGhlIGNoYW5nZSB3aWxsIGJlIGRpc3BsYXllZCBpdCB3aWxsIG5vdCBzdG9yZWQgZm9yIGxhdGVyIHJlZmVyZW5jZSBvciBvdXRwdXQgdG8gZmlsZQogIAogIAo8ZGV0YWlscz4KPHN1bW1hcnk+UG9zc2libGUgc29sdXRpb248L3N1bW1hcnk+CgpFeGFtcGxlIG9mIHBvc3NpYmxlIDoKCmBgYHtyLCBldmFsPSBGQUxTRX0KP2xhYnMKUENBQ3VzdG9tMiArIAogIGxhYnModGl0bGUgPSAiSXJvbiBTdXBwbGVtZW50ZWQgTWljZSIsIHN1YnRpdGxlID0gIlBDQSBvZiB0b3AgNTAwIGdlbmVzIikKClBDQUN1c3RvbTMgPC0gUENBQ3VzdG9tMiArIAogIGxhYnModGl0bGUgPSAiSXJvbiBTdXBwbGVtZW50ZWQgTWljZSIsIHN1YnRpdGxlID0gIlBDQSBvZiB0b3AgNTAwIGdlbmVzIikKYGBgCgo8L2RldGFpbHM+Cjxicj4KCgojIyBBZGQgbGFiZWxzIHRvIHNob3cgd2hpY2ggc2FtcGxlcyBjb3JyZXNwb25kIHRvIHdoaWNoIHBvaW50cwoKICAqIEhpbnQ6IHVzZSB0aGUgYGdlb21fbGFiZWwoKWAgb3IgYGdlb21fbGFiZWxfcmVwZWwoKWAgZnVuY3Rpb25zIGFuZCB0aGUgYG5hbWVgIGNvbHVtbiBpbiBvdXIgYHBjYURhdGFgIG9iamVjdAogICogU2VlIFtleGFtcGxlIGluIHRoaXMgc3VwcG9ydCBwb3N0XShodHRwczovL3N1cHBvcnQuYmlvY29uZHVjdG9yLm9yZy9wLzkwNzkxLykgYW5kL29yIFthcHBseSBtb3JlIGdlbmVyYWwgcmVjb21tZW5kYXRpb25zIGZyb20gdGhpcyBSIGdyYXBoIGdhbGxlcnldKGh0dHBzOi8vci1ncmFwaC1nYWxsZXJ5LmNvbS8yNzUtYWRkLXRleHQtbGFiZWxzLXdpdGgtZ2dwbG90Mi5odG1sKQoKPGRldGFpbHM+CjxzdW1tYXJ5PlBvc3NpYmxlIHNvbHV0aW9uPC9zdW1tYXJ5PgoKRXhhbXBsZSBvZiBwb3NzaWJsZSBzb2x1dGlvbjoKCmBgYHtyLCBldmFsPSBGQUxTRX0KP2dlb21fbGFiZWxfcmVwZWwKCiMgZGlzcGxheQpQQ0FDdXN0b20yICsgCiAgZ2VvbV90ZXh0X3JlcGVsKGFlcyhsYWJlbCA9IG5hbWUpLCAKICAgICAgICAgICAgICAgICAgcG9pbnQucGFkZGluZyA9IDAuNSwgCiAgICAgICAgICAgICAgICAgIGJveC5wYWRkaW5nID0gMC41KQoKIyBzYXZlIHRvIG5ldyBvYmplY3QKUENBQ3VzdG9tNCA8LSBQQ0FDdXN0b20yICsgCiAgZ2VvbV90ZXh0X3JlcGVsKGFlcyhsYWJlbCA9IG5hbWUpLCAKICAgICAgICAgICAgICAgICAgcG9pbnQucGFkZGluZyA9IDAuNSwgCiAgICAgICAgICAgICAgICAgIGJveC5wYWRkaW5nID0gMC41KQogIApgYGAKCjwvZGV0YWlscz4KPGJyPgoKIyMgTWFrZSBvdXIgY29sb3IgcGFsZXR0ZSBtb3JlIGNvbG9yLWJsaW5kIGZyaWVuZGx5ICh3aXRoIGBSQ29sb3JCcmV3ZXJgKQogICogVXNlIGVpdGhlciB0aGUgYHNjYWxlX2NvbG91cl9icmV3ZXJgIGZ1bmN0aW9uIHRvIFtjaGFuZ2UgdGhlIGNvbG9yIG1hcHBpbmdzIGluIG91ciBwbG90XShodHRwczovL3N0YXRpc3RpY3NnbG9iZS5jb20vc2NhbGUtY29sb3VyLWZpbGwtYnJld2VyLXJjb2xvcmJyZXdlci1wYWNrYWdlLXIpIE9SIGBzY2FsZV9jb2xvdXJfbWFudWFsYCBmdW5jdGlvbiB0byBbY29tcGxldGVseSBjdXN0b21pemUgY29sb3IgY2hvaWNlc10oaHR0cDovL3d3dy5jb29rYm9vay1yLmNvbS9HcmFwaHMvQ29sb3JzXyhnZ3Bsb3QyKS8jYS1jb2xvcmJsaW5kLWZyaWVuZGx5LXBhbGV0dGUpCiAgKiBQcmUtZGVzaWduZWQgW2NvbG9yLWJsaW5kIGZyaWVuZGx5IHBhbGV0dGVzIGFyZSBhdmFpbGFibGVdKGh0dHA6Ly93d3cuY29va2Jvb2stci5jb20vR3JhcGhzL0NvbG9yc18oZ2dwbG90MikvI2EtY29sb3JibGluZC1mcmllbmRseS1wYWxldHRlKQogICAqIFdoZW4gY29uc2lkZXJpbmcgY29sb3IgY2hvaWNlcywgYmUgYXdhcmUgb2YgdGhlIFtwcmV2YWxlbmNlIGFuZCB0eXBlcyBvZiBjb2xvci1ibGluZG5lc3NdKGh0dHBzOi8vbWVkaXVtLmNvbS92ZXJzaW9uLTEvc2ltdWxhdGluZy12aXN1YWxpc2F0aW9ucy1pbi1yLWZvci1jb2xvdXItYmxpbmRuZXNzLTJmYWRkZGU2MzY5NSkgYW5kIGhvdyB0byBjaG9vc2UgbW9yZSBbZWFzaWx5IGRpc3Rpbmd1aXNoYWJsZSBjb2xvcnNdKGh0dHA6Ly9iY29ubmVsbHkubmV0L3Bvc3RzL2NyZWF0aW5nX2NvbG9yYmxpbmQtZnJpZW5kbHlfZmlndXJlcy8pCiAgKiBGb3IgcHVibGljYXRpb24gb3IgcHJlc2VudGF0aW9ucywgd2UgY2FuIGFsc28gY2hlY2sgdGhlIGZpbmFsIGZpZ3VyZXMgZm9yIHN1ZmZpY2llbnQgY29udHJhc3RzIHdpdGggYSBbY29sb3ItYmxpbmRuZXNzIHNpbXVsYXRvciB0b29sXShodHRwczovL3d3dy5jb2xvci1ibGluZG5lc3MuY29tL2NvYmxpcy1jb2xvci1ibGluZG5lc3Mtc2ltdWxhdG9yLykuIAogIAo8ZGV0YWlscz4KPHN1bW1hcnk+UG9zc2libGUgc29sdXRpb248L3N1bW1hcnk+CgpFeGFtcGxlIG9mIHBvc3NpYmxlIHNvbHV0aW9uOgoKYGBge3IsIGV2YWw9IEZBTFNFfQojIGxvb2sgYXQgcHJlLW1hZGUgY29sb3IgcGFsZXR0ZXMgZnJvbSBSQ29sb3JCcmV3ZXIKZGlzcGxheS5icmV3ZXIuYWxsKGNvbG9yYmxpbmRGcmllbmRseSA9IFRSVUUpCiMgdXNlIFJDb2xvckJyZXdlciBwYWxldHRlClBDQUN1c3RvbTIgKyAKICBzY2FsZV9jb2xvdXJfYnJld2VyKHBhbGV0dGUgPSAiU2V0MiIpCgojIE9SCiMgY3VzdG9taXplIHVzaW5nIG1hbnVhbCBjb2xvciBwYWxldHRlCiMgVGhlIFIgQ29va2Jvb2sgcGFsZXR0ZSB3aXRoIGdyZXk6CmNiUGFsZXR0ZSA8LSBjKCIjOTk5OTk5IiwgIiNFNjlGMDAiLCAiIzU2QjRFOSIsICIjMDA5RTczIiwgIiNGMEU0NDIiLCAiIzAwNzJCMiIsICIjRDU1RTAwIiwgIiNDQzc5QTciKQoKIyBUbyB1c2UgZm9yIGxpbmUgYW5kIHBvaW50IGNvbG9ycywgYWRkIG1hbnVhbCBjb2xvciBzY2FsaW5nIHdpdGggY3VzdG9tIHBhbGV0dGUKUENBQ3VzdG9tMiArIAogIHNjYWxlX2NvbG91cl9tYW51YWwodmFsdWVzPWNiUGFsZXR0ZVsyOjNdKQoKUENBQ3VzdG9tNSA8LSBQQ0FDdXN0b20yICsgCiAgc2NhbGVfY29sb3VyX21hbnVhbCh2YWx1ZXM9Y2JQYWxldHRlWzI6M10pCiAgCmBgYAoKPC9kZXRhaWxzPgo8YnI+CiAgCiMjIFVzZSBzaGFwZSBpbnN0ZWFkIG9mIGNvbG9yIHRvIGluZGljYXRlIGdyb3VwcyBvbiB0aGUgUENBIHBsb3QuIAoKICAqIEhpbnQ6IHNpbmNlIGNvbG9yIGFuZCBzaGFwZSBhcmUgYm90aCBtYXBwaW5nIGFzcGVjdHMsIHNvIHdlJ2xsIG5lZWQgdG8gcmUtc3BlY2lmeSBzaGFwZSBpbnN0ZWFkIG9mIGNvbG9yIGluc3RlYWQgb2YgYWRkaW5nIGFuIGFkZGl0aW9uYWwgbGF5ZXJzIGxpa2UgdGhlIG90aGVyIHByb21wdHMgCiAgKiBUaGUgW2RvY3VtZW50YXRpb24gcGFnZSBmb3IgYGdlb21fcG9pbnRgXShodHRwczovL2dncGxvdDIudGlkeXZlcnNlLm9yZy9yZWZlcmVuY2UvZ2VvbV9wb2ludC5odG1sKSBhbmQgW1IgZ3JhcGhpY3MgY29va2Jvb2tzXShodHRwczovL3ItZ3JhcGhpY3Mub3JnL3JlY2lwZS1zY2F0dGVyLXNoYXBlcykgaW5jbHVkZXMgc29tZSBleGFtcGxlcyBvZiBjaGFuZ2luZyB0aGUgc2hhcGVzIG9mIHRoZSBwbG90dGVkIHBvaW50cwogICogW1RoZXNlIFIgZ3JhcGggZ2FsbGVyeSBleGFtcGxlc10oaHR0cHM6Ly9yLWdyYXBoLWdhbGxlcnkuY29tLzI3NC1tYXAtYS12YXJpYWJsZS10by1nZ3Bsb3QyLXNjYXR0ZXJwbG90Lmh0bWwpIGNvdWxkIGFsc28gYmUgaGVscGZ1bAoKPGRldGFpbHM+CjxzdW1tYXJ5PlBvc3NpYmxlIHNvbHV0aW9uPC9zdW1tYXJ5PgoKRXhhbXBsZSBvZiBwb3NzaWJsZSBzb2x1dGlvbjoKCmBgYHtyLCBldmFsPSBGQUxTRX0KIyBnZW5lcmF0ZSBuZXcgYWVzdGhldGljIG1hcHBpbmcgKHdpdGggZGVmYXVsdCBzaGFwZXMgc2VsZWN0ZWQpCmdncGxvdChwY2FEYXRhLCBhZXMoUEMxLCBQQzIsIHNoYXBlPWNvbmRpdGlvbikpICsKICBnZW9tX3BvaW50KHNpemU9MykgKwogIGNvb3JkX2ZpeGVkKCkgKwogIHRoZW1lX2J3KCkgKyAKICB4bGFiKHBhc3RlMCgiUEMxOiAiLHBlcmNlbnRWYXJbMV0sIiUgdmFyaWFuY2UiKSkgKwogIHlsYWIocGFzdGUwKCJQQzI6ICIscGVyY2VudFZhclsyXSwiJSB2YXJpYW5jZSIpKQoKCiMgZ2VuZXJhdGUgbmV3IGFlc3RoZXRpYyBtYXBwaW5nICh3aXRoIG1hbnVhbGx5IHNlbGVjdGVkIHNoYXBlcykKZ2dwbG90KHBjYURhdGEsIGFlcyhQQzEsIFBDMiwgc2hhcGU9Y29uZGl0aW9uKSkgKwogIGdlb21fcG9pbnQoc2l6ZT0zKSArCiAgc2NhbGVfc2hhcGVfbWFudWFsKHZhbHVlcyA9IGMoMSwgNCkpICsKICBjb29yZF9maXhlZCgpICsKICB0aGVtZV9idygpICsgCiAgeGxhYihwYXN0ZTAoIlBDMTogIixwZXJjZW50VmFyWzFdLCIlIHZhcmlhbmNlIikpICsKICB5bGFiKHBhc3RlMCgiUEMyOiAiLHBlcmNlbnRWYXJbMl0sIiUgdmFyaWFuY2UiKSkKCiMgY3JlYXRlIGN1c3RvbSBwbG90IG9iamVjdCB3aXRoIG1hbnVhbCBzaGFwZXMKUENBQ3VzdG9tNiA8LSBnZ3Bsb3QocGNhRGF0YSwgYWVzKFBDMSwgUEMyLCBzaGFwZT1jb25kaXRpb24pKSArCiAgZ2VvbV9wb2ludChzaXplPTMpICsKICBzY2FsZV9zaGFwZV9tYW51YWwodmFsdWVzID0gYygxLCA0KSkgKwogIGNvb3JkX2ZpeGVkKCkgKwogIHRoZW1lX2J3KCkgKyAKICB4bGFiKHBhc3RlMCgiUEMxOiAiLHBlcmNlbnRWYXJbMV0sIiUgdmFyaWFuY2UiKSkgKwogIHlsYWIocGFzdGUwKCJQQzI6ICIscGVyY2VudFZhclsyXSwiJSB2YXJpYW5jZSIpKQoKYGBgCjwvZGV0YWlscz4KPGJyPgoKIyMgX0NoYWxsZW5nZV86IENoYW5nZSB0aGUgbGVnZW5kIHRpdGxlIHRvICJJcm9uIFN0YXR1cyIKCiAgKiBIaW50LCB5b3UgY2FuIGRvIHRoaXMgd2l0aCB0aGUgYGxhYnMoKWAgZnVuY3Rpb24gdG9vLCB1c2luZyB0aGUgY29ycmVzcG9uZGluZyBhZXN0aGV0aWMgbWFwcGluZyAoZS5nLiAiY29sb3IiKS4KICAqIFtUaGlzIGhlbHAgdGhyZWFkIHdpdGggZXhhbXBsZXNdKGh0dHBzOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzE0NjIyNDIxL2hvdy10by1jaGFuZ2UtbGVnZW5kLXRpdGxlLWluLWdncGxvdCkgbWF5IGFsc28gYmUgdXNlZnVsCgo8ZGV0YWlscz4KPHN1bW1hcnk+UG9zc2libGUgc29sdXRpb248L3N1bW1hcnk+CgpFeGFtcGxlIG9mIHBvc3NpYmxlIHNvbHV0aW9uOgoKYGBge3IsIGV2YWw9IEZBTFNFfQojICBjdXN0b21pemUgbGFiZWwgZm9yIGNvbG91ciBtYXBwaW5nClBDQUN1c3RvbTIgKyAKICBndWlkZXMoY29sb3VyPWd1aWRlX2xlZ2VuZCh0aXRsZT0iSXJvbiBzdXBwbGVtZW50YXRpb24gc3RhdHVzIikpIAoKIyBhbHRlcm5hdGl2ZWx5IHNwZWNpZnkgbGFiZWwgZm9yIGFlc3RoZXRpYyBtYXBwaW5nClBDQUN1c3RvbTIgKyAKICBsYWJzKGNvbG91cj0iSXJvbiBzdXBwbGVtZW50YXRpb24gc3RhdHVzIikKCiMgc3RvcmUgY3VzdG9tIHBsb3QgYXMgbmV3IG9iamVjdApQQ0FDdXN0b203IDwtIFBDQUN1c3RvbTIgKyAKICBsYWJzKGNvbG91cj0iSXJvbiBzdXBwbGVtZW50YXRpb24gc3RhdHVzIikKICAKYGBgCjwvZGV0YWlscz4KPGJyPgoKIyBTYXZpbmcgdGhlIHJlc3VsdAoKSWYgdGltZSBwZXJtaXRzLCBjb25zaWRlciBob3cgeW91IG1pZ2h0IHNhdmUgeW91ciBmYXZvcml0ZSBuZXcgUENBIHBsb3QgKHdpdGggYW4gaW5mb3JtYXRpdmUgZmlsZSBuYW1lKS4gSGludDogQ29uc2lkZXIgaG93IHdlIHNhdmVkIG91ciBpbml0aWFsIFBDQSBwbG90IGluIHRoZSBwcmV2aW91cyBtb2R1bGUgd2l0aCBgZ2dzYXZlKClgLgoKPGRldGFpbHM+CjxzdW1tYXJ5PlNvbHV0aW9uPC9zdW1tYXJ5PgoKSGVyZSBhcmUgZXhhbXBsZXMgb2Ygc29tZSBwb3NzaWJsZSBhcHByb2FjaGVzOgoKYGBge3Igc2F2ZV9jdXN0b21fcGNhLCBldmFsID0gRkFMU0V9CnBkZihmaWxlID0gZmlsZS5wYXRoKCdvdXRwdXRzJywgJ2ZpZ3VyZXMnLCAnUENBX3Jsb2dfVGl0bGVkLnBkZicpLCB3aWR0aCA9IDYsIGhlaWdodCA9IDYpClBDQUN1c3RvbTMKZGV2Lm9mZigpCgpnZ3NhdmUoCiAgICBmaWxlbmFtZSA9IGZpbGUucGF0aCgnb3V0cHV0cycsICdmaWd1cmVzJywgJ1BDQV9ybG9nX1RpdGxlZC5wZGYnKSwKICAgIHBsb3QgPSBQQ0FDdXN0b20zLAogICAgd2lkdGggPSA2LCBoZWlnaHQgPSA2LCB1bml0cyA9ICdpbicpCmBgYAoKPC9kZXRhaWxzPgo8YnI+CgoKYGBge3IgV3JpdGVPdXQuUkRhdGEsIGV2YWw9RkFMU0UsIGVjaG89RkFMU0UsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CiNIaWRkZW4gY29kZSBibG9jayB0byB3cml0ZSBvdXQgZGF0YSBmb3Iga25pdHRpbmcKIyBzYXZlLmltYWdlKGZpbGUgPSAicmRhdGEvUnVubmluZ0RhdGEuUkRhdGEiKQpgYGAK</div>
 
 
 </div>
