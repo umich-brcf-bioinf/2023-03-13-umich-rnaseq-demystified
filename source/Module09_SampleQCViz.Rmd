@@ -169,11 +169,12 @@ Examples:
 - Use shape instead of color of the points to indicate groups on the PCA plot
 
 
-## Demonstration of customizing a PCA
+### Customizing a PCA
 
 Before working independently on an exercise, we'll work together to build a command to plot our `pcaData` with more familiar `ggplot2` syntax. 
 
 In this example, we'll still use color to indicate our groups but we'll customize the plot to have the same black and white theme that we used in Computational Foundations and add an informative title. Recall that `ggplot2` adds plot components in layers, and we can add additional layers with the `+` sign.
+
 ```{r PCACustomDemo}
 # create custom plot object
 PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
@@ -191,7 +192,6 @@ PCACustom2 <- PCACustom +
 PCACustom + 
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
-
 
 ```
 ---
@@ -238,7 +238,7 @@ PCACustom2 +
 
 * Make our color palette more color-blind friendly
 
-```{r, eval= TRUE}
+```{r, eval= FALSE}
 # look at pre-made color palettes from RColorBrewer
 display.brewer.all(colorblindFriendly = TRUE)
 # use RColorBrewer palette
