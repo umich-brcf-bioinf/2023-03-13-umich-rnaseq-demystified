@@ -185,13 +185,13 @@ PCACustom <- ggplot(pcaData, aes(PC1, PC2, color=condition)) +
   theme_bw() + 
   labs(title = "PC1 and PC2 for iron deficient mouse samples")
 
-# add percentVar labels to *stored plot object*
-PCACustom2 <- PCACustom + 
+# add percentVar labels to *displayed plot*
+PCACustom + 
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
-# add percentVar labels to *displayed plot*
-PCACustom + 
+# add percentVar labels to *stored plot object*
+PCACustom2 <- PCACustom + 
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
@@ -200,9 +200,8 @@ PCACustom +
 Now we have our PCA plotted with functions that might look more familiar.
 
 
----
 
-> # Independent Exercise - Customize a PCA  {.unlisted .unnumbered}
+> ## Independent Exercise - Customize a PCA 
 > (15 minutes)
 > 
 > Like earlier - we'll plan to work independently in the main room. This is a time to read function documentation, test out ideas, make mistakes, and use a search engine to look up errors or possible example solutions. Please post any questions or errors that arise to slack. We'll review possible solutions together at the end.
@@ -220,7 +219,7 @@ Now we have our PCA plotted with functions that might look more familiar.
 
 
 <details>
-<summary> Possible solutions to exercise prompts </summary>
+<summary>Possible solutions to exercise prompts</summary>
 
 Here are examples of some possible approaches:
 
@@ -294,7 +293,6 @@ PCACustom2 +
 PCACustom2 + 
   labs(colour="Iron supplementation status")
 ```
-
 
 </details>
 <br>
