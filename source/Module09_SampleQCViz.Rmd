@@ -171,7 +171,7 @@ With this table of PCA statistics, we can use what we learned at the end of the 
 - Use shape instead of color of the points to indicate groups on the PCA plot
 
 
-### Customizing a PCA
+## Customizing a PCA
 
 Before working independently on an exercise, we'll work together to build a command to plot our `pcaData` with more familiar `ggplot2` syntax. 
 
@@ -196,6 +196,10 @@ PCACustom +
   ylab(paste0("PC2: ",percentVar[2],"% variance"))
 
 ```
+
+Now we have our PCA plotted with functions that might look more familiar.
+
+
 ---
 
 > # Independent Exercise - Customize a PCA  {.unlisted .unnumbered}
