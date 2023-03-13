@@ -196,7 +196,7 @@ PCACustom +
 ```
 ---
 
-> # Independent Exercise - Customize a PCA   
+> # Independent Exercise - Customize a PCA  {.unlisted .unnumbered}
 > (15 minutes)
 > 
 > Like earlier - we'll plan to work independently in the main room. This is a time to read function documentation, test out ideas, make mistakes, and use a search engine to look up errors or possible example solutions. Please post any questions or errors that arise to slack. We'll review possible solutions together at the end.
