@@ -158,9 +158,11 @@ str(pcaData) # check the structure
 ```
 
 
-With this table of PCA statistics, we can use what we learned at the end of the Computational Foundations Workshop to customize plot as we might see necessary. **What are some modifications we might want to make?** [use slack poll to rank]:
+With this table of PCA statistics, we can use what we learned at the end of the Computational Foundations Workshop to customize plot as we might see necessary. 
 
-Examples:
+**What are some modifications we might want to make?** [use slack poll to rank]:
+
+**Examples:**
 
 - Change the overall theme of the plot
 - Add an informative plot title to make interpretation/sharing easier
