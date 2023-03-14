@@ -46,7 +46,7 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
 
 - Please take our optional <a class="external" href="https://forms.gle/ukp1Z4sxcjuER5dP6" target="_blank">post-workshop survey</a> (5-10 minutes)
 
-- 11/18 11-12 ET: <a class="external" href="https://forms.gle/LVWk5WdzcetaaXQJ6" target="_blank">Virtual office hours</a>
+- 3/17 11-12 ET: <a class="external" href="https://forms.gle/LVWk5WdzcetaaXQJ6" target="_blank">Virtual office hours</a>
 
 - We will email you a link to the final session recordings by next week.
 
