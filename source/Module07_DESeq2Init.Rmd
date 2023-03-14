@@ -185,7 +185,7 @@ The design formula specifies the column(s) in the metadata table and how they sh
 
 ```{r DESeq2Object}
 ## Create DESeq object, line by line
-dds = DESeqDataSetFromMatrix(countData = count_table,
+dds = DESeqDataSetFromMatrix(countData = counts_rounded,
                               colData = samplesheet_ready,
                               design = ~ condition)
 dds
@@ -235,7 +235,7 @@ samplesheet_batch$batch = factor(c(rep(c("Day1"), 2),
                        rep(c("Day3"), 2)),
                      levels = c("Day1", "Day2", "Day3"))
 
-dds_batch = DESeqDataSetFromMatrix(countData = count_table,
+dds_batch = DESeqDataSetFromMatrix(countData = counts_rounded,
                       colData = samplesheet_batch,
                       design = ~ batch + condition)
 ```

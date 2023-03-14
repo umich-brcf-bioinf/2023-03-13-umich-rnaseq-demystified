@@ -177,7 +177,7 @@ library(data.table)
 
 *Note: We expect to see some red messages in your console while these packages are loading*
 
-R/RStudio has great resources for getting help, including [code 'cheatsheets'](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf) and package vignettes, like for [tidyr](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
+R/RStudio [AKA Posit] has great resources for getting help, including [code 'cheatsheets'](https://posit.co/resources/cheatsheets/) and package vignettes, like for [tidyr](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
 Since we loaded the libraries into our R session, we can see documentation out using the `?` operator.
 ```{r CheckDocumentaion}
